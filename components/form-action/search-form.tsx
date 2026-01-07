@@ -28,7 +28,7 @@ export const InputSearch = () => {
     const handleSearch = async () => {};
 
     handleSearch();
-  }, [debounce]);
+  }, [debounce, keyword]);
   return (
     <div
       ref={ref}
@@ -48,9 +48,9 @@ export const InputSearch = () => {
       </div>
 
       {onSearch && (
-        <div className="absolute w-full max-h-100 overflow-auto py-2 bg-white top-10 rounded dark:bg-card ring ring-gray-200 shadow-md z-999">
+        <div className="absolute w-full max-h-100 overflow-auto py-2 bg-white dark:bg-card z-999">
           <label className="uppercase text-[13px] text-gray-500 font-bold dark:text-gray-200 px-5">
-            {!keyword ? "Recent boards" : "Boards"}
+            {!keyword ? "Recent product" : "Product"}
           </label>
           <div className="mt-3"></div>
         </div>

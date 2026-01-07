@@ -20,7 +20,7 @@ const variantClass: Record<ButtonVariant, string> = {
     danger: 'bg-red-500 hover:bg-red-600 text-white',
     dark: 'bg-black hover:bg-black/80 text-white dark:bg-gray-200 dark:text-black dark:hover:bg-white',
     outline: 'ring ring-gray-300 dark:ring-gray-500 hover:bg-white/10',
-    icon: 'rounded-full hover:bg-gray-600/10',
+    icon: 'rounded-full hover:bg-black/80',
     transparent: 'bg-transparent',
     item: 'bg-transparent dark:text-gray-300'
 };
@@ -46,7 +46,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref
     ) => {
-        const base = 'inline-flex items-center gap-2 transition duration-200 font-bold';
+        const base = 'inline-flex items-center gap-2 transition duration-200 font-bold box-border';
         const finalClass = `${base} ${variantClass[variant]} ${sizeClass[size]} ${variant === "icon" && "flex justify-center"} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${className ?? ''}`;
 
         return (

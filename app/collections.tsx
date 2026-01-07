@@ -3,6 +3,7 @@
 import { ProductList } from "@/components/ui/product";
 import { useState } from "react";
 import { DATA_CLOTHES_MOCK } from "./mock/products.mock";
+import { IoChevronDown } from "react-icons/io5";
 
 const GENDERS = ["All", "Men", "Women", "Unisex"];
 
@@ -23,8 +24,14 @@ const CollectionsList = () => {
           ))}
         </div>
         <hr className="border-gray-300 mt-3"/>
-        <div>
-            <ProductList items={DATA_CLOTHES_MOCK} perView={3}/>
+        <div className="mt-5">
+            <ProductList items={DATA_CLOTHES_MOCK}/>
+            <div className="flex justify-center cursor-pointer mt-5">
+                <div className="flex flex-col items-center">
+                    <span className="text-[10px]/3">More</span>
+                    <IoChevronDown/>
+                </div>
+            </div>
         </div>
       </div>
     </>

@@ -1,15 +1,15 @@
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { ProductClothes } from "@/types/product";
+import { ReactNode } from "react";
 
 type props = {
-  items: ProductClothes[];
+  children: ReactNode
   swiperRef: any;
   setIsBeginning: (isBeginning: boolean) => void;
   setIsEnd: (isEnd: boolean) => void;
@@ -17,7 +17,7 @@ type props = {
 };
 
 export const Carousel = ({
-  items,
+  children,
   swiperRef,
   setIsBeginning,
   setIsEnd,
@@ -27,7 +27,7 @@ export const Carousel = ({
     <Swiper
       modules={[Navigation, Pagination]}
       slidesPerView={slidePerView}
-      spaceBetween={10}
+      spaceBetween={20}
       className="h-full"
       onSwiper={(swiper) => (swiperRef.current = swiper)}
       onSlideChange={(swiper) => {
@@ -35,13 +35,7 @@ export const Carousel = ({
         setIsEnd(swiper.isEnd);
       }}
     >
-      {[1, 2, 3, 4].map((i) => (
-        <SwiperSlide key={i}>
-          <div className="h-94 max-sm:h-43.25 flex items-center justify-center bg-gray-300 text-xl font-bold">
-            Slide {i}
-          </div>
-        </SwiperSlide>
-      ))}
+      {children}
     </Swiper>
   );
 };
