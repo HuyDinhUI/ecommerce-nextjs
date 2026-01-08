@@ -30,7 +30,7 @@ const HeroCarousel = () => {
         </p>
         <div className="absolute bottom-1 max-xl:-bottom-15 left-0 right-0 xl:flex max-xl:grid max-xl:grid-cols-2 max-xl:gap-7 max-xl:ps-1 xl:gap-10">
           <Link
-            href={""}
+            href={"/shop"}
             className="font-beatrice-deck font-extralight bg-brand-gray-light p-3 flex items-center gap-2 justify-between xl:flex-1"
           >
             <span className="max-sm:text-[12px]">Go To Shop</span>

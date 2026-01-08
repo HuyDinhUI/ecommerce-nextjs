@@ -25,7 +25,7 @@ const Header = () => {
   const location = usePathname()
 
   return (
-    <header className="flex justify-between items-center px-10 max-sm:px-5 py-10">
+    <header className="flex justify-between items-center px-10 max-sm:px-5 py-10 relative">
       <div className="flex gap-5">
         <MenuIcon classname="sm:hidden" />
         <nav className="font-beatrice-deck font-light max-sm:hidden">
@@ -38,7 +38,7 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      <div className="flex-1 flex justify-center">
+      <div className="absolute right-0 left-0 flex justify-center">
         <Image src={"/logo.svg"} width={35} height={35} alt="Lumina logo" />
       </div>
       <div className="flex gap-5 max-sm:gap-2 justify-end">

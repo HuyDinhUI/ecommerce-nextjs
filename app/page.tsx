@@ -12,7 +12,7 @@ export default function Home() {
       {/* HERO */}
 
       <section id="hero">
-        <div className="w-[30%] max-sm:w-full">
+        <div className="w-[30%] max-md:w-full">
           <div className="mb-5">
             <span className="uppercase font-beatrice-deck font-extralight">
               Men

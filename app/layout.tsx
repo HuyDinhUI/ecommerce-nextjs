@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="mdl-js">
       <body
-        className={`${BeatriceDeck.variable} ${Beatrice.variable} ${Inter.variable} antialiased`}
+        className={`${BeatriceDeck.variable} ${Beatrice.variable} ${Inter.variable} antialiased tracking-widest`}
       >
         <Header/>
         <main>{children}</main>
