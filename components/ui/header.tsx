@@ -28,7 +28,7 @@ const Header = () => {
     <header className="flex justify-between items-center px-10 max-sm:px-5 py-10 relative">
       <div className="flex gap-5">
         <MenuIcon classname="sm:hidden" />
-        <nav className="font-beatrice-deck font-light max-sm:hidden">
+        <nav className="font-beatrice-deck font-light max-sm:hidden relative z-99">
           <ul className="flex gap-5">
             {ITEMS_NAVBAR.map((item, idx) => (
               <li key={idx} className={`${location === item.href ? "text-black" : "text-gray-400"}`}>

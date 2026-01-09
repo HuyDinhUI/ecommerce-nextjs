@@ -35,6 +35,7 @@ body {
   background-image: url('../public/noisy_background.png');
   color: var(--foreground);
   font-family: var(--font-beatrice);
+  overflow-x: hidden !important;
 }
 
 h1,

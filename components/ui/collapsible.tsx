@@ -20,7 +20,7 @@ export const Collapsible = ({ children, label }: Props) => {
         <GoChevronRight
           size={20}
           className={`${
-            isOpen ? "rotate-90" : "rotate-0"
+            isOpen ? "-rotate-90" : "rotate-0"
           } transition-transform`}
         />
       </div>

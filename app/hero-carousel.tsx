@@ -41,14 +41,14 @@ const HeroCarousel = () => {
               onClick={() => swiperRef.current?.slidePrev()}
               variant="outline"
               size="md"
-              className="prev h-full"
+              className="h-full w-15"
               icon={<IoChevronBackOutline />}
               disabled={isBeginning}
             />
             <Button
               onClick={() => swiperRef.current?.slideNext()}
               variant="outline"
-              className="next h-full"
+              className="h-full w-15"
               size="md"
               icon={<IoChevronForwardOutline />}
               disabled={isEnd}

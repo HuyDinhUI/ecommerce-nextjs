@@ -32,7 +32,7 @@ export const InputSearch = () => {
   return (
     <div
       ref={ref}
-      className="rounded-sm relative"
+      className="relative"
     >
       <div className="bg-black/10 p-3 flex justify-between items-center">
         <SearchIcon />

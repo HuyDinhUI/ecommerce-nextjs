@@ -7,11 +7,13 @@ type props = {
   items: ProductClothes[];
 };
 
+
+
 export const ProductList = ({
   items,
 }: props) => {
   return (
-    <div className={` grid grid-cols-4 gap-7 max-md:grid-cols-2`}>
+    <div className={`grid grid-cols-4 gap-7 max-lg:grid-cols-2 `}>
       {items.map((item) => (
         <ProductItem key={item.id} item={item} />
       ))}
@@ -57,10 +59,10 @@ export const ProductItem = ({ item }: { item: ProductClothes }) => {
           )}
         </div>
         <div className="flex justify-between flex-wrap">
-          <p className="block font-medium max-sm:text-sm overflow-hidden text-ellipsis max-sm:max-w-30 text-nowrap">
+          <p className="block font-medium text-sm overflow-hidden text-ellipsis max-sm:max-w-30 text-nowrap">
             {item.name}
           </p>
-          <span className="font-medium max-sm:text-sm max-sm">$ {item.price}</span>
+          <span className="font-medium text-sm">$ {item.price}</span>
         </div>
       </div>
     </div>

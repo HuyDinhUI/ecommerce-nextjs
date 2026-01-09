@@ -26,8 +26,8 @@ const variantClass: Record<ButtonVariant, string> = {
 };
 
 const sizeClass: Record<ButtonSize, string> = {
-    sm: 'px-3 py-2 text-sm',
-    md: 'text-base w-10 h-10',
+    sm: 'py-1 px-2 text-[10px]',
+    md: 'text-base py-2 px-2',
     lg: 'px-5 py-3 text-lg',
     ic: 'p-2',
     lb: ''
@@ -51,7 +51,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         return (
             <button ref={ref} className={finalClass} disabled={disabled} {...rest}>
-                {icon && <span>{icon}</span>}
+                {icon && <span className='flex justify-center'>{icon}</span>}
                 {title && variant !== 'icon' && <span>{title}</span>}
             </button>
         );
