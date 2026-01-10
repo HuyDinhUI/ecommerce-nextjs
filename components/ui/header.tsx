@@ -27,15 +27,15 @@ const Header = () => {
   return (
     <header className="flex justify-between items-center px-10 max-sm:px-5 py-10 relative">
       <div className="flex gap-5">
-        <MenuIcon classname="sm:hidden" />
-        <nav className="font-beatrice-deck font-light max-sm:hidden relative z-99">
-          <ul className="flex gap-5">
+        <MenuIcon classname="lg:hidden" />
+        <nav className="font-beatrice-deck font-light max-lg:hidden relative z-99">
+          <ol className="flex gap-5">
             {ITEMS_NAVBAR.map((item, idx) => (
               <li key={idx} className={`${location === item.href ? "text-black" : "text-gray-400"}`}>
                 <Link href={item.href}>{item.name}</Link>
               </li>
             ))}
-          </ul>
+          </ol>
         </nav>
       </div>
       <div className="absolute right-0 left-0 flex justify-center">
@@ -46,7 +46,7 @@ const Header = () => {
           icon={<HeartIcon />}
           variant="icon"
           size="ic"
-          className="bg-black w-10 max-sm:hidden"
+          className="bg-black w-10 max-lg:hidden"
         />
         <Button
           icon={<CartIcon />}

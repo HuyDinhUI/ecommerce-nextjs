@@ -1,9 +1,9 @@
-import { ProductList } from "@/components/ui/product"
+import { ProductList } from "@/components/product/product-list"
 import { ProductClothes } from "@/types/product.type"
 
 const Products = ({data}:{data: ProductClothes[]}) => {
     return (
-        <div className="mt-10 md:pe-5 max-sm:pe-5 min-w-90 max-lg:ps-5">
+        <div className="mt-7">
             <ProductList items={data}></ProductList>
         </div>
     )

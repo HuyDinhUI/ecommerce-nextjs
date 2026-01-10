@@ -1,17 +1,17 @@
+"use client";
+
 import { ProductClothes } from "@/types/product.type";
 import Image from "next/image";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 import { BiPlus } from "react-icons/bi";
+import { Dialog } from "../ui/dialog";
+import { ProductDetail } from "./product-detail";
 
 type props = {
   items: ProductClothes[];
 };
 
-
-
-export const ProductList = ({
-  items,
-}: props) => {
+export const ProductList = ({ items }: props) => {
   return (
     <div className={`grid grid-cols-4 gap-7 max-lg:grid-cols-2 `}>
       {items.map((item) => (
@@ -36,10 +36,16 @@ export const ProductItem = ({ item }: { item: ProductClothes }) => {
               fill
               className="object-cover"
             />
-            <Button
-              icon={<BiPlus />}
-              className="absolute bottom-0 right-1/2 translate-x-1/2 xl:translate-y-10 xl:group-hover:translate-y-0"
-            />
+            <Dialog
+              trigger={
+                <Button
+                  icon={<BiPlus />}
+                  className="absolute bottom-0 right-1/2 translate-x-1/2 xl:translate-y-10 xl:group-hover:translate-y-0"
+                />
+              }
+            >
+              <ProductDetail data={item} />
+            </Dialog>
           </div>
         </div>
       ) : (

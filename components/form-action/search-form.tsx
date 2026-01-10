@@ -4,7 +4,9 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { SearchIcon } from "@/icon";
 import { useEffect, useRef, useState } from "react";
 
-export const InputSearch = () => {
+
+
+export const InputSearch = ({classname}:{classname?: string}) => {
   const [onSearch, setOnSearch] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   const [keyword, setKeyword] = useState<string>("");
@@ -32,9 +34,9 @@ export const InputSearch = () => {
   return (
     <div
       ref={ref}
-      className="relative"
+      className={`relative h-full ${classname}`}
     >
-      <div className="bg-black/10 p-3 flex justify-between items-center">
+      <div className="bg-black/10 p-3 flex justify-between items-center h-full">
         <SearchIcon />
         <div className="flex-1 px-2">
             <input

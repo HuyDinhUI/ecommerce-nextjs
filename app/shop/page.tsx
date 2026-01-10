@@ -5,7 +5,7 @@ import FilterSidebar from "./filter-sidebar";
 import FilterBar from "./filter-bar";
 import Products from "./list-products";
 import { InputSearch } from "@/components/form-action/search-form";
-import { IoChevronBack } from "react-icons/io5";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 interface PageProps {
   searchParams: Params;
@@ -19,36 +19,29 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
 
   return (
     <div className="font-beatrice-deck">
-
       {/* Mobile */}
-      <div className="mb-5 lg:hidden px-5">
-        <h1 className="uppercase text-center text-xl">
-          Products
-        </h1>
+      <div className="mb-5 lg:hidden max-sm:px-5 px-10">
+        <Breadcrumb classname="justify-center flex"/>
+        <h1 className="uppercase text-center text-xl">Products</h1>
         <div className="mt-5">
           <InputSearch />
-        </div>
-        <div className="flex w-[60%] justify-between items-center mt-10 pb-3">
-          <h2>Filters</h2>
-          <IoChevronBack/>
         </div>
       </div>
       {/* End Mobile */}
 
-      <div className="flex relative">
-        <div className="lg:mt-5 md:px-10 max-md:px-5 max-md:w-[60%] sticky top-0 h-200 overflow-y-auto">
+      <div className="flex overflow-hidden">
+        <div className="max-lg:hidden px-10 sticky top-0 h-200 overflow-y-auto">
           <h1 className="max-lg:hidden">Filters</h1>
           <FilterSidebar />
         </div>
-        <div className="flex-1 max-md:overflow-hidden py-1">
-          <h1 className="uppercase max-lg:hidden text-xl">
-            Products
-          </h1>
-          <div className="flex gap-5">
+        <div className="py-1 flex-1 overflow-hidden xl:px-10 max-lg:px-10 max-sm:px-5">
+          <Breadcrumb classname="max-lg:hidden" />
+          <h1 className="uppercase max-lg:hidden text-xl">Products</h1>
+          <div className="flex gap-5 mt-2">
             <div className="max-lg:hidden">
-              <InputSearch />
+              <InputSearch classname="" />
             </div>
-            <div className="max-lg:absolute max-sm:max-w-100 max-lg:overflow-x-scroll max-lg:p-1 max-lg:ps-5">
+            <div className="max-sm:max-w-100 max-lg:overflow-x-scroll max-lg:p-1 flex-1">
               <FilterBar />
             </div>
           </div>

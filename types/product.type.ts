@@ -25,6 +25,7 @@ export interface VariantSize {
 }
 
 export interface ProductVariant {
+  id: string;
   color: {
     name: string,
     code: string
@@ -57,8 +58,8 @@ export interface ProductClothes {
   categoryId: string;
 
   gender: Gender;
-  material?: string;        // cotton, jean, linen
-  fit?: string;             // slim, regular, oversize
+  material?: string;       
+  fit?: string;             
 
   price: number;
   salePrice?: number;

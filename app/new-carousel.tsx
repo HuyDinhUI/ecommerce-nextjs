@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { DATA_CLOTHES_MOCK } from "./mock/products.mock";
 import { SwiperSlide } from "swiper/react";
-import { ProductItem } from "@/components/ui/product";
+import { ProductItem } from "@/components/product/product-list";
 
 const NewCarousel = () => {
   const swiperRef = useRef<any>(null);

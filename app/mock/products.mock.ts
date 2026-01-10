@@ -18,6 +18,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
+        id: uuid(),
         color: {
           name: "Black",
           code: "#000000",
@@ -79,6 +80,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
+        id: uuid(),
         color: {
           name: "Black",
           code: "#000000",
@@ -117,6 +119,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         sku: "MH1020",
       },
       {
+        id: uuid(),
         color: {
           name: "Dark Grey",
           code: "#e5e5e5",
@@ -179,6 +182,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
+        id: uuid(),
         color: {
           name: "Black",
           code: "#000000",
@@ -217,6 +221,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         sku: "MH1020",
       },
       {
+        id: uuid(),
         color: {
           name: "Dark Grey",
           code: "#e5e5e5",
@@ -279,6 +284,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
+        id: uuid(),
         color: {
           name: "Black",
           code: "#000000",
@@ -317,6 +323,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         sku: "MH1020",
       },
       {
+        id: uuid(),
         color: {
           name: "Dark Grey",
           code: "#e5e5e5",

@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductList } from "@/components/ui/product";
+import { ProductList } from "@/components/product/product-list";
 import { useState } from "react";
 import { DATA_CLOTHES_MOCK } from "./mock/products.mock";
 import { IoChevronDown } from "react-icons/io5";
