@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 export const DATA_CLOTHES_MOCK: ProductClothes[] = [
   {
-    id: uuid(),
+    id: "prod-001",
     name: "Los Angeles T-Shirt",
     slug: slugtify("Los Angeles T-Shirt"),
     description: "",
@@ -18,7 +18,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
-        id: uuid(),
+        id: "var-001",
         color: {
           name: "Black",
           code: "#000000",
@@ -65,7 +65,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     updatedAt: new Date().toISOString(),
   },
   {
-    id: uuid(),
+    id: "prod-002",
     name: "Manfinity EMRG T-Shirt",
     slug: slugtify("Manfinity EMRG T-Shirt"),
     description: "",
@@ -80,7 +80,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
-        id: uuid(),
+        id: "var-002",
         color: {
           name: "Black",
           code: "#000000",
@@ -119,10 +119,10 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         sku: "MH1020",
       },
       {
-        id: uuid(),
+        id: "var-003",
         color: {
           name: "Dark Grey",
-          code: "#e5e5e5",
+          code: "#adb5bd",
         },
         image: [
           {
@@ -167,7 +167,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     updatedAt: new Date().toISOString(),
   },
   {
-    id: uuid(),
+    id: "prod-003",
     name: "Manfinity EMRG T-Shirt",
     slug: slugtify("Manfinity EMRG T-Shirt"),
     description: "",
@@ -182,7 +182,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
-        id: uuid(),
+        id: "var-004",
         color: {
           name: "Black",
           code: "#000000",
@@ -221,10 +221,10 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         sku: "MH1020",
       },
       {
-        id: uuid(),
+        id: "var-005",
         color: {
           name: "Dark Grey",
-          code: "#e5e5e5",
+          code: "#adb5bd",
         },
         image: [
           {
@@ -269,7 +269,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     updatedAt: new Date().toISOString(),
   },
   {
-    id: uuid(),
+    id: "prod-005",
     name: "Manfinity EMRG T-Shirt",
     slug: slugtify("Manfinity EMRG T-Shirt"),
     description: "",
@@ -284,7 +284,7 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
     salePrice: 98,
     variants: [
       {
-        id: uuid(),
+        id: "var-006",
         color: {
           name: "Black",
           code: "#000000",
@@ -323,10 +323,10 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         sku: "MH1020",
       },
       {
-        id: uuid(),
+        id: "var-007",
         color: {
           name: "Dark Grey",
-          code: "#e5e5e5",
+          code: "#adb5bd",
         },
         image: [
           {

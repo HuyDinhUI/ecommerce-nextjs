@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./button";
 import { usePathname } from "next/navigation";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 const ITEMS_NAVBAR = [
   {
@@ -22,16 +23,27 @@ const ITEMS_NAVBAR = [
 ];
 
 const Header = () => {
-  const location = usePathname()
+  const location = usePathname();
+  const scrollUp = useScrollDirection();
 
   return (
-    <header className="flex justify-between items-center px-10 max-sm:px-5 py-10 relative">
+    <header
+      className={`flex justify-between items-center px-10 max-sm:px-5 py-10 sticky top-0 z-999 bg-white ${
+        scrollUp ? "translate-y-0" : "-translate-y-full"
+      } transition-transform duration-300`}
+      style={{ backgroundImage: "url('/noisy_background.png')" }}
+    >
       <div className="flex gap-5">
         <MenuIcon classname="lg:hidden" />
         <nav className="font-beatrice-deck font-light max-lg:hidden relative z-99">
           <ol className="flex gap-5">
             {ITEMS_NAVBAR.map((item, idx) => (
-              <li key={idx} className={`${location === item.href ? "text-black" : "text-gray-400"}`}>
+              <li
+                key={idx}
+                className={`${
+                  location === item.href ? "text-black" : "text-gray-400"
+                }`}
+              >
                 <Link href={item.href}>{item.name}</Link>
               </li>
             ))}

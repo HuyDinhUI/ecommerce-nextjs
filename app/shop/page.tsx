@@ -6,6 +6,12 @@ import FilterBar from "./filter-bar";
 import Products from "./list-products";
 import { InputSearch } from "@/components/form-action/search-form";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shop | Lumina",
+  description: "Store fashion",
+};
 
 interface PageProps {
   searchParams: Params;
@@ -34,7 +40,7 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
           <h1 className="max-lg:hidden">Filters</h1>
           <FilterSidebar />
         </div>
-        <div className="py-1 flex-1 overflow-hidden xl:px-10 max-lg:px-10 max-sm:px-5">
+        <div className="py-1 flex-1 overflow-hidden md:px-10 max-sm:px-5">
           <Breadcrumb classname="max-lg:hidden" />
           <h1 className="uppercase max-lg:hidden text-xl">Products</h1>
           <div className="flex gap-5 mt-2">

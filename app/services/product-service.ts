@@ -18,7 +18,7 @@ class Product implements IProductService {
   }
 
   getOne(id: string): Promise<{ status: number; payload: ProductClothes }> {
-    return http.get<ProductClothes>(`/poducts/${id}`);
+    return http.get<ProductClothes>(`/products/${id}`);
   }
 }
 

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoIosClose } from "react-icons/io";
+import {motion} from "motion/react"
 
 type Size = "sm" | "md" | "lg";
 
@@ -17,7 +18,7 @@ type DialogProps = {
 
 const SizeOptions = {
   sm: "w-200",
-  md: "w-300 min-h-100",
+  md: "w-250 max-lg:w-150",
   lg: "w-400",
 };
 
@@ -49,10 +50,8 @@ export const Dialog = ({
 
   useEffect(() => {
     if (isOpenDialog) {
-      console.log("open dialog");
       document.body.style.overflow = "hidden";
     } else {
-      console.log("close dialog");
       document.body.style.overflow = "auto";
     }
   }, [isOpenDialog]);
@@ -64,9 +63,12 @@ export const Dialog = ({
       </div>
       {isOpenDialog && (
         <Portal>
-          <div className="fixed top-0 left-0 w-screen h-screen bg-black/20 z-999"></div>
-          <div
-            className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[url(/noisy_background.png)] bg-white dark:bg-card ${SizeOptions[size]} z-999`}
+          <div onClick={() => setIsOpenDialog(false)} className="fixed top-0 left-0 w-screen h-screen bg-black/20 z-999"></div>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className={`min-h-100 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[url(/noisy_background.png)] bg-white dark:bg-card ${SizeOptions[size]} z-999`}
           >
             {children}
 
@@ -77,11 +79,11 @@ export const Dialog = ({
                 }
                 setIsOpenDialog(false);
               }}
-              className="bg-white rounded-full absolute top-3 right-3 p-1 cursor-pointer"
+              className="top-0 right-0 absolute cursor-pointer"
             >
               <IoIosClose color="black" size={30} />
             </button>
-          </div>
+          </motion.div>
         </Portal>
       )}
     </div>

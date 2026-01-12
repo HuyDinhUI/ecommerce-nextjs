@@ -15,7 +15,7 @@ export const Breadcrumb = ({ classname }: { classname?: string }) => {
           <Link href="/" className="hover:underline">
             Home
           </Link>
-          <span>/</span>
+          <span className="ml-2">/</span>
         </li>
 
         {items.map((item, index) => {

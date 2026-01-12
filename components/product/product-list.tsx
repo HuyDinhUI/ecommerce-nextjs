@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { BiPlus } from "react-icons/bi";
 import { Dialog } from "../ui/dialog";
 import { ProductDetail } from "./product-detail";
+import Link from "next/link";
 
 type props = {
   items: ProductClothes[];
@@ -29,18 +30,21 @@ export const ProductItem = ({ item }: { item: ProductClothes }) => {
     <div>
       {thumbnail?.url ? (
         <div className="ring ring-gray-300">
-          <div className="aspect-3/4 relative overflow-hidden group">
-            <Image
-              src={thumbnail.url}
-              alt={thumbnail.alt ?? ""}
-              fill
-              className="object-cover"
-            />
+          <div className="relative overflow-hidden group">
+            <Link href={`/shop/${item.slug}?product_id=${item.id}`} className="block aspect-3/4 relative">
+              <Image
+                src={thumbnail.url}
+                alt={thumbnail.alt ?? ""}
+                fill
+                className="object-cover"
+              />
+            </Link>
             <Dialog
+              size="md"
               trigger={
                 <Button
                   icon={<BiPlus />}
-                  className="absolute bottom-0 right-1/2 translate-x-1/2 xl:translate-y-10 xl:group-hover:translate-y-0"
+                  className="absolute bottom-0 right-1/2 translate-x-1/2 xl:translate-y-10 xl:group-hover:translate-y-0 max-sm:hidden"
                 />
               }
             >
