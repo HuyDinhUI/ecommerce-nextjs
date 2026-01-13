@@ -26,16 +26,15 @@ export const InputSearch = ({ classname }: { classname?: string }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!keyword) {
-      const params = new URLSearchParams(window.location.search);
-      params.delete("search");
-      router.push(`/shop?${params.toString()}`);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!keyword) {
+  //     const params = new URLSearchParams(window.location.search);
+  //     params.delete("search");
+  //     return;
+  //   }
 
-    router.push(`/shop?search=${debounce}`);
-  }, [debounce, keyword, router]);
+  //   router.push(`/shop?search=${debounce}`);
+  // }, [debounce, keyword, router]);
   return (
     <div ref={ref} className={`relative h-full ${classname}`}>
       <div className="bg-black/10 p-3 flex justify-between items-center h-full">
@@ -45,6 +44,10 @@ export const InputSearch = ({ classname }: { classname?: string }) => {
             value={keyword}
             onFocus={() => setOnSearch(true)}
             onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                router.push(`/shop?search=${keyword}`);
+              }}}
             className="outline-none w-full"
           ></input>
           <div className="w-10">

@@ -2,11 +2,18 @@
 import { IoCheckmark } from "react-icons/io5";
 
 interface Props {
+  size?: "sm" | "md" | "lg";
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
 }
 
-export const Checkbox = ({ onCheckedChange, checked }: Props) => {
+const SIZE_CLASSES: Record<string, string> = {
+  sm: "w-4 h-4",
+  md: "w-7 h-7",
+  lg: "w-9 h-9",
+};
+
+export const Checkbox = ({ onCheckedChange, checked, size = "md" }: Props) => {
   return (
     <label className="cursor-pointer">
       <input
@@ -19,7 +26,7 @@ export const Checkbox = ({ onCheckedChange, checked }: Props) => {
         }}
       />
 
-      <div className="ring ring-gray-400 w-7 h-7 flex items-center justify-center">
+      <div className={`ring ring-gray-400 ${SIZE_CLASSES[size]} flex items-center justify-center`}>
         {checked && <IoCheckmark />}
       </div>
     </label>

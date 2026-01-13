@@ -1,6 +1,5 @@
 import { Gender, ProductClothes, ProductStatus, Size } from "@/types/product.type";
 import { slugtify } from "@/utils/formatter";
-import { v4 as uuid } from "uuid";
 
 export const DATA_CLOTHES_MOCK: ProductClothes[] = [
   {

@@ -3,7 +3,6 @@
 import { CartIcon, HeartIcon, MenuIcon, UserIcon } from "@/icon";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./button";
 import { usePathname } from "next/navigation";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
@@ -53,25 +52,27 @@ const Header = () => {
       <div className="absolute right-0 left-0 flex justify-center">
         <Image src={"/logo.svg"} width={35} height={35} alt="Lumina logo" />
       </div>
-      <div className="flex gap-5 max-sm:gap-2 justify-end">
-        <Button
-          icon={<HeartIcon />}
-          variant="icon"
-          size="ic"
-          className="bg-black w-10 max-lg:hidden"
-        />
-        <Button
-          icon={<CartIcon />}
-          variant="icon"
-          size="ic"
-          className="bg-black w-10 h-10"
-        />
-        <Button
-          icon={<UserIcon />}
-          variant="icon"
-          size="ic"
-          className="bg-black w-10 h-10"
-        />
+      <div className="flex justify-end relative z-99">
+        <ol className="flex items-center gap-4 max-sm:gap-2">
+          <li className="bg-black p-3 rounded-full max-xl:hidden">
+            <Link href={"/collection/favourite"}>
+              <HeartIcon width="15" height="15" />
+            </Link>
+          </li>
+          <li className="bg-black p-3 rounded-full">
+            <Link href={"/collection/cart"}>
+              <CartIcon width="15" height="15" />
+            </Link>
+          </li>
+          <li className="bg-black p-3 rounded-full">
+            <Link href={"/collection/personal"}>
+              <UserIcon width="15" height="15" />
+            </Link>
+          </li>
+        </ol>
+
+       
+        
       </div>
     </header>
   );

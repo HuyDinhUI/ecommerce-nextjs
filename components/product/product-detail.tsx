@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { Favorite } from "../ui/favorite";
+import { Favourite } from "../ui/favourite";
 
 interface ProductDetailProps {
   data: ProductClothes;
@@ -105,7 +105,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
           className="w-full bg-gray-300 font-light mt-3 max-lg:fixed max-lg:z-99 max-lg:bottom-0 max-lg:left-0 max-lg:right-0"
           size="lg"
         />
-        <Favorite
+        <Favourite
           classname="absolute top-0 right-0"
           checked={false}
           onCheckedChange={(checked) => handleFavoriteChange(checked)}

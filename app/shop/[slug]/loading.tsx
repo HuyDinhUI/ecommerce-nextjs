@@ -1,7 +1,8 @@
 const SkeletonProductDetail = () => {
   return (
-    <div className="w-full flex xl:justify-center max-lg:flex-col p-7 font-beatrice-deck">
-      
+    <div className="w-full h-screen flex gap-10 xl:justify-center max-lg:flex-col p-7">
+      <div className="flex max-lg:flex-col xl:w-150 bg-gray-200 animate-pulse"></div>
+      <div className="xl:w-90 max-lg:mt-10 bg-gray-200 animate-pulse"></div>
     </div>
   );
 }

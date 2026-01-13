@@ -8,13 +8,13 @@ interface Props {
   onCheckedChange: (checked: boolean) => void;
 }
 
-export const Favorite = ({ checked, onCheckedChange, classname }: Props) => {
+export const Favourite = ({ checked, onCheckedChange, classname }: Props) => {
   console.log({ checked });
   return (
     <div className={`${classname ?? ""}`}>
       <label className="cursor-pointer">
         <input
-          name="v2-favorite"
+          name="v2-favourite"
           type="checkbox"
           hidden
           checked={checked}
