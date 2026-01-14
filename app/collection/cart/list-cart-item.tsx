@@ -1,28 +1,37 @@
 "use client";
-
-import { DATA_CART_MOCK } from "@/app/mock/cart.mock";
 import { CartItem } from "@/components/cart/cart-item";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { useCartStore } from "@/store/cart.store";
 import { useState } from "react";
 
 export const ListCartItem = () => {
   const [checked, setChecked] = useState<boolean>(false);
+  const cart = {
+    items: useCartStore((state) => state.CartItem),
+    totalPrice: useCartStore((state) => state.totalPrice),
+  };
+
   return (
     <div>
       <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5">
-        {DATA_CART_MOCK.CartItem.map((item) => (
+        {cart.items.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </div>
-      <div className="p-10 absolute top-1/10 right-20 ring ring-gray-300 w-80">
+      {cart.items.length === 0 && (
+        <div className="text-center py-20">Your cart is currently empty.</div>
+      )}
+      <Separator classname="my-4 border-gray-300" />
+      {cart.items.length > 0 && <div className="p-10 xl:absolute xl:top-30 xl:right-20 xl:ring xl:ring-gray-300 xl:w-80 max-xl:fixed max-xl:bottom-0 max-xl:left-0 max-xl:right-0 max-xl:bg-white max-xl:p-5 max-xl:ring-0 z-999">
         <h5 className="font-beatrice-deck text-[14px] font-extralight uppercase">
           order summary
         </h5>
         <div className="mt-6 text-[12px]">
           <div className="flex justify-between">
             <span>Subtotal</span>
-            <span>${DATA_CART_MOCK.totalPrice}</span>
+            <span>${cart.totalPrice}</span>
           </div>
           <div className="flex justify-between mt-2">
             <span>Shipping</span>
@@ -33,7 +42,7 @@ export const ListCartItem = () => {
               Total <span className="text-[10px]">{`(TAX INCL.)`}</span>
             </span>
             <span className="font-beatrice-deck font-bold uppercase">
-              ${DATA_CART_MOCK.totalPrice + 10}
+              ${cart.totalPrice + 10}
             </span>
           </div>
           <div className="flex items-center mt-10">
@@ -56,7 +65,7 @@ export const ListCartItem = () => {
             className="bg-gray-300 w-full uppercase font-extralight"
           />
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

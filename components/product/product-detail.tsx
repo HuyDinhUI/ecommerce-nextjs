@@ -4,12 +4,15 @@ import {
   ProductClothes,
   ProductImage,
   ProductVariant,
+  Size,
 } from "@/types/product.type";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Favourite } from "../ui/favourite";
+import { cartFacade } from "@/facades/cart.facade";
+import { CartItem } from "@/types/cart.type";
 
 interface ProductDetailProps {
   data: ProductClothes;
@@ -21,10 +24,32 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
   );
   const thumbnail = currentVariant.image.find((img) => img.isThumbnail);
   const [currentImage, setCurrentImage] = useState<ProductImage>(thumbnail!);
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<Size>(Size.M);
 
   const handleFavoriteChange = (checked: boolean) => {
     // Handle favorite state change here
+  };
+
+  const handleAddToCart = () => {
+    const cartItem: CartItem = {
+      id: `${data.id}-${currentVariant.sku}-${selectedSize}`,
+      productId: data.id,
+      variant: {
+        sku: currentVariant.sku,
+        color: currentVariant.color,
+        size: selectedSize,
+      },
+      quantity: 1,
+      name: data.name,
+      slug: data.slug,
+      image: currentVariant.image.find((img) => img.isThumbnail)?.url ?? "",
+      material: data.material!,
+      price: currentVariant.price ?? data.price,
+    };
+
+    // console.log("Adding to cart:", cartItem);
+
+    cartFacade.addCard(cartItem);
   };
 
   return (
@@ -104,6 +129,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
           title="ADD"
           className="w-full bg-gray-300 font-light mt-3 max-lg:fixed max-lg:z-99 max-lg:bottom-0 max-lg:left-0 max-lg:right-0"
           size="lg"
+          onClick={() => handleAddToCart()}
         />
         <Favourite
           classname="absolute top-0 right-0"

@@ -9,11 +9,13 @@ import "swiper/css/pagination";
 import { ReactNode } from "react";
 
 type props = {
-  children: ReactNode
+  children: ReactNode;
   swiperRef: any;
   setIsBeginning: (isBeginning: boolean) => void;
   setIsEnd: (isEnd: boolean) => void;
-  slidePerView: number
+  slidePerView: number;
+  direction?: "horizontal" | "vertical";
+  modules?: any[];
 };
 
 export const Carousel = ({
@@ -21,11 +23,14 @@ export const Carousel = ({
   swiperRef,
   setIsBeginning,
   setIsEnd,
-  slidePerView
+  slidePerView,
+  modules,
+  direction = "horizontal",
+
 }: props) => {
   return (
     <Swiper
-      modules={[Navigation, Pagination]}
+      modules={modules ? modules : [Navigation, Pagination]}
       slidesPerView={slidePerView}
       spaceBetween={20}
       className="h-full"
@@ -34,6 +39,11 @@ export const Carousel = ({
         setIsBeginning(swiper.isBeginning);
         setIsEnd(swiper.isEnd);
       }}
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      direction={direction}
     >
       {children}
     </Swiper>

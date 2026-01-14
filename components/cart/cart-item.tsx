@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
+import { cartFacade } from "@/facades/cart.facade";
 
 export const CartItem = ({ item }: { item: CartItemType }) => {
   return (
@@ -23,13 +24,16 @@ export const CartItem = ({ item }: { item: CartItemType }) => {
             />
           </Link>
         </div>
-        <div className="mt-3 font-beatrice-deck">
+        <div className="mt-3 font-beatrice-deck text-sm">
           <span>{item.material}</span>
-          <h1>{item.name}</h1>
+          <h5 className="font-medium">{item.name}</h5>
         </div>
       </div>
       <div className="flex flex-col items-center">
-        <Button icon={<IoClose/>}/>
+        <Button
+          onClick={() => cartFacade.removeCard(item.variant.sku)}
+          icon={<IoClose />}
+        />
         <div className="flex flex-col gap-5 mt-20">
           <span>{item.variant.size}</span>
           <Button
@@ -37,9 +41,17 @@ export const CartItem = ({ item }: { item: CartItemType }) => {
             style={{ backgroundColor: `${item.variant.color.code}` }}
           />
           <div className="flex flex-col items-center ring ring-gray-500 ">
-            <Button className="w-7 h-7 flex justify-center items-center font-extralight" title="+"></Button>
-            <span className="border-t border-gray-500 border-b w-7 h-7 text-center">{item.quantity}</span>
-            <Button className="w-7 h-7 flex justify-center items-center font-extralight" title="-"></Button>
+            <Button
+              className="w-7 h-7 flex justify-center items-center font-extralight"
+              title="+"
+            ></Button>
+            <span className="border-t border-gray-500 border-b w-7 h-7 text-center">
+              {item.quantity}
+            </span>
+            <Button
+              className="w-7 h-7 flex justify-center items-center font-extralight"
+              title="-"
+            ></Button>
           </div>
         </div>
       </div>

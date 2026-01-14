@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const CollectionLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   return (
-    <div className="p-10 relative">
+    <div className="md:p-10 max-md:p-5 relative">
       <div className="max-w-200">
         <div>
           <ol className="flex items-center space-x-4 uppercase text-sm">
@@ -33,7 +33,6 @@ const CollectionLayout = ({ children }: { children: React.ReactNode }) => {
           <Separator classname="my-4 border-gray-300" />
         </div>
         {children}
-        <Separator classname="my-4 border-gray-300" />
       </div>
     </div>
   );

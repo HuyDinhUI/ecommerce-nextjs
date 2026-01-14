@@ -1,4 +1,10 @@
+import { ListFavouriesItem } from "./list-favouries-item";
+
 const FavouritePage = () => {
-  return <div>FavoritePage</div>;
+  return (
+    <div>
+      <ListFavouriesItem/>
+    </div>
+  )
 }
 export default FavouritePage;
