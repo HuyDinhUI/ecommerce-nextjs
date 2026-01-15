@@ -21,7 +21,7 @@ export enum Size {
 
 export interface VariantSize {
   size: Size;
-  quantity: number
+  stock: number
 }
 
 export interface ProductVariant {

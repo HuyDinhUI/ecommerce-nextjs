@@ -24,7 +24,7 @@ export const Favourite = ({ checked, onCheckedChange, classname }: Props) => {
         />
 
         <div className="bg-white w-8 h-8 flex items-center justify-center p-2">
-          {checked ? <IoHeart color="white" /> : <IoHeartOutline />}
+          {checked ? <IoHeart color="black" /> : <IoHeartOutline />}
         </div>
       </label>
     </div>

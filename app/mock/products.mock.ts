@@ -41,15 +41,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,
@@ -103,15 +103,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,
@@ -143,15 +143,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,
@@ -205,15 +205,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,
@@ -245,15 +245,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,
@@ -307,15 +307,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,
@@ -347,15 +347,15 @@ export const DATA_CLOTHES_MOCK: ProductClothes[] = [
         size: [
           {
             size: Size.L,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.M,
-            quantity: 100,
+            stock: 100,
           },
           {
             size: Size.S,
-            quantity: 100,
+            stock: 100,
           },
         ],
         price: 99,

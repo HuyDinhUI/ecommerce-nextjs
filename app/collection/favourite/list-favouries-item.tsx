@@ -1,13 +1,14 @@
 "use client";
 
-import { DATA_FAVORITES } from "@/app/mock/favouries.mock";
 import { DATA_CLOTHES_MOCK } from "@/app/mock/products.mock";
-import { ProductItem } from "@/components/product/product-list";
 import { Button } from "@/components/ui/button";
 import { Carousel } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
+import { FavouriteFacade } from "@/facades/favourite.facade";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useFavouriteStore } from "@/store/favourite.store";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import {
   IoChevronBackOutline,
@@ -20,21 +21,35 @@ export const ListFavouriesItem = () => {
   const swiperRef = useRef<any>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
+  const favouries = useFavouriteStore((state) => state.items);
   const { isMobile } = useIsMobile();
   return (
     <div>
-      <div className="grid grid-cols-2 max-sm:grid-cols-2 gap-5">
-        {DATA_FAVORITES.map((item) => (
-          <div key={item.id} className="flex gap-5 max-md:gap-3">
-            <div className="w-70">
-              <ProductItem item={item} />
+      <div className="grid grid-cols-3 max-sm:grid-cols-2 gap-5">
+        {favouries.map((item) => (
+          <Link
+            key={item.productId}
+            href={`/shop/${item.slug}?product_id=${item.productId}`}
+            className="relative"
+          >
+            <div className="aspect-3/4 relative w-full ring ring-gray-300">
+              <Image src={item.thumnail} fill alt={item.name} />
             </div>
-            <div className="flex flex-col">
-              <Button icon={<IoClose />} />
+            <div className="absolute right-0 top-0">
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  FavouriteFacade.remove(item.productId);
+                }}
+                icon={<IoClose />}
+              />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
+      {favouries.length === 0 && (
+        <div className="text-center py-20">Your favourite is currently empty.</div>
+      )}
       <Separator classname="my-4 border-gray-300" />
       <div className="xl:absolute xl:top-30 xl:right-20 xl:w-80 xl:p-5 xl:ring xl:ring-gray-300 max-xl:mt-10">
         <h5 className="my-3 text-center">You might like</h5>

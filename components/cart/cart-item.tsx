@@ -6,8 +6,10 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
 import { cartFacade } from "@/facades/cart.facade";
+import { ExchangeIcon } from "@/icon";
 
 export const CartItem = ({ item }: { item: CartItemType }) => {
+
   return (
     <div className="flex gap-5">
       <div className="w-70">
@@ -34,7 +36,7 @@ export const CartItem = ({ item }: { item: CartItemType }) => {
           onClick={() => cartFacade.removeCard(item.variant.sku)}
           icon={<IoClose />}
         />
-        <div className="flex flex-col gap-5 mt-20">
+        <div className="flex flex-col gap-3 mt-20">
           <span>{item.variant.size}</span>
           <Button
             className={`w-7 h-7`}
@@ -42,17 +44,20 @@ export const CartItem = ({ item }: { item: CartItemType }) => {
           />
           <div className="flex flex-col items-center ring ring-gray-500 ">
             <Button
-              className="w-7 h-7 flex justify-center items-center font-extralight"
+              className="w-8 h-8 flex justify-center items-center font-extralight"
               title="+"
+              onClick={() => cartFacade.updateQuantity(item.variant.sku, item.quantity + 1)}
             ></Button>
-            <span className="border-t border-gray-500 border-b w-7 h-7 text-center">
+            <span className="border-t border-gray-500 border-b w-8 h-8 py-1 text-center">
               {item.quantity}
             </span>
             <Button
-              className="w-7 h-7 flex justify-center items-center font-extralight"
+              className="w-8 h-8 flex justify-center items-center font-extralight"
               title="-"
+              onClick={() => cartFacade.updateQuantity(item.variant.sku, item.quantity - 1)}
             ></Button>
           </div>
+          <Button className="w-8 h-8" icon={<ExchangeIcon />} />
         </div>
       </div>
     </div>

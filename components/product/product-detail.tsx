@@ -13,6 +13,8 @@ import { Separator } from "../ui/separator";
 import { Favourite } from "../ui/favourite";
 import { cartFacade } from "@/facades/cart.facade";
 import { CartItem } from "@/types/cart.type";
+import { FavouriteFacade } from "@/facades/favourite.facade";
+import { FavouriteItem } from "@/types/favourite.type";
 
 interface ProductDetailProps {
   data: ProductClothes;
@@ -24,10 +26,19 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
   );
   const thumbnail = currentVariant.image.find((img) => img.isThumbnail);
   const [currentImage, setCurrentImage] = useState<ProductImage>(thumbnail!);
-  const [selectedSize, setSelectedSize] = useState<Size>(Size.M);
+  const defaultSize = currentVariant.size[0]?.size;
+  const [selectedSize, setSelectedSize] = useState<Size | null>(defaultSize);
+  const isFavourite = FavouriteFacade.useIsFavourite(data.id);
 
-  const handleFavoriteChange = (checked: boolean) => {
-    // Handle favorite state change here
+  const handleFavouriteChange = () => {
+    const favouriteItem: FavouriteItem = {
+      productId: data.id,
+      name: data.name,
+      slug: data.slug,
+      thumnail: thumbnail?.url ?? "",
+    };
+
+    FavouriteFacade.toggle(favouriteItem);
   };
 
   const handleAddToCart = () => {
@@ -37,7 +48,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
       variant: {
         sku: currentVariant.sku,
         color: currentVariant.color,
-        size: selectedSize,
+        size: selectedSize!,
       },
       quantity: 1,
       name: data.name,
@@ -46,8 +57,6 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
       material: data.material!,
       price: currentVariant.price ?? data.price,
     };
-
-    // console.log("Adding to cart:", cartItem);
 
     cartFacade.addCard(cartItem);
   };
@@ -101,6 +110,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
                   if (thumb) {
                     setCurrentImage(thumb);
                   }
+                  setSelectedSize(variant.size[0]?.size);
                 }}
               ></Button>
             ))}
@@ -116,6 +126,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
                 className="w-10 h-10 flex items-center justify-center font-extralight"
                 onClick={() => setSelectedSize(size.size)}
                 variant={selectedSize === size.size ? "dark" : "outline"}
+                disabled={size.stock === 0}
               ></Button>
             ))}
           </div>
@@ -133,8 +144,8 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
         />
         <Favourite
           classname="absolute top-0 right-0"
-          checked={false}
-          onCheckedChange={(checked) => handleFavoriteChange(checked)}
+          checked={isFavourite}
+          onCheckedChange={() => handleFavouriteChange()}
         />
       </div>
     </div>
