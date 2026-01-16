@@ -5,7 +5,6 @@ import { slugtify } from "@/utils/formatter";
 export const DATA_CART_MOCK: Cart = {
   CartItem: [
     {
-      id: "cartitem-001",
       productId: "prod-001",
       name: "Los Angeles T-Shirt",
       slug: slugtify("Los Angeles T-Shirt"),
@@ -14,17 +13,15 @@ export const DATA_CART_MOCK: Cart = {
       material: "Cotton",
       price: 198,
       quantity: 2,
-      variant: {
-        sku: "MH1010",
-        color: {
-          name: "Black",
-          code: "#000000",
-        },
-        size: Size.M,
+
+      sku: "MH1010",
+      color: {
+        name: "Black",
+        code: "#000000",
       },
+      size: Size.M,
     },
     {
-      id: "cartitem-002",
       productId: "prod-001",
       name: "Los Angeles T-Shirt",
       slug: slugtify("Los Angeles T-Shirt"),
@@ -33,17 +30,15 @@ export const DATA_CART_MOCK: Cart = {
       material: "Cotton",
       price: 99,
       quantity: 1,
-      variant: {
-        sku: "MH1010",
-        color: {
-          name: "Black",
-          code: "#000000",
-        },
-        size: Size.S,
+
+      sku: "MH1010",
+      color: {
+        name: "Black",
+        code: "#000000",
       },
+      size: Size.S,
     },
     {
-      id: "cartitem-003",
       productId: "prod-002",
       name: "Manfinity EMRG T-Shirt",
       slug: slugtify("Manfinity EMRG T-Shirt"),
@@ -52,14 +47,13 @@ export const DATA_CART_MOCK: Cart = {
       material: "Cotton",
       price: 99,
       quantity: 1,
-      variant: {
-        sku: "MH1020",
-        color: {
-          name: "Dark Grey",
-          code: "#adb5bd",
-        },
-        size: Size.L,
+
+      sku: "MH1020",
+      color: {
+        name: "Dark Grey",
+        code: "#adb5bd",
       },
+      size: Size.L,
     },
   ],
   totalQuantity: 4,

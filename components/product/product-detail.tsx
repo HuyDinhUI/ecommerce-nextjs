@@ -4,7 +4,7 @@ import {
   ProductClothes,
   ProductImage,
   ProductVariant,
-  Size,
+  VariantSize,
 } from "@/types/product.type";
 import Image from "next/image";
 import { useState } from "react";
@@ -26,8 +26,8 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
   );
   const thumbnail = currentVariant.image.find((img) => img.isThumbnail);
   const [currentImage, setCurrentImage] = useState<ProductImage>(thumbnail!);
-  const defaultSize = currentVariant.size[0]?.size;
-  const [selectedSize, setSelectedSize] = useState<Size | null>(defaultSize);
+  const defaultSize = currentVariant.size[0];
+  const [selectedSize, setSelectedSize] = useState<VariantSize>(defaultSize);
   const isFavourite = FavouriteFacade.useIsFavourite(data.id);
 
   const handleFavouriteChange = () => {
@@ -43,19 +43,19 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
-      id: `${data.id}-${currentVariant.sku}-${selectedSize}`,
       productId: data.id,
-      variant: {
-        sku: currentVariant.sku,
+      sku: selectedSize.sku,
+      attribute: {
+        
         color: currentVariant.color,
-        size: selectedSize!,
+        size: selectedSize.size,
       },
       quantity: 1,
       name: data.name,
       slug: data.slug,
       image: currentVariant.image.find((img) => img.isThumbnail)?.url ?? "",
       material: data.material!,
-      price: currentVariant.price ?? data.price,
+      price: selectedSize.price ?? data.price,
     };
 
     cartFacade.addCard(cartItem);
@@ -86,7 +86,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
       <div className="ring ring-gray-300 xl:w-90 max-lg:mt-10 p-10 relative">
         <h1>{data.name}</h1>
         <span className="block mt-2 font-beatrice">
-          ${currentVariant.price ?? data.price}
+          ${selectedSize.price ?? data.price}
         </span>
         <p className="text-sm text-gray-600 font-beatrice mt-3">
           MRP incl. of all taxes
@@ -97,9 +97,9 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
           <div className="flex gap-1 mt-1">
             {data.variants.map((variant) => (
               <Button
-                key={variant.id}
+                key={variant.color.code}
                 className={`w-10 h-10 ${
-                  currentVariant.id === variant.id
+                  currentVariant.color.code === variant.color.code
                     ? "opacity-100"
                     : "opacity-50 hover:opacity-100"
                 }`}
@@ -110,7 +110,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
                   if (thumb) {
                     setCurrentImage(thumb);
                   }
-                  setSelectedSize(variant.size[0]?.size);
+                  setSelectedSize(variant.size[0]);
                 }}
               ></Button>
             ))}
@@ -124,8 +124,8 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
                 title={size.size}
                 key={size.size}
                 className="w-10 h-10 flex items-center justify-center font-extralight"
-                onClick={() => setSelectedSize(size.size)}
-                variant={selectedSize === size.size ? "dark" : "outline"}
+                onClick={() => setSelectedSize(size)}
+                variant={selectedSize.size === size.size ? "dark" : "outline"}
                 disabled={size.stock === 0}
               ></Button>
             ))}

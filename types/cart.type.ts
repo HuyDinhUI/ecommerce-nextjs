@@ -1,28 +1,42 @@
-import { Size } from "./product.type"
+import { Size } from "./product.type";
 
 export interface CartItem {
-    id: string
-    productId: string
+  productId: string;
+  sku: string;
 
-    variant: {
-        sku: string,
-        color: {
-            name: string,
-            code: string
-        }
-        size: Size
-    }
+  attribute: {
+    color: {
+      name: string;
+      code: string;
+    };
+    size: Size;
+  };
 
-    name: string
-    slug: string
-    image: string
-    material: string
-    price: number
-    quantity: number
+  name: string;
+  slug: string;
+  image: string;
+  material: string;
+  price: number;
+  quantity: number;
 }
 
 export interface Cart {
-    CartItem: CartItem[]
-    totalQuantity: number
-    totalPrice: number
+  CartItem: CartItem[];
+  totalQuantity: number;
+  totalPrice: number;
+}
+
+export interface UpdateVariantType {
+  productId: string;
+  oldSku: string;
+  newSku: string;
+  newPrice: number;
+  newImage: string;
+  newVariant: {
+    color: {
+      name: string;
+      code: string;
+    };
+    size: Size;
+  };
 }

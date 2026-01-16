@@ -1,6 +1,6 @@
 "use client";
 
-import { Cart, CartItem } from "@/types/cart.type";
+import { Cart, CartItem, UpdateVariantType } from "@/types/cart.type";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -18,6 +18,7 @@ interface CartState extends Cart {
   removeItem: (itemId: string) => void;
   clearCart: () => void;
   updateQuantity: (sku: string, quantity: number) => void;
+  updateVariant: (payload: UpdateVariantType) => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -29,7 +30,7 @@ export const useCartStore = create<CartState>()(
 
       addItem: (item) => {
         const items = [...get().CartItem];
-        const existing = items.find((i) => i.variant.sku === item.variant.sku);
+        const existing = items.find((i) => i.sku === item.sku);
 
         if (existing) {
           existing.quantity += item.quantity;
@@ -41,7 +42,7 @@ export const useCartStore = create<CartState>()(
       },
 
       removeItem: (sku) => {
-        const items = get().CartItem.filter((i) => i.variant.sku !== sku);
+        const items = get().CartItem.filter((i) => i.sku !== sku);
         set({ CartItem: items, ...Calculate(items) });
       },
 
@@ -49,7 +50,7 @@ export const useCartStore = create<CartState>()(
         if (quantity <= 0) return;
 
         const items = get().CartItem.map((item) =>
-          item.variant.sku === sku ? { ...item, quantity } : item
+          item.sku === sku ? { ...item, quantity } : item
         );
 
         set({ CartItem: items, ...Calculate(items) });
@@ -57,6 +58,53 @@ export const useCartStore = create<CartState>()(
 
       clearCart: () => {
         set({ CartItem: [], totalQuantity: 0, totalPrice: 0 });
+      },
+
+      updateVariant: ({
+        productId,
+        oldSku,
+        newSku,
+        newPrice,
+        newImage,
+        newVariant,
+      }) => {
+        // 1: Find old cart item
+        // 2: Check newSku is exsist (same size & color)
+        // - case 1: exsist === true -> merge quantity
+        // - case 2: exsist === false -> replace sku
+        // 3: Update
+
+        const items = [...get().CartItem];
+
+        const oldIndex = items.findIndex(
+          (i) => i.productId === productId && i.sku === oldSku
+        );
+
+        if (oldIndex === -1) return;
+
+        const oldItem = items[oldIndex];
+
+        const existingIndex = items.findIndex(
+          (i) => i.productId === productId && i.sku === newSku
+        );
+
+        if (existingIndex !== -1) {
+          items[existingIndex] = {
+            ...items[existingIndex],
+            quantity: items[existingIndex].quantity + oldItem.quantity,
+          };
+          items.splice(oldIndex, 1);
+        } else {
+          items[oldIndex] = {
+            ...oldItem,
+            image: newImage,
+            price: newPrice,
+            sku: newSku,
+            attribute: newVariant,
+          };
+        }
+
+        set({ CartItem: items, ...Calculate(items) });
       },
     }),
     {

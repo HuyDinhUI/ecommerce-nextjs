@@ -22,21 +22,18 @@ export enum Size {
 export interface VariantSize {
   size: Size;
   stock: number
+  sku: string
+  price?: number;
 }
 
 export interface ProductVariant {
-  id: string;
   color: {
     name: string,
     code: string
   },
-  
   image: ProductImage[]
-  
   size: VariantSize[];
-
-  price?: number;          
-  sku: string;             
+         
 }
 
 export interface ProductImage {

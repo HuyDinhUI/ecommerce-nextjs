@@ -2,10 +2,11 @@
 
 import { useDebounce } from "@/hooks/useDebounce";
 import { SearchIcon } from "@/icon";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import { useClickOutside } from "@/hooks/useClickOutSide";
 
 export const InputSearch = ({ classname }: { classname?: string }) => {
   const [onSearch, setOnSearch] = useState<boolean>(false);
@@ -14,17 +15,7 @@ export const InputSearch = ({ classname }: { classname?: string }) => {
   const debounce = useDebounce(keyword, 500);
   const router = useRouter();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setOnSearch(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  useClickOutside<HTMLDivElement>(ref, () => setOnSearch(false))
 
   // useEffect(() => {
   //   if (!keyword) {

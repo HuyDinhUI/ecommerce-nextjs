@@ -6,6 +6,9 @@ interface IProductService {
     params: string
   ): Promise<{ status: number; payload: ProductClothes[] }>;
   getOne(id: string): Promise<{ status: number; payload: ProductClothes }>;
+  getByIds(
+    ids: string[]
+  ): Promise<{ status: number; payload: ProductClothes[] }>;
 }
 
 class Product implements IProductService {
@@ -19,6 +22,10 @@ class Product implements IProductService {
 
   getOne(id: string): Promise<{ status: number; payload: ProductClothes }> {
     return http.get<ProductClothes>(`/products/${id}`);
+  }
+
+  getByIds(ids: string[]): Promise<{ status: number; payload: ProductClothes[]; }> {
+    return http.post<ProductClothes[]>(`/products/by-ids`,{ids})
   }
 }
 
