@@ -9,6 +9,7 @@ import { SkeletonCartPage } from "@/components/ui/skeleton";
 import { useCartStore } from "@/store/cart.store";
 import { ProductClothes } from "@/types/product.type";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const ListCartItem = () => {
@@ -25,6 +26,7 @@ export const ListCartItem = () => {
     enabled: productIds.length > 0,
     staleTime: 1000 * 60 * 5,
   });
+  const router = useRouter()
 
   if (isLoading) return <SkeletonCartPage/>
 
@@ -81,7 +83,8 @@ export const ListCartItem = () => {
             <Button
               disabled={!checked}
               title="continute"
-              className="bg-gray-300 w-full uppercase font-extralight"
+              className="bg-gray-300 w-full uppercase font-extralight justify-center"
+              onClick={() => router.push('/checkout')}
             />
           </div>
         </div>

@@ -46,8 +46,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref
     ) => {
-        const base = 'gap-2 transition duration-200 font-bold box-border';
-        const finalClass = `${base} ${variantClass[variant]} ${sizeClass[size]} ${variant === "icon" && "flex justify-center items-center"} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${className ?? ''}`;
+        const base = 'gap-2 transition duration-200 font-bold box-border flex items-center';
+        const finalClass = `${base} ${variantClass[variant]} ${sizeClass[size]} ${variant === "icon" && "justify-center"} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${className ?? ''}`;
 
         return (
             <button ref={ref} className={finalClass} disabled={disabled} {...rest}>
