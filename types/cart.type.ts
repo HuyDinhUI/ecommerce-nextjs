@@ -23,7 +23,7 @@ export interface CartItem {
 export interface Cart {
   CartItem: CartItem[];
   totalQuantity: number;
-  totalPrice: number;
+  subtotal: number;
 }
 
 export interface UpdateVariantType {

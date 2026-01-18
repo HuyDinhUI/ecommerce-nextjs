@@ -123,41 +123,37 @@ export const CartItem = ({
             position={isMobile ? "left" : "bottom"}
           >
             <div>
-              <div>
-                <div className="">
-                  <span className="text-sm text-gray-400">Color</span>
-                  <div className="flex gap-1 mt-1">
-                    {product?.variants.map((variant) => (
-                      <Button
-                        key={variant.color.code}
-                        className={`w-10 h-10 ${
-                          currentVariant?.color.code === variant.color.code
-                            ? "opacity-100"
-                            : "opacity-50 hover:opacity-100"
-                        }`}
-                        style={{ backgroundColor: variant.color.code }}
-                        onClick={() => {
-                          handeUpdateVariant(variant);
-                        }}
-                      ></Button>
-                    ))}
-                  </div>
-                </div>
-                <div className="mt-5">
-                  <span className="text-sm text-gray-400">Size</span>
-                  <div className="flex gap-1 mt-1">
-                    {currentVariant?.size.map((size) => (
-                      <Button
-                        title={size.size}
-                        key={size.sku}
-                        className="w-10 h-10 flex items-center justify-center font-extralight"
-                        variant={item.sku === size.sku ? "dark" : "outline"}
-                        disabled={size.stock === 0}
-                        onClick={() => handleUpdateSize(size)}
-                      ></Button>
-                    ))}
-                  </div>
-                </div>
+              <span className="text-sm text-gray-400">Color</span>
+              <div className="flex gap-1 mt-1">
+                {product?.variants.map((variant) => (
+                  <Button
+                    key={variant.color.code}
+                    className={`w-10 h-10 ${
+                      currentVariant?.color.code === variant.color.code
+                        ? "opacity-100"
+                        : "opacity-50 hover:opacity-100"
+                    }`}
+                    style={{ backgroundColor: variant.color.code }}
+                    onClick={() => {
+                      handeUpdateVariant(variant);
+                    }}
+                  ></Button>
+                ))}
+              </div>
+            </div>
+            <div className="mt-5">
+              <span className="text-sm text-gray-400">Size</span>
+              <div className="flex gap-1 mt-1">
+                {currentVariant?.size.map((size) => (
+                  <Button
+                    title={size.size}
+                    key={size.sku}
+                    className="w-10 h-10 flex items-center justify-center font-extralight"
+                    variant={item.sku === size.sku ? "dark" : "outline"}
+                    disabled={size.stock === 0}
+                    onClick={() => handleUpdateSize(size)}
+                  ></Button>
+                ))}
               </div>
             </div>
           </Popover>

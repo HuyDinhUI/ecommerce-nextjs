@@ -25,7 +25,7 @@ export function TabsTrigger({
       size="lb"
       onClick={() => setValue(value)}
       className={clsx(
-        "transition uppercase font-light",
+        "transition uppercase font-medium",
         active === value ? "" : "text-gray-500", classname
       )}
       disabled={disable}

@@ -18,36 +18,48 @@ const FilterBar = () => {
   const { onToggle, selectedTag, selectedCategory } = useFilter();
 
   return (
-      <div className="flex gap-3 max-lg:min-w-160">
-        <div className="flex flex-col gap-2">
-          <Button
-            onClick={() => onToggle("tag", "new")}
-            variant="transparent"
-            title="NEW"
-            size="sm"
-            className={`${selectedTag.includes("new") ? "ring-black font-bold" : "font-extralight ring-gray-300"} ring font-beatrice-deck w-full`}
-          />
-          <Button
-            onClick={() => onToggle("tag", "best sellers")}
-            variant="transparent"
-            title="BEST SELLERS"
-            size="sm"
-            className={`${selectedTag.includes("best sellers") ? "ring-black font-bold" : "font-extralight ring-gray-300"} ring font-beatrice-deck w-full`}
-          />
-        </div>
-        <div className="grid grid-cols-4 grid-rows-2 gap-2 flex-1">
-          {CATEGORY.map((item, idx) => (
-            <Button
-              onClick={() => onToggle("category", item)}
-              key={idx}
-              title={item}
-              variant="transparent"
-              size="sm"
-              className={`${selectedCategory.includes(item) ? "ring-black font-bold" : "font-extralight ring-gray-300"} ring font-beatrice-deck w-full`}
-            />
-          ))}
-        </div>
+    <div className="flex gap-3 max-lg:min-w-160">
+      <div className="flex flex-col gap-2">
+        <Button
+          onClick={() => onToggle("tag", "new")}
+          variant="transparent"
+          title="NEW"
+          size="sm"
+          className={`${
+            selectedTag.includes("new")
+              ? "ring-black font-bold"
+              : "font-extralight ring-gray-300"
+          } ring font-beatrice-deck w-full justify-center`}
+        />
+        <Button
+          onClick={() => onToggle("tag", "best sellers")}
+          variant="transparent"
+          title="BEST SELLERS"
+          size="sm"
+          className={`${
+            selectedTag.includes("best sellers")
+              ? "ring-black font-bold"
+              : "font-extralight ring-gray-300"
+          } ring font-beatrice-deck w-full justify-center`}
+        />
       </div>
+      <div className="grid grid-cols-4 grid-rows-2 gap-2 flex-1">
+        {CATEGORY.map((item, idx) => (
+          <Button
+            onClick={() => onToggle("category", item)}
+            key={idx}
+            title={item}
+            variant="transparent"
+            size="sm"
+            className={`${
+              selectedCategory.includes(item)
+                ? "ring-black font-bold"
+                : "font-extralight ring-gray-300"
+            } ring font-beatrice-deck w-full justify-center`}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

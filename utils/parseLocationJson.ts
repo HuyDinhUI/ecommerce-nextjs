@@ -1,7 +1,7 @@
 import { Province, RawLocation } from "@/types/vietnam.type";
 
 export function parseVnLocations(data: RawLocation[]): Province[] {
-  const provinces = data.filter((i) => i.level === "thanh-pho");
+  const provinces = data.filter((i) => i.level === "thanh-pho" || i.level === "tinh");
 
   const wards = data.filter(
     (i) => i.level === "xa" || i.level === "phuong"

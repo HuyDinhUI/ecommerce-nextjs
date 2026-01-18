@@ -53,8 +53,8 @@ const FormCheckout = () => {
       payment: ["paymentMethod"],
     };
 
-    const valid = await form.trigger(fieldMap[step]);
-    if (!valid) return;
+    // const valid = await form.trigger(fieldMap[step]);
+    // if (!valid) return;
 
     if (step === "information") setStep("shipping");
     if (step === "shipping") setStep("payment");
@@ -95,15 +95,17 @@ const FormCheckout = () => {
               </TabsContent>
             </Tabs>
           </div>
-          <div className="grid grid-cols-2 justify-end">
+          <div className="grid grid-cols-2 gap-5 justify-end">
             {step !== "information" && (
               <Button
-                title="Back"
+                title={step === "payment" ? "Shipping" : "Information"}
                 type="button"
+                variant="outline"
+                size="lg"
+                className="text-sm justify-center font-beatrice-deck font-light"
                 onClick={() =>
                   setStep(step === "payment" ? "shipping" : "information")
                 }
-                
               ></Button>
             )}
 
@@ -114,10 +116,15 @@ const FormCheckout = () => {
                 onClick={next}
                 size="lg"
                 className="flex-row-reverse justify-between bg-gray-300 text-sm font-beatrice-deck font-light"
-                icon={<ArrowLongIcon/>}
+                icon={<ArrowLongIcon />}
               ></Button>
             ) : (
-              <Button type="submit">Place order</Button>
+              <Button
+                type="submit"
+                size="lg"
+                className="bg-gray-300 text-sm justify-center"
+                title="ORDER"
+              ></Button>
             )}
           </div>
         </form>

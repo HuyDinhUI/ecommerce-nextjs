@@ -138,7 +138,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
         </div>
         <Button
           title="ADD"
-          className="w-full bg-gray-300 font-light mt-3 max-lg:fixed max-lg:z-99 max-lg:bottom-0 max-lg:left-0 max-lg:right-0"
+          className="w-full bg-gray-300 font-light mt-3 max-lg:fixed max-lg:z-99 max-lg:bottom-0 max-lg:left-0 max-lg:right-0 justify-center"
           size="lg"
           onClick={() => handleAddToCart()}
         />

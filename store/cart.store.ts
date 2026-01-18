@@ -6,11 +6,11 @@ import { persist } from "zustand/middleware";
 
 const Calculate = (items: CartItem[]) => {
   const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = items.reduce(
+  const subtotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  return { totalQuantity, totalPrice };
+  return { totalQuantity, subtotal };
 };
 
 interface CartState extends Cart {
@@ -26,7 +26,7 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       CartItem: [],
       totalQuantity: 0,
-      totalPrice: 0,
+      subtotal: 0,
 
       addItem: (item) => {
         const items = [...get().CartItem];
@@ -57,7 +57,7 @@ export const useCartStore = create<CartState>()(
       },
 
       clearCart: () => {
-        set({ CartItem: [], totalQuantity: 0, totalPrice: 0 });
+        set({ CartItem: [], totalQuantity: 0, subtotal: 0 });
       },
 
       updateVariant: ({

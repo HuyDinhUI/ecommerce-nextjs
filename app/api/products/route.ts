@@ -16,8 +16,6 @@ interface Params {
 export const GET = (request: Request) => {
 
     const {searchParams} = new URL(request.url)
-
-    console.log(searchParams.get("color"))
     
     return Response.json(DATA_CLOTHES_MOCK, {status: 200})
 }

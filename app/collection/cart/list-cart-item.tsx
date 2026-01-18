@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { SkeletonCartPage } from "@/components/ui/skeleton";
+import { useTotalPrice } from "@/hooks/useTotalPrice";
 import { useCartStore } from "@/store/cart.store";
+import { useCheckoutStore } from "@/store/checkout.store";
 import { ProductClothes } from "@/types/product.type";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -17,8 +19,10 @@ export const ListCartItem = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const cart = {
     items: useCartStore((state) => state.CartItem),
-    totalPrice: useCartStore((state) => state.totalPrice),
+    subtotal: useCartStore((state) => state.subtotal),
   };
+  const {shippingFee} = useCheckoutStore()
+  const total = useTotalPrice()
   const productIds = [...new Set(cart.items.map((i) => i.productId))];
   const { data, isLoading } = useQuery({
     queryKey: ["cart-products", productIds],
@@ -26,6 +30,7 @@ export const ListCartItem = () => {
     enabled: productIds.length > 0,
     staleTime: 1000 * 60 * 5,
   });
+  
   const router = useRouter()
 
   if (isLoading) return <SkeletonCartPage/>
@@ -52,18 +57,18 @@ export const ListCartItem = () => {
           <div className="mt-6 text-[12px]">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>${cart.totalPrice}</span>
+              <span>${cart.subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mt-2">
               <span>Shipping</span>
-              <span>$10.00</span>
+              <span>${shippingFee.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mt-4 border-t border-gray-300 pt-4">
               <span className="font-beatrice-deck font-bold uppercase">
                 Total <span className="text-[10px]">{`(TAX INCL.)`}</span>
               </span>
               <span className="font-beatrice-deck font-bold uppercase">
-                ${cart.totalPrice + 10}
+                ${total.toFixed(2)}
               </span>
             </div>
             <div className="flex items-center mt-10">

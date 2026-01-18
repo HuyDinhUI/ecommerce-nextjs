@@ -46,7 +46,7 @@ const FilterSidebar = () => {
               key={idx}
               variant={selectedSizes.includes(item) ? "dark" : "outline"}
               title={item}
-              className="uppercase text-center font-extralight max-sm:text-[10px]"
+              className="uppercase text-center font-extralight max-sm:text-[10px] justify-center"
               size={isMobile ? "sm" : "md"}
               onClick={() => onToggle("size", item)}
             />
