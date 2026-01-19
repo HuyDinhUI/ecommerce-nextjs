@@ -1,5 +1,5 @@
 import { CreateParams } from "@/utils/createParam";
-import { ProductService } from "../services/product-service";
+import { ProductService } from "../../services/product-service";
 import { Params } from "@/types/params.type";
 import FilterSidebar from "./filter-sidebar";
 import FilterBar from "./filter-bar";

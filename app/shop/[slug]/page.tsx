@@ -1,4 +1,4 @@
-import { ProductService } from "@/app/services/product-service";
+import { ProductService } from "@/services/product-service";
 import { ProductDetail } from "@/components/product/product-detail";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 

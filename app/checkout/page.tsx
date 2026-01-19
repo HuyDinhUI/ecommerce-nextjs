@@ -1,20 +1,27 @@
-import { Metadata } from "next";
-import FormCheckout from "./form-checkout"
-import OrderDetail from "./order-detail"
+"use client";
 
-export const metadata: Metadata = {
-  title: "Checkout | Lumina",
-  description: "Store fashion",
-};
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import FormCheckout from "./form-checkout";
+import OrderDetail from "./order-detail";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const CheckoutPage = () => {
-    return (
-        <div className="grid grid-cols-2 p-10">
-            <FormCheckout/>
-            <OrderDetail/>
+  const queryClient = new QueryClient();
+  return (
+    <PayPalScriptProvider
+      options={{
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+        currency: "USD",
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <div className="xl:grid xl:grid-cols-2 md:p-10 max-sm:p-5">
+          <FormCheckout />
+          <OrderDetail />
         </div>
-    )
-}
+      </QueryClientProvider>
+    </PayPalScriptProvider>
+  );
+};
 
-export default CheckoutPage
+export default CheckoutPage;

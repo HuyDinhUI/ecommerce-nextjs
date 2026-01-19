@@ -11,45 +11,45 @@ const BeatriceDeck = localFont({
     {
       path: "../public/fonts/beatrice/BeatriceDeckTRIAL-Extrabold-BF64829e8ed31e6.otf",
       weight: "800",
-      style: "normal"
+      style: "normal",
     },
     {
       path: "../public/fonts/beatrice/BeatriceDeckTRIAL-Medium-BF64829e8e8d71a.otf",
       weight: "500",
-      style: "normal"
+      style: "normal",
     },
     {
       path: "../public/fonts/beatrice/BeatriceDeckTRIAL-Regular-BF64829e8e41476.otf",
       weight: "400",
-      style: "normal"
+      style: "normal",
     },
   ],
   variable: "--font-beatrice-deck",
-  display: "swap"
-})
+  display: "swap",
+});
 
 const Beatrice = localFont({
   src: [
     {
       path: "../public/fonts/beatrice/BeatriceTRIAL-Medium-BF64829e8ac35f2.otf",
       weight: "500",
-      style: "normal"
+      style: "normal",
     },
     {
       path: "../public/fonts/beatrice/BeatriceTRIAL-Regular-BF64829e8a62240.otf",
       weight: "400",
-      style: "normal"
-    }
+      style: "normal",
+    },
   ],
   variable: "--font-beatrice",
-  display: "swap"
-})
+  display: "swap",
+});
 
 const Inter = InterFont({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["200", "400", "600", "900"]
-})
+  weight: ["200", "400", "600", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Lumina",
@@ -66,9 +66,9 @@ export default function RootLayout({
       <body
         className={`${BeatriceDeck.variable} ${Beatrice.variable} ${Inter.variable} antialiased tracking-widest`}
       >
-        <Header/>
+        <Header />
         <main>{children}</main>
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );

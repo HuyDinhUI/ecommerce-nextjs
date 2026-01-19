@@ -17,16 +17,16 @@ const CollectionLayout = ({ children }: { children: React.ReactNode }) => {
             <ol className="flex items-center space-x-4 uppercase text-sm">
               <li
                 className={`${
-                  pathname === "/collection/cart"
+                  pathname === "/cart"
                     ? "opacity-100 font-bold"
                     : "opacity-50"
                 } flex items-center space-x-2`}
               >
-                <Link href={"/collection/cart"}>shopping bag</Link>
+                <Link href={"/cart"}>shopping bag</Link>
               </li>
               <li
                 className={`${
-                  pathname === "/collection/favourite"
+                  pathname === "/favourite"
                     ? "opacity-100 font-bold"
                     : "opacity-50"
                 } flex items-center space-x-2`}
@@ -34,7 +34,7 @@ const CollectionLayout = ({ children }: { children: React.ReactNode }) => {
                 <div className="bg-white p-2">
                   <HeartIcon width="15" height="15" fill="black" />
                 </div>
-                <Link href={"/collection/favourite"}>favouries</Link>
+                <Link href={"/favourite"}>favouries</Link>
               </li>
             </ol>
             <Separator classname="my-4 border-gray-300" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductService } from "@/app/services/product-service";
+import { ProductService } from "@/services/product-service";
 import { CartItem } from "@/components/cart/cart-item";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";

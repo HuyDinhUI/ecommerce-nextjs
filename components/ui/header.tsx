@@ -55,17 +55,17 @@ const Header = () => {
       <div className="flex justify-end relative z-99">
         <ol className="flex items-center gap-4 max-sm:gap-2">
           <li className="bg-black p-3 rounded-full max-xl:hidden">
-            <Link href={"/collection/favourite"}>
+            <Link href={"/favourite"}>
               <HeartIcon width="15" height="15" />
             </Link>
           </li>
           <li className="bg-black p-3 rounded-full">
-            <Link href={"/collection/cart"}>
+            <Link href={"/cart"}>
               <CartIcon width="15" height="15" />
             </Link>
           </li>
           <li className="bg-black p-3 rounded-full">
-            <Link href={"/collection/personal"}>
+            <Link href={"/personal"}>
               <UserIcon width="15" height="15" />
             </Link>
           </li>

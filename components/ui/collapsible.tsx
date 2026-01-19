@@ -2,10 +2,11 @@
 
 import { ReactNode, useState } from "react";
 import { GoChevronRight } from "react-icons/go";
+import { motion } from "motion/react";
 
 interface Props {
-    label: string
-    children: ReactNode
+  label: string;
+  children: ReactNode;
 }
 
 export const Collapsible = ({ children, label }: Props) => {
@@ -24,7 +25,9 @@ export const Collapsible = ({ children, label }: Props) => {
           } transition-transform`}
         />
       </div>
-      <div className={`${isOpen ? "min-h-20" : "h-0 overflow-hidden"} mt-3`}>{children}</div>
+      <div className={` my-3`}>
+        <motion.div hidden={!isOpen}>{children}</motion.div>
+      </div>
     </div>
   );
 };

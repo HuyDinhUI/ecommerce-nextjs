@@ -37,6 +37,8 @@ const FormCheckout = () => {
     shouldUnregister: false,
   });
 
+  const method = form.watch("paymentMethod");
+
   const next = async () => {
     const fieldMap: Record<typeof step, (keyof CheckoutFormValues)[]> = {
       information: [
@@ -53,8 +55,8 @@ const FormCheckout = () => {
       payment: ["paymentMethod"],
     };
 
-    // const valid = await form.trigger(fieldMap[step]);
-    // if (!valid) return;
+    const valid = await form.trigger(fieldMap[step]);
+    if (!valid) return;
 
     if (step === "information") setStep("shipping");
     if (step === "shipping") setStep("payment");
@@ -64,14 +66,18 @@ const FormCheckout = () => {
     console.log("checkout data:", data);
   };
   return (
-    <div className="pe-20">
+    <div className="xl:pe-20">
       <FormProvider {...form}>
         <h1 className="text-2xl font-beatrice-deck uppercase">Checkout</h1>
         <form onSubmit={form.handleSubmit(submitCheckout)}>
           <div className="mt-3">
             <Tabs value={step} onValueChange={setStep}>
-              <TabsList classname="gap-10">
-                <TabsTrigger value="information" title="Information" />
+              <TabsList classname="xl:gap-10 max-xl:gap-5 max-xl:text-sm">
+                <TabsTrigger
+                  disable={step !== "information"}
+                  value="information"
+                  title="Information"
+                />
                 <TabsTrigger
                   disable={step !== "shipping"}
                   value="shipping"
@@ -109,7 +115,7 @@ const FormCheckout = () => {
               ></Button>
             )}
 
-            {step !== "payment" ? (
+            {step !== "payment" && (
               <Button
                 title={step === "information" ? "Shipping" : "Payment"}
                 type="button"
@@ -118,12 +124,13 @@ const FormCheckout = () => {
                 className="flex-row-reverse justify-between bg-gray-300 text-sm font-beatrice-deck font-light"
                 icon={<ArrowLongIcon />}
               ></Button>
-            ) : (
+            )}
+            {step === "payment" && method === "cod" && (
               <Button
                 type="submit"
                 size="lg"
                 className="bg-gray-300 text-sm justify-center"
-                title="ORDER"
+                title="Checkout"
               ></Button>
             )}
           </div>

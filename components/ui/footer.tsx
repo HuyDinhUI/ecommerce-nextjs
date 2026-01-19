@@ -75,7 +75,7 @@ const Footer = () => {
           </div>
           <div className="relative">
             <div className="absolute top-1/2 translate-y-1/2">
-              <span className="text-nowrap text-gray-400">Near-field communication</span>
+              <span className="text-nowrap text-gray-400 max-lg:text-[12px]">Near-field communication</span>
             </div>
           </div>
         </div>

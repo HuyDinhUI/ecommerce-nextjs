@@ -11,13 +11,13 @@ const OrderDetail = () => {
   const {shippingFee} = useCheckoutStore()
   const total = useTotalPrice()
   return (
-    <div className="px-20 pt-20 font-medium">
+    <div className="xl:px-20 pt-20 font-medium">
       <div className="ring ring-gray-300 p-10 relative">
         <h4 className="uppercase font-beatrice-deck font-light">your order</h4>
         <div className="flex flex-col gap-5 mt-5">
           {CartItem.map((item) => (
             <div key={item.sku} className="flex gap-3">
-              <div className="aspect-3/4 w-30 relative ring ring-gray-300">
+              <div className="aspect-3/4 xl:w-30 max-xl:w-35 relative ring ring-gray-300">
                 <Image src={item.image} fill alt={item.name} />
               </div>
               <div className="flex-1 text-sm font-beatrice-deck font-light py-5">
