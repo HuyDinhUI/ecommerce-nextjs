@@ -13,19 +13,16 @@ export function useCheckout() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // 1️⃣ Create Order
   const createOrderMutation = useMutation({
     mutationFn: OrderService.createOrder,
     onMutate: () => setState("CREATING_ORDER"),
   });
 
-  // 2️⃣ Create PayPal Order
   const createPaypalOrderMutation = useMutation({
     mutationFn: PayPalService.createPaypalOrder,
     onMutate: () => setState("CREATING_PAYMENT"),
   });
 
-  // 3️⃣ Capture Payment
   const capturePaypalMutation = useMutation({
     mutationFn: PayPalService.capturePaypalOrder,
     onMutate: () => setState("CAPTURING_PAYMENT"),
@@ -35,19 +32,15 @@ export function useCheckout() {
     },
   });
 
-  // ===== PUBLIC API =====
-
   const startCheckout = async (payload: CheckoutPayload) => {
     try {
       setError(null);
 
-      // Create Order DB
       const order = await createOrderMutation.mutateAsync(payload);
       setOrderId(order.payload.orderId);
 
-      // Create PayPal Order
       const paypal = await createPaypalOrderMutation.mutateAsync(order.payload.orderId);
-      return paypal.payload.id; // trả cho PayPalButtons
+      return paypal.payload.id;
     } catch (err: any) {
       setState("FAILED");
       setError(err.message);
@@ -72,17 +65,14 @@ export function useCheckout() {
   };
 
   return {
-    // actions
     startCheckout,
     capturePayment,
     reset,
 
-    // state
     state,
     orderId,
     error,
 
-    // loading flags
     isLoading:
       createOrderMutation.isPending ||
       createPaypalOrderMutation.isPending ||

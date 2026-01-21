@@ -4,7 +4,9 @@ import localFont from "next/font/local";
 import { Inter as InterFont } from "next/font/google";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
-
+import Sidebar from "@/components/ui/sidebar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ClientProvider from "@/providers/client.provider";
 
 const BeatriceDeck = localFont({
   src: [
@@ -67,8 +69,11 @@ export default function RootLayout({
         className={`${BeatriceDeck.variable} ${Beatrice.variable} ${Inter.variable} antialiased tracking-widest`}
       >
         <Header />
-        <main>{children}</main>
+        <main>
+          <ClientProvider>{children}</ClientProvider>
+        </main>
         <Footer />
+        <Sidebar />
       </body>
     </html>
   );

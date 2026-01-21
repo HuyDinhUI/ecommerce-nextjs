@@ -25,7 +25,7 @@ export const ProductList = ({ items }: props) => {
 export const ProductItem = ({ item }: { item: ProductClothes }) => {
   const thumbnail = item.variants[0].image.find((i) => i.isThumbnail);
   const isVariants = item.variants.length > 1;
-
+  
   return (
     <div>
       {thumbnail?.url ? (

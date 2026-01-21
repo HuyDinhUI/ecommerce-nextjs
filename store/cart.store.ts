@@ -19,6 +19,8 @@ interface CartState extends Cart {
   clearCart: () => void;
   updateQuantity: (sku: string, quantity: number) => void;
   updateVariant: (payload: UpdateVariantType) => void;
+  snapshot: () => CartItem[];
+  restore: (items: CartItem[]) => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -105,6 +107,14 @@ export const useCartStore = create<CartState>()(
         }
 
         set({ CartItem: items, ...Calculate(items) });
+      },
+
+      snapshot: () => {
+        return get().CartItem;
+      },
+
+      restore: (items) => {
+        set({ CartItem: items, ...Calculate });
       },
     }),
     {

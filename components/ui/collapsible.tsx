@@ -2,7 +2,6 @@
 
 import { ReactNode, useState } from "react";
 import { GoChevronRight } from "react-icons/go";
-import { motion } from "motion/react";
 
 interface Props {
   label: string;
@@ -26,7 +25,7 @@ export const Collapsible = ({ children, label }: Props) => {
         />
       </div>
       <div className={` my-3`}>
-        <motion.div hidden={!isOpen}>{children}</motion.div>
+        <div hidden={!isOpen}>{children}</div>
       </div>
     </div>
   );

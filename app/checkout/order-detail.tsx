@@ -8,8 +8,8 @@ import Image from "next/image";
 
 const OrderDetail = () => {
   const { CartItem, totalQuantity, subtotal } = useCartStore();
-  const {shippingFee} = useCheckoutStore()
-  const total = useTotalPrice()
+  const { shippingFee } = useCheckoutStore();
+  const total = useTotalPrice();
   return (
     <div className="xl:px-20 pt-20 font-medium">
       <div className="ring ring-gray-300 p-10 relative">

@@ -1,7 +1,7 @@
 import { DATA_CLOTHES_MOCK } from "@/app/mock/products.mock";
 
 export const GET = async (
-  request: Request,
+  req: Request,
   ctx: RouteContext<"/api/products/[id]">
 ) => {
   const { id } = await ctx.params;

@@ -5,15 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
-import { cartFacade } from "@/facades/cart.facade";
 import { ExchangeIcon } from "@/icon";
-import {
-  ProductClothes,
-  ProductVariant,
-  VariantSize,
-} from "@/types/product.type";
+import { ProductClothes, ProductVariant, VariantSize } from "@/types/product.type";
 import Popover from "../ui/popover/popover";
 import useIsMobile from "@/hooks/useIsMobile";
+import useCart from "@/hooks/useCart";
 
 export const CartItem = ({
   item,
@@ -22,18 +18,25 @@ export const CartItem = ({
   item: CartItemType;
   product: ProductClothes;
 }) => {
+  const {
+    handleRemoveCart,
+    handleUpdateColor,
+    handleUpdateSize,
+    handleUpdateQuantity,
+  } = useCart();
+  const { isMobile } = useIsMobile();
+
   const currentVariant = product?.variants.find(
     (v) => v.color.code === item.attribute.color.code
   );
-  const { isMobile } = useIsMobile();
 
-  const handeUpdateVariant = (variant: ProductVariant) => {
-    const sizeAvailable = variant.size.find((s) => s.stock > 0);
+  const prepareDataUpdateColor = (variant: ProductVariant, cartItem: CartItemType) => {
+     const sizeAvailable = variant.size.find((s) => s.stock > 0);
     if (!sizeAvailable) return;
     const thumbnail = variant.image.find((i) => i.isThumbnail);
     const payload: UpdateVariantType = {
-      productId: item.productId,
-      oldSku: item.sku,
+      productId: cartItem.productId,
+      oldSku: cartItem.sku,
       newSku: sizeAvailable.sku,
       newPrice: sizeAvailable.price!,
       newImage: thumbnail?.url ?? "",
@@ -45,14 +48,18 @@ export const CartItem = ({
         size: variant.size[0].size,
       },
     };
-    cartFacade.updateVariant(payload);
-  };
 
-  const handleUpdateSize = (sizeItem: VariantSize) => {
+    return payload
+  }
+
+  const prepareDataUpdateSize = (sizeItem: VariantSize, cartItem: CartItemType) => {
+    const currentVariant = product?.variants.find(
+      (v) => v.color.code === cartItem.attribute.color.code
+    );
     const thumbnail = currentVariant?.image.find((i) => i.isThumbnail);
     const payload: UpdateVariantType = {
-      productId: item.productId,
-      oldSku: item.sku,
+      productId: cartItem.productId,
+      oldSku: cartItem.sku,
       newSku: sizeItem.sku,
       newPrice: sizeItem.price!,
       newImage: thumbnail?.url ?? "",
@@ -64,8 +71,9 @@ export const CartItem = ({
         size: sizeItem.size,
       },
     };
-    cartFacade.updateVariant(payload);
-  };
+
+    return payload
+  }
 
   return (
     <div className="flex gap-5">
@@ -89,10 +97,7 @@ export const CartItem = ({
         </div>
       </div>
       <div className="flex flex-col items-center">
-        <Button
-          onClick={() => cartFacade.removeCard(item.sku)}
-          icon={<IoClose />}
-        />
+        <Button onClick={() => handleRemoveCart(item.sku)} icon={<IoClose />} />
         <div className="flex flex-col gap-3 mt-20">
           <span>{item.attribute.size}</span>
           <Button
@@ -104,8 +109,9 @@ export const CartItem = ({
               className="w-8 h-8 flex justify-center items-center font-extralight"
               title="+"
               onClick={() =>
-                cartFacade.updateQuantity(item.sku, item.quantity + 1)
+                handleUpdateQuantity(item.quantity + 1, item)
               }
+              // disabled={item.quantity === stock}
             ></Button>
             <span className="border-t border-gray-500 border-b w-8 h-8 py-1 text-center">
               {item.quantity}
@@ -114,8 +120,9 @@ export const CartItem = ({
               className="w-8 h-8 flex justify-center items-center font-extralight"
               title="-"
               onClick={() =>
-                cartFacade.updateQuantity(item.sku, item.quantity - 1)
+                handleUpdateQuantity(item.quantity - 1, item)
               }
+              disabled={item.quantity === 1}
             ></Button>
           </div>
           <Popover
@@ -135,7 +142,7 @@ export const CartItem = ({
                     }`}
                     style={{ backgroundColor: variant.color.code }}
                     onClick={() => {
-                      handeUpdateVariant(variant);
+                      handleUpdateColor(prepareDataUpdateColor(variant, item)!);
                     }}
                   ></Button>
                 ))}
@@ -151,7 +158,7 @@ export const CartItem = ({
                     className="w-10 h-10 flex items-center justify-center font-extralight"
                     variant={item.sku === size.sku ? "dark" : "outline"}
                     disabled={size.stock === 0}
-                    onClick={() => handleUpdateSize(size)}
+                    onClick={() => handleUpdateSize(prepareDataUpdateSize(size, item))}
                   ></Button>
                 ))}
               </div>

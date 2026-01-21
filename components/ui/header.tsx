@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
+import { useSidebarStore } from "@/store/sidebar.store";
+import { Button } from "./button";
 
 const ITEMS_NAVBAR = [
   {
@@ -24,7 +26,7 @@ const ITEMS_NAVBAR = [
 const Header = () => {
   const location = usePathname();
   const scrollUp = useScrollDirection();
-
+  const { setOpen } = useSidebarStore();
   return (
     <header
       className={`flex justify-between items-center px-10 max-sm:px-5 py-10 sticky top-0 z-999 bg-white ${
@@ -33,7 +35,7 @@ const Header = () => {
       style={{ backgroundImage: "url('/noisy_background.png')" }}
     >
       <div className="flex gap-5">
-        <MenuIcon classname="lg:hidden" />
+        <Button onClick={() => setOpen(true)} size="ic" className="lg:hidden z-999" icon={<MenuIcon />} />
         <nav className="font-beatrice-deck font-light max-lg:hidden relative z-99">
           <ol className="flex gap-5">
             {ITEMS_NAVBAR.map((item, idx) => (
@@ -70,9 +72,6 @@ const Header = () => {
             </Link>
           </li>
         </ol>
-
-       
-        
       </div>
     </header>
   );

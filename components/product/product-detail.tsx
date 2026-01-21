@@ -1,52 +1,38 @@
 "use client";
 
-import {
-  ProductClothes,
-  ProductImage,
-  ProductVariant,
-  VariantSize,
-} from "@/types/product.type";
+import { ProductClothes } from "@/types/product.type";
 import Image from "next/image";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Favourite } from "../ui/favourite";
-import { cartFacade } from "@/facades/cart.facade";
-import { CartItem } from "@/types/cart.type";
 import { FavouriteFacade } from "@/facades/favourite.facade";
 import { FavouriteItem } from "@/types/favourite.type";
+import useProductVariants from "@/hooks/useProductVariants";
+import useCart from "@/hooks/useCart";
+import { Spinner } from "../ui/loading";
+import { CartItem } from "@/types/cart.type";
 
 interface ProductDetailProps {
   data: ProductClothes;
 }
 
 export const ProductDetail = ({ data }: ProductDetailProps) => {
-  const [currentVariant, setCurrentVariant] = useState<ProductVariant>(
-    data.variants[0]
-  );
-  const thumbnail = currentVariant.image.find((img) => img.isThumbnail);
-  const [currentImage, setCurrentImage] = useState<ProductImage>(thumbnail!);
-  const defaultSize = currentVariant.size[0];
-  const [selectedSize, setSelectedSize] = useState<VariantSize>(defaultSize);
+  const {
+    setCurrentImage,
+    setCurrentVariant,
+    setSelectedSize,
+    currentImage,
+    currentVariant,
+    selectedSize,
+  } = useProductVariants(data);
   const isFavourite = FavouriteFacade.useIsFavourite(data.id);
+  const { handleAddToCart, loading } = useCart();
 
-  const handleFavouriteChange = () => {
-    const favouriteItem: FavouriteItem = {
-      productId: data.id,
-      name: data.name,
-      slug: data.slug,
-      thumnail: thumbnail?.url ?? "",
-    };
-
-    FavouriteFacade.toggle(favouriteItem);
-  };
-
-  const handleAddToCart = () => {
+  const prepareData = () => {
     const cartItem: CartItem = {
       productId: data.id,
       sku: selectedSize.sku,
       attribute: {
-        
         color: currentVariant.color,
         size: selectedSize.size,
       },
@@ -58,7 +44,17 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
       price: selectedSize.price ?? data.price,
     };
 
-    cartFacade.addCard(cartItem);
+    return cartItem;
+  };
+
+  const handleFavouriteChange = () => {
+    // const favouriteItem: FavouriteItem = {
+    //   productId: data.id,
+    //   name: data.name,
+    //   slug: data.slug,
+    //   thumnail: thumbnail?.url ?? "",
+    // };
+    // FavouriteFacade.toggle(favouriteItem);
   };
 
   return (
@@ -137,10 +133,11 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
           <span>measurement guide</span>
         </div>
         <Button
-          title="ADD"
+          title={loading ? "" : "ADD"}
+          icon={loading ? <Spinner /> : ""}
           className="w-full bg-gray-300 font-light mt-3 max-lg:fixed max-lg:z-99 max-lg:bottom-0 max-lg:left-0 max-lg:right-0 justify-center"
           size="lg"
-          onClick={() => handleAddToCart()}
+          onClick={() => handleAddToCart(prepareData())}
         />
         <Favourite
           classname="absolute top-0 right-0"

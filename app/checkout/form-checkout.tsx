@@ -2,7 +2,7 @@
 
 import { CheckoutFormValues, CheckoutSchema } from "@/schemas/checkout.schema";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tabs } from "@/components/ui/tabs/tabs";
 import { TabsList } from "@/components/ui/tabs/tabs-list";
@@ -37,7 +37,7 @@ const FormCheckout = () => {
     shouldUnregister: false,
   });
 
-  const method = form.watch("paymentMethod");
+  const method = useWatch({ control: form.control, name: "paymentMethod" });
 
   const next = async () => {
     const fieldMap: Record<typeof step, (keyof CheckoutFormValues)[]> = {

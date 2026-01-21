@@ -15,14 +15,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const ListCartItem = () => {
-  
   const [checked, setChecked] = useState<boolean>(false);
   const cart = {
     items: useCartStore((state) => state.CartItem),
     subtotal: useCartStore((state) => state.subtotal),
   };
-  const {shippingFee} = useCheckoutStore()
-  const total = useTotalPrice()
+  const { shippingFee } = useCheckoutStore();
+  const total = useTotalPrice();
   const productIds = [...new Set(cart.items.map((i) => i.productId))];
   const { data, isLoading } = useQuery({
     queryKey: ["cart-products", productIds],
@@ -30,10 +29,10 @@ export const ListCartItem = () => {
     enabled: productIds.length > 0,
     staleTime: 1000 * 60 * 5,
   });
-  
-  const router = useRouter()
 
-  if (isLoading) return <SkeletonCartPage/>
+  const router = useRouter();
+
+  if (isLoading) return <SkeletonCartPage />;
 
   return (
     <div>
@@ -89,7 +88,7 @@ export const ListCartItem = () => {
               disabled={!checked}
               title="continute"
               className="bg-gray-300 w-full uppercase font-extralight justify-center"
-              onClick={() => router.push('/checkout')}
+              onClick={() => router.push("/checkout")}
             />
           </div>
         </div>
