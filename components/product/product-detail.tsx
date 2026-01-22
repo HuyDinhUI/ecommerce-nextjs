@@ -5,12 +5,12 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Favourite } from "../ui/favourite";
-import { FavouriteFacade } from "@/facades/favourite.facade";
-import { FavouriteItem } from "@/types/favourite.type";
 import useProductVariants from "@/hooks/useProductVariants";
 import useCart from "@/hooks/useCart";
 import { Spinner } from "../ui/loading";
 import { CartItem } from "@/types/cart.type";
+import useFavourite from "@/hooks/useFavourite";
+import { FavouriteItem } from "@/types/favourite.type";
 
 interface ProductDetailProps {
   data: ProductClothes;
@@ -25,9 +25,9 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
     currentVariant,
     selectedSize,
   } = useProductVariants(data);
-  const isFavourite = FavouriteFacade.useIsFavourite(data.id);
   const { handleAddToCart, loading } = useCart();
-
+  const { handleToggleFavourite, isFavourite } =
+    useFavourite();
   const prepareData = () => {
     const cartItem: CartItem = {
       productId: data.id,
@@ -47,14 +47,15 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
     return cartItem;
   };
 
-  const handleFavouriteChange = () => {
-    // const favouriteItem: FavouriteItem = {
-    //   productId: data.id,
-    //   name: data.name,
-    //   slug: data.slug,
-    //   thumnail: thumbnail?.url ?? "",
-    // };
-    // FavouriteFacade.toggle(favouriteItem);
+  const prepareDataFavourite = () => {
+    const favouriteItem: FavouriteItem = {
+      productId: data.id,
+      name: data.name,
+      slug: data.slug,
+      thumnail: data.variants[0].image.find((i) => i.isThumbnail)?.url ?? '',
+    };
+
+    return favouriteItem;
   };
 
   return (
@@ -141,8 +142,8 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
         />
         <Favourite
           classname="absolute top-0 right-0"
-          checked={isFavourite}
-          onCheckedChange={() => handleFavouriteChange()}
+          checked={isFavourite(data.id)}
+          onCheckedChange={(checked) => handleToggleFavourite(prepareDataFavourite(), checked)}
         />
       </div>
     </div>

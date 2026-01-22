@@ -1,11 +1,10 @@
+import { toast } from "@/components/ui/toast";
 import { CartService } from "@/services/cart-service";
 import { useCartStore } from "@/store/cart.store";
 import { CartItem, UpdateVariantType } from "@/types/cart.type";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 
 const useCart = () => {
-  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     addItem,
@@ -18,32 +17,22 @@ const useCart = () => {
 
   const addCartMutation = useMutation({
     mutationFn: CartService.add,
-    onMutate: () => setLoading(true),
-    onSuccess: () => setLoading(false),
   });
 
   const removeCartMutation = useMutation({
     mutationFn: CartService.remove,
-    onMutate: () => setLoading(true),
-    onSuccess: () => setLoading(false),
   });
 
   const updateColorMutation = useMutation({
     mutationFn: CartService.updateColor,
-    onMutate: () => setLoading(true),
-    onSuccess: () => setLoading(false),
   });
 
   const updateSizeMutation = useMutation({
     mutationFn: CartService.updateSize,
-    onMutate: () => setLoading(true),
-    onSuccess: () => setLoading(false),
   });
 
   const updateQuantityMutation = useMutation({
     mutationFn: CartService.updateQuantity,
-    onMutate: () => setLoading(true),
-    onSuccess: () => setLoading(false),
   });
 
   const handleAddToCart = (cartItem: CartItem) => {
@@ -52,9 +41,11 @@ const useCart = () => {
     addItem(cartItem);
 
     addCartMutation.mutate(cartItem, {
+      onSuccess: () => {
+        toast.success("Item has been added to cart.")
+      },
       onError: () => {
         restore(prev);
-        setLoading(false);
       },
     });
   };
@@ -67,7 +58,6 @@ const useCart = () => {
     removeCartMutation.mutate(sku, {
       onError: () => {
         restore(prev);
-        setLoading(false);
       },
     });
   };
@@ -86,7 +76,7 @@ const useCart = () => {
       {
         onError: () => {
           restore(prev);
-          setLoading(false);
+
         },
       }
     );
@@ -105,7 +95,7 @@ const useCart = () => {
       {
         onError: () => {
           restore(prev);
-          setLoading(false);
+
         },
       }
     );
@@ -123,7 +113,7 @@ const useCart = () => {
       {
         onError: () => {
           restore(prev);
-          setLoading(false);
+
         },
       }
     );

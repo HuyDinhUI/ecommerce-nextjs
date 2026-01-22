@@ -10,6 +10,8 @@ interface FavouriteState {
   remove: (productId: string) => void;
   clear: () => void;
   isFavourite: (productId: string) => boolean;
+  snapshot: () => FavouriteItem[];
+  restore: (items: FavouriteItem[]) => void;
 }
 
 export const useFavouriteStore = create<FavouriteState>()(
@@ -38,6 +40,12 @@ export const useFavouriteStore = create<FavouriteState>()(
 
       isFavourite: (productId) =>
         get().items.some((i) => i.productId === productId),
+
+      snapshot: () => get().items,
+
+      restore: (items) => {
+        set({ items });
+      },
     }),
     {
       name: "wishlist-storage",

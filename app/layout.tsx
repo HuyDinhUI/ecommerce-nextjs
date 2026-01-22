@@ -5,8 +5,8 @@ import { Inter as InterFont } from "next/font/google";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import Sidebar from "@/components/ui/sidebar";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ClientProvider from "@/providers/client.provider";
+import { ToastContainer } from "@/components/ui/toast/toast-container";
 
 const BeatriceDeck = localFont({
   src: [
@@ -74,6 +74,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <Sidebar />
+        <ToastContainer/>
       </body>
     </html>
   );
