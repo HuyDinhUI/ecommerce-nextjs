@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { ReactNode, useState } from "react";
 import { GoChevronRight } from "react-icons/go";
 
@@ -16,7 +17,7 @@ export const Collapsible = ({ children, label }: Props) => {
         className="flex justify-between items-center"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <label className="font-bold">{label}</label>
+        <label className={clsx("font-bold transition-opacity", isOpen && "opacity-50")}>{label}</label>
         <GoChevronRight
           size={20}
           className={`${

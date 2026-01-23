@@ -3,7 +3,7 @@
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
 interface Props {
-    classname?: string
+  classname?: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
 }
@@ -24,7 +24,11 @@ export const Favourite = ({ checked, onCheckedChange, classname }: Props) => {
         />
 
         <div className="bg-white w-8 h-8 flex items-center justify-center p-2">
-          {checked ? <IoHeart color="black" /> : <IoHeartOutline />}
+          {checked ? (
+            <IoHeart color="black" className="-rotate-45" />
+          ) : (
+            <IoHeartOutline className="-rotate-45" />
+          )}
         </div>
       </label>
     </div>

@@ -4,9 +4,10 @@ import { ProductClothes } from "@/types/product.type";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { BiPlus } from "react-icons/bi";
-import { Dialog } from "../ui/dialog";
+
 import { ProductDetail } from "./product-detail";
 import Link from "next/link";
+import Dialog from "../ui/dialog/dialog";
 
 type props = {
   items: ProductClothes[];

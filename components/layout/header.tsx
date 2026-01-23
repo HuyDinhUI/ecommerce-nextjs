@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
-import { useSidebarStore } from "@/store/sidebar.store";
-import { Button } from "./button";
+import { Button } from "../ui/button";
+import { useCartStore } from "@/store/cart.store";
+import { useUIStore } from "@/store/ui.store";
 
 const ITEMS_NAVBAR = [
   {
@@ -26,7 +27,8 @@ const ITEMS_NAVBAR = [
 const Header = () => {
   const location = usePathname();
   const scrollUp = useScrollDirection();
-  const { setOpen } = useSidebarStore();
+  const { setOpen } = useUIStore()
+  const { totalQuantity } = useCartStore();
   return (
     <header
       className={`flex justify-between items-center px-10 max-sm:px-5 py-10 sticky top-0 z-999 bg-white ${
@@ -35,7 +37,12 @@ const Header = () => {
       style={{ backgroundImage: "url('/noisy_background.png')" }}
     >
       <div className="flex gap-5">
-        <Button onClick={() => setOpen(true)} size="ic" className="lg:hidden z-999" icon={<MenuIcon />} />
+        <Button
+          onClick={() => setOpen(true, "sidebar")}
+          size="ic"
+          className="lg:hidden z-999"
+          icon={<MenuIcon />}
+        />
         <nav className="font-beatrice-deck font-light max-lg:hidden relative z-99">
           <ol className="flex gap-5">
             {ITEMS_NAVBAR.map((item, idx) => (
@@ -61,13 +68,16 @@ const Header = () => {
               <HeartIcon width="15" height="15" />
             </Link>
           </li>
-          <li className="bg-black p-3 rounded-full">
+          <li className="bg-black p-3 rounded-full relative">
             <Link href={"/cart"}>
               <CartIcon width="15" height="15" />
+              <span className="absolute text-white bg-red-500 w-6 h-6 rounded-full p-1 text-center text-[10px] text-nowrap -top-3 -right-2">
+                {Math.min(totalQuantity, 9)}{totalQuantity > 9 && "+"}
+              </span>
             </Link>
           </li>
           <li className="bg-black p-3 rounded-full">
-            <Link href={"/personal"}>
+            <Link href={"/account"}>
               <UserIcon width="15" height="15" />
             </Link>
           </li>
