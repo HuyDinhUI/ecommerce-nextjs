@@ -10,7 +10,6 @@ export const LoginSchema = z
   })
   .strict();
 
-export type LoginFormValues = z.infer<typeof LoginSchema>;
 
 export const RegisterSchema = z
   .object({
@@ -51,5 +50,7 @@ export const RegisterSchema = z
       });
     }
   });
+
+export type LoginFormValues = z.infer<typeof LoginSchema>;
 
 export type RegisterFormValue = z.infer<typeof RegisterSchema>

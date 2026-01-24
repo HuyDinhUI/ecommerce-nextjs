@@ -1,6 +1,12 @@
 import { Separator } from "@/components/ui/separator"
+import { Metadata } from "next";
 import Link from "next/link"
-import { BiMinus, BiPlus } from "react-icons/bi"
+import { BiPlus } from "react-icons/bi"
+
+export const metadata: Metadata = {
+  title: "Account Setting | Lumina",
+  description: "Store fashion",
+};
 
 const AccountPage = () => {
     return (

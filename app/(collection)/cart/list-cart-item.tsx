@@ -23,6 +23,7 @@ export const ListCartItem = () => {
   const { shippingFee } = useCheckoutStore();
   const total = useTotalPrice();
   const productIds = [...new Set(cart.items.map((i) => i.productId))];
+
   const { data, isLoading } = useQuery({
     queryKey: ["cart-products", productIds],
     queryFn: () => ProductService.getByIds(productIds),

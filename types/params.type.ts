@@ -1,4 +1,4 @@
-export interface Params {
+export interface ParamsProduct {
     keyword?: string
     color?: string;
     size?: string;
@@ -10,4 +10,13 @@ export interface Params {
     tag?: string
     rating?: string
     page?: string;
+}
+
+export interface ParamsOrder {
+    keyword?: string
+    status?: string
+    paymentMethod?: string
+    shippingMethod?: string
+    discount?: boolean
+    tax?: boolean
 }

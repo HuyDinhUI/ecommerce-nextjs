@@ -1,4 +1,4 @@
-import { DATA_CLOTHES_MOCK } from "@/app/mock/products.mock";
+  import { DATA_CLOTHES_MOCK } from "@/app/mock/products.mock";
 
 export const GET = async (
   req: Request,

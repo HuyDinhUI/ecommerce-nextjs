@@ -4,9 +4,8 @@ import { DATA_CLOTHES_MOCK } from "@/app/mock/products.mock";
 import { Button } from "@/components/ui/button";
 import { Carousel } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
-import { FavouriteFacade } from "@/facades/favourite.facade";
+import useFavourite from "@/hooks/useFavourite";
 import useIsMobile from "@/hooks/useIsMobile";
-import { useFavouriteStore } from "@/store/favourite.store";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -19,14 +18,15 @@ import { SwiperSlide } from "swiper/react";
 
 export const ListFavouriesItem = () => {
   const swiperRef = useRef<any>(null);
+  const { items, handleRemoveFavourite } = useFavourite();
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
-  const favouries = useFavouriteStore((state) => state.items);
   const { isMobile } = useIsMobile();
+
   return (
     <div>
       <div className="grid grid-cols-3 max-sm:grid-cols-2 gap-5">
-        {favouries.map((item) => (
+        {items.map((item) => (
           <Link
             key={item.productId}
             href={`/shop/${item.slug}?product_id=${item.productId}`}
@@ -39,7 +39,7 @@ export const ListFavouriesItem = () => {
               <Button
                 onClick={(e) => {
                   e.preventDefault();
-                  FavouriteFacade.remove(item.productId);
+                  handleRemoveFavourite(item.productId);
                 }}
                 icon={<IoClose />}
               />
@@ -47,8 +47,10 @@ export const ListFavouriesItem = () => {
           </Link>
         ))}
       </div>
-      {favouries.length === 0 && (
-        <div className="text-center py-20">Your favourite is currently empty.</div>
+      {items.length === 0 && (
+        <div className="text-center py-20">
+          Your favourite is currently empty.
+        </div>
       )}
       <Separator classname="my-4 border-gray-300" />
       <div className="xl:absolute xl:top-30 xl:right-20 xl:w-80 xl:p-5 xl:ring xl:ring-gray-300 max-xl:mt-10">

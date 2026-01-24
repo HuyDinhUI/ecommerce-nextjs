@@ -1,6 +1,6 @@
 import { CreateParams } from "@/utils/createParam";
 import { ProductService } from "../../services/product-service";
-import { Params } from "@/types/params.type";
+import { ParamsProduct } from "@/types/params.type";
 import FilterSidebar from "./filter-sidebar";
 import FilterBar from "./filter-bar";
 import Products from "./list-products";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  searchParams: Params;
+  searchParams: ParamsProduct;
 }
 
 const ProductListPage = async ({ searchParams }: PageProps) => {

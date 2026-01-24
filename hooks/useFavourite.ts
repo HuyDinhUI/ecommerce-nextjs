@@ -5,7 +5,7 @@ import { FavouriteItem } from "@/types/favourite.type";
 import { useMutation } from "@tanstack/react-query";
 
 const useFavourite = () => {
-  const { toggle, remove, snapshot, restore, clear, isFavourite } =
+  const { toggle, remove, snapshot, restore, clear, isFavourite, items } =
     useFavouriteStore();
 
   const addFavouriteMutation = useMutation({
@@ -53,6 +53,7 @@ const useFavourite = () => {
   };
 
   return {
+    items,
     handleToggleFavourite,
     handleRemoveFavourite,
     isFavourite,

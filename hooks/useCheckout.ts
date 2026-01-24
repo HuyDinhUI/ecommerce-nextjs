@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckoutPayload, CheckoutState } from "@/types/checkout.type";
+import { CheckoutState } from "@/types/checkout.type";
 import { OrderService } from "@/services/order-service";
 import { PayPalService } from "@/services/paypal-service";
+import { toast } from "@/components/ui/toast";
+import useCart from "./useCart";
+import { CreateOrderPayload } from "@/types/order.type";
 
 export function useCheckout() {
   const queryClient = useQueryClient();
-
+  const {handleClearCart} = useCart()
   const [state, setState] = useState<CheckoutState>("IDLE");
   const [orderId, setOrderId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,22 +31,42 @@ export function useCheckout() {
     onMutate: () => setState("CAPTURING_PAYMENT"),
     onSuccess: () => {
       setState("SUCCESS");
+      handleClearCart()
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
   });
 
-  const startCheckout = async (payload: CheckoutPayload) => {
+  const startCheckoutWithCod = async (payload: CreateOrderPayload) => {
+    try {
+      setError(null);
+
+      const order = await createOrderMutation.mutateAsync(payload);
+      setOrderId(order.payload.orderId);
+      handleClearCart()
+      window.location.href = `/orders/${order.payload.orderId}`
+
+    } catch (err: any) {
+      setState("FAILED");
+      setError(err.message);
+      toast.error(err.message);
+    }
+  };
+
+  const startCheckoutWithPayPal = async (payload: CreateOrderPayload) => {
     try {
       setError(null);
 
       const order = await createOrderMutation.mutateAsync(payload);
       setOrderId(order.payload.orderId);
 
-      const paypal = await createPaypalOrderMutation.mutateAsync(order.payload.orderId);
+      const paypal = await createPaypalOrderMutation.mutateAsync(
+        order.payload.orderId
+      );
       return paypal.payload.id;
     } catch (err: any) {
       setState("FAILED");
       setError(err.message);
+      toast.error(err.message);
       throw err;
     }
   };
@@ -65,7 +88,8 @@ export function useCheckout() {
   };
 
   return {
-    startCheckout,
+    startCheckoutWithCod,
+    startCheckoutWithPayPal,
     capturePayment,
     reset,
 

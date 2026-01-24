@@ -13,6 +13,7 @@ const useCart = () => {
     updateVariant,
     snapshot,
     restore,
+    clearCart
   } = useCartStore();
 
   const addCartMutation = useMutation({
@@ -119,12 +120,17 @@ const useCart = () => {
     );
   };
 
+  const handleClearCart = () => {
+    clearCart()
+  }
+
   return {
     handleAddToCart,
     handleRemoveCart,
     handleUpdateColor,
     handleUpdateSize,
     handleUpdateQuantity,
+    handleClearCart,
     loading:
       addCartMutation.isPending ||
       removeCartMutation.isPending ||

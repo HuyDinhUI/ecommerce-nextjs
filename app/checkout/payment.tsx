@@ -1,16 +1,13 @@
 import { RadioGroup } from "@/components/ui/radio-card/radio-card-group";
 import { RadioCard } from "@/components/ui/radio-card/radio-card-item";
-import { useCheckout } from "@/hooks/useCheckoutPayPal";
+import { useCheckout } from "@/hooks/useCheckout";
 import { CheckoutFormValues } from "@/schemas/checkout.schema";
 import { useCartStore } from "@/store/cart.store";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { Controller, useFormContext } from "react-hook-form";
 
 const PaymentForm = () => {
-  const form =
-    useFormContext<
-      Pick<CheckoutFormValues, "paymentMethod" | "shippingMethod">
-    >();
+  const form = useFormContext<CheckoutFormValues>();
   const shippingMethod = form.watch("shippingMethod");
   const paymentMethod = form.watch("paymentMethod");
   const checkout = useCheckout();
@@ -52,16 +49,25 @@ const PaymentForm = () => {
           <PayPalButtons
             disabled={checkout.isLoading}
             createOrder={() =>
-              checkout.startCheckout({
-                shippingMethod: shippingMethod as "standard" | "express",
+              checkout.startCheckoutWithPayPal({
+                shippingMethodId: shippingMethod,
                 couponCode: "",
-                items: CartItem.map((i) => ({
-                  productId: i.productId,
-                  sku: i.sku,
-                  quantity: i.quantity,
-                })),
+                items: CartItem,
+                paymentMethod: paymentMethod,
+                address: {
+                  email: form.getValues("email"),
+                  phone: form.getValues("phone"),
+                  fullname:
+                    form.getValues("firstName") +
+                    " " +
+                    form.getValues("lastName"),
+                  city: form.getValues("city"),
+                  district: form.getValues("ward"),
+                  addressLine: form.getValues("address"),
+                },
               })
             }
+            onApprove={(data) => checkout.capturePayment(data.orderID)}
           />
         </div>
       )}
