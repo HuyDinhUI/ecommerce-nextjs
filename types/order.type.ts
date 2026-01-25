@@ -61,6 +61,7 @@ export interface OrderTotal {
   subtotal: number;
   shippingFee: number;
   tax: number;
+  quantity: number
   discount: number;
   total: number;
 }

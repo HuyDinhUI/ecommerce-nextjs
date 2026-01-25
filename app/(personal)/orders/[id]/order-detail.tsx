@@ -6,10 +6,10 @@ import Image from "next/image";
 
 const OrderDetail = ({ data }: { data: Order }) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex max-xl:flex-col xl:justify-between">
       <div>
         <div className="flex flex-col gap-5">
-          <div className="flex gap-50">
+          <div className="flex xl:gap-50 max-xl:gap-20">
             <strong className="uppercase">Shipping</strong>
             <div className="flex flex-col gap-2">
               <p>{data.address.fullname}</p>
@@ -20,7 +20,7 @@ const OrderDetail = ({ data }: { data: Order }) => {
             </div>
           </div>
           <Separator classname="my-5 border-gray-300" />
-          <div className="flex gap-50">
+          <div className="flex xl:gap-50 max-xl:gap-20">
             <strong className="uppercase">payment</strong>
             <div className="flex flex-col gap-2">
               <p className="uppercase">{data.payment.method}</p>
@@ -29,6 +29,7 @@ const OrderDetail = ({ data }: { data: Order }) => {
           </div>
         </div>
       </div>
+      <Separator classname="my-5 border-gray-300 xl:hidden" />
       <div className="font-medium">
         <div className="relative">
           <strong className="uppercase">

@@ -15,7 +15,7 @@ const CATEGORY = [
 ];
 
 const FilterBar = () => {
-  const { onToggle, selectedTag, selectedCategory } = useFilter();
+  const { onToggle, getParams } = useFilter();
 
   return (
     <div className="flex gap-3 max-lg:min-w-160">
@@ -26,7 +26,7 @@ const FilterBar = () => {
           title="NEW"
           size="sm"
           className={`${
-            selectedTag.includes("new")
+            getParams("tag").includes("new")
               ? "ring-black font-bold"
               : "font-extralight ring-gray-300"
           } ring font-beatrice-deck w-full justify-center`}
@@ -37,7 +37,7 @@ const FilterBar = () => {
           title="BEST SELLERS"
           size="sm"
           className={`${
-            selectedTag.includes("best sellers")
+            getParams("tag").includes("best sellers")
               ? "ring-black font-bold"
               : "font-extralight ring-gray-300"
           } ring font-beatrice-deck w-full justify-center`}
@@ -52,7 +52,7 @@ const FilterBar = () => {
             variant="transparent"
             size="sm"
             className={`${
-              selectedCategory.includes(item)
+              getParams("category").includes(item)
                 ? "ring-black font-bold"
                 : "font-extralight ring-gray-300"
             } ring font-beatrice-deck w-full justify-center`}

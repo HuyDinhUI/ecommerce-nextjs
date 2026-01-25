@@ -19,7 +19,7 @@ export default function Home() {
               <br />
               Women
               <br />
-              Kids
+              Unisex
             </span>
           </div>
           <InputSearch />
@@ -37,7 +37,7 @@ export default function Home() {
               <br />
               This week
             </h1>
-            <span className="absolute right-0 top-1/3 font-beatrice-deck font-extrabold text-brand-dark-blue">{`(${50})`}</span>
+            <span className="absolute -right-8 top-1/3 font-beatrice-deck font-extrabold text-brand-dark-blue">{`(${50})`}</span>
           </div>
           <Link
             href={""}

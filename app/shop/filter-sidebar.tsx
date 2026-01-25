@@ -7,7 +7,6 @@ import { Separator } from "@/components/ui/separator";
 import { useFilter } from "@/hooks/useFilter";
 import useIsMobile from "@/hooks/useIsMobile";
 
-
 const DATA_SIZES = ["xs", "s", "m", "l", "xl", "2x"];
 
 const AVAILABILITY = ["Availability", "Out Of Stack"];
@@ -28,13 +27,7 @@ const CATEGORY = [
 const FilterSidebar = () => {
   const { isMobile } = useIsMobile();
 
-  const {
-    onToggle,
-    selectedAvailability,
-    selectedCategory,
-    selectedColors,
-    selectedSizes,
-  } = useFilter();
+  const { onToggle, getParams } = useFilter();
 
   return (
     <div className="font-beatrice-deck text-brand-black-light">
@@ -44,7 +37,7 @@ const FilterSidebar = () => {
           {DATA_SIZES.map((item, idx) => (
             <Button
               key={idx}
-              variant={selectedSizes.includes(item) ? "dark" : "outline"}
+              variant={getParams("size").includes(item) ? "dark" : "outline"}
               title={item}
               className="uppercase text-center font-extralight max-sm:text-[10px] justify-center"
               size={isMobile ? "sm" : "md"}
@@ -58,7 +51,7 @@ const FilterSidebar = () => {
         {AVAILABILITY.map((item, idx) => (
           <div key={idx} className="flex items-center gap-2 mt-3">
             <Checkbox
-              checked={selectedAvailability.includes(item)}
+              checked={getParams("availability").includes(item)}
               onCheckedChange={() => onToggle("availability", item)}
             />
             <span className="text-sm">{item}</span>
@@ -70,7 +63,7 @@ const FilterSidebar = () => {
         {CATEGORY.map((item, idx) => (
           <div key={idx} className="flex items-center gap-2 my-3">
             <Checkbox
-              checked={selectedCategory.includes(item)}
+              checked={getParams("category").includes(item)}
               onCheckedChange={() => onToggle("category", item)}
             />
             <span className="text-sm">{item}</span>
@@ -82,7 +75,7 @@ const FilterSidebar = () => {
         {COLORS.map((item, idx) => (
           <div key={idx} className="flex items-center gap-2 mt-3">
             <Checkbox
-              checked={selectedColors.includes(item)}
+              checked={getParams("color").includes(item)}
               onCheckedChange={() => onToggle("color", item)}
             />
             <span className="text-sm">{item}</span>

@@ -49,6 +49,7 @@ export const DATA_ORDERS: Order[] = [
       subtotal: 110,
       shippingFee: 10,
       tax: 0,
+      quantity: 1,
       discount: 0,
       total: 120,
     },
