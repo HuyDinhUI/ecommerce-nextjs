@@ -14,10 +14,10 @@ const useProductVariants = (product: ProductClothes) => {
   );
 
   const [selectedSize, setSelectedSize] = useState<VariantSize>(
-    currentVariant.size.find((size) => size.stock > 0)!
+    currentVariant.sizes.find((size) => size.stock > 0)!
   );
   const [currentImage, setCurrentImage] = useState<ProductImage>(
-    currentVariant.image.find((img) => img.isThumbnail)!
+    currentVariant.images.find((img) => img.is_thumbnail)!
   );
 
   return {

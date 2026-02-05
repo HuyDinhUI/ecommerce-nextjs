@@ -24,17 +24,17 @@ export const ProductList = ({ items }: props) => {
 };
 
 export const ProductItem = ({ item }: { item: ProductClothes }) => {
-  const thumbnail = item.variants[0].image.find((i) => i.isThumbnail);
+  const thumbnail = item.variants[0].images.find((i) => i.is_thumbnail);
   const isVariants = item.variants.length > 1;
   
   return (
     <div>
-      {thumbnail?.url ? (
+      {thumbnail?.image_url ? (
         <div className="ring ring-gray-300">
           <div className="relative overflow-hidden group">
             <Link href={`/shop/${item.slug}?product_id=${item.id}`} className="block aspect-3/4 relative">
               <Image
-                src={thumbnail.url}
+                src={thumbnail?.image_url}
                 alt={thumbnail.alt ?? ""}
                 fill
                 className="object-cover"
@@ -62,7 +62,7 @@ export const ProductItem = ({ item }: { item: ProductClothes }) => {
           {isVariants && (
             <div className="flex gap-1 items-center">
               <div
-                style={{ backgroundColor: `${item.variants[0].color.code}` }}
+                style={{ backgroundColor: `${item.variants[0].colorCode}` }}
                 className={`w-3 h-3`}
               ></div>
               <span className="text-sm">+{item.variants.length - 1}</span>

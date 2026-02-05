@@ -6,8 +6,8 @@ export interface CartItem {
 
   attribute: {
     color: {
-      name: string;
-      code: string;
+      colorName: string;
+      colorCode: string;
     };
     size: Size;
   };
@@ -34,8 +34,8 @@ export interface UpdateVariantType {
   newImage: string;
   newVariant: {
     color: {
-      name: string;
-      code: string;
+      colorName: string;
+      colorCode: string;
     };
     size: Size;
   };

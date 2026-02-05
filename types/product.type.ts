@@ -20,26 +20,24 @@ export enum Size {
 }
 
 export interface VariantSize {
-  size: Size;
+  name: Size;
   stock: number
   sku: string
   price?: number;
 }
 
 export interface ProductVariant {
-  color: {
-    name: string,
-    code: string
-  },
-  image: ProductImage[]
-  size: VariantSize[];
+  colorName: string,
+  colorCode: string
+  images: ProductImage[]
+  sizes: VariantSize[];
          
 }
 
 export interface ProductImage {
-  url: string;
+  image_url: string;
   alt?: string;
-  isThumbnail?: boolean;
+  is_thumbnail?: boolean;
 }
 
 
@@ -69,4 +67,14 @@ export interface ProductClothes {
 
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ProductDTO {
+  data: ProductClothes[],
+  pagination: {
+    page: number,
+    limit: number,
+    total: number,
+    totalPages: number
+  }
 }

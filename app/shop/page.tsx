@@ -51,7 +51,7 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
               <FilterBar />
             </div>
           </div>
-          <Products data={data.payload} />
+          <Products data={data.payload.data} />
         </div>
       </div>
     </div>
