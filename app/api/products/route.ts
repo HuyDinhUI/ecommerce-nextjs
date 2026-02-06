@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/utils/prisma";
+import { Prisma } from "@prisma/client";
+
+const parseArray = (value: string | null) =>
+  value ? value.split(",").filter(Boolean) : [];
 
 export async function GET(req: NextRequest) {
   try {
@@ -7,9 +11,12 @@ export async function GET(req: NextRequest) {
 
     // ===== Query params =====
     const keyword = searchParams.get("search");
+
     const page = Number(searchParams.get("page") ?? 1);
     const limit = Number(searchParams.get("limit") ?? 12);
-    const category = searchParams.get("category");
+    const categories = parseArray(searchParams.get("category"));
+    const colors = parseArray(searchParams.get("color"));
+    const sizes = parseArray(searchParams.get("size")?.toUpperCase() ?? "");
     const gender = searchParams.get("gender");
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
@@ -17,13 +24,32 @@ export async function GET(req: NextRequest) {
     const skip = (page - 1) * limit;
 
     // ===== Where condition =====
-    const where: any = {
+    const where: Prisma.ProductWhereInput = {
       isActive: true,
-      ...(category && {
+      ...(categories.length && {
         category: {
-          slug: category,
+          slug: { in: categories },
         },
       }),
+      ...(colors.length || sizes.length
+        ? {
+            variants: {
+              some: {
+                ...(colors.length && {
+                  colorName: { in: colors },
+                }),
+                ...(sizes.length && {
+                  sizes: {
+                    some: {
+                      name: { in: sizes },
+                      stock: { gt: 0 },
+                    },
+                  },
+                }),
+              },
+            },
+          }
+        : undefined),
       ...(gender && { gender }),
       ...(minPrice || maxPrice
         ? {
@@ -33,6 +59,35 @@ export async function GET(req: NextRequest) {
             },
           }
         : {}),
+
+      ...(keyword && {
+        OR: [
+          {
+            name: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            slug: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            shortDescription: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            brand: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+        ],
+      }),
     };
 
     // ===== Query =====

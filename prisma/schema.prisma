@@ -65,13 +65,13 @@ model ProductImage {
 }
 
 model ProductSize {
-  id      String       @id @default(cuid())
-  colorId String
-  color   ProductColor @relation(fields: [colorId], references: [id])
-  name    String
-  stock   Int
-  sku     String       @unique
-
+  id        String       @id @default(cuid())
+  colorId   String
+  color     ProductColor @relation(fields: [colorId], references: [id])
+  name      String
+  stock     Int
+  sku       String       @unique
+  price     Float?
   cartItems CartItem[]
 }
 

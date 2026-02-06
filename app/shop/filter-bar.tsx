@@ -2,23 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { useFilter } from "@/hooks/useFilter";
+import { CategoryDTO } from "@/types/category.type";
 
-const CATEGORY = [
-  "T-SHIRTS",
-  "SHIRTS",
-  "POLO",
-  "JEANS",
-  "JACKETS",
-  "SHORTS",
-  "COATS",
-  "SUITS",
-];
-
-const FilterBar = () => {
+const FilterBar = ({categories}:{categories: CategoryDTO[]}) => {
   const { onToggle, getParams } = useFilter();
 
   return (
-    <div className="flex gap-3 max-lg:min-w-160">
+    <div className="flex gap-3 max-lg:min-w-160 sticky top-0">
       <div className="flex flex-col gap-2">
         <Button
           onClick={() => onToggle("tag", "new")}
@@ -44,18 +34,18 @@ const FilterBar = () => {
         />
       </div>
       <div className="grid grid-cols-4 grid-rows-2 gap-2 flex-1">
-        {CATEGORY.map((item, idx) => (
+        {categories.map((item, idx) => (
           <Button
-            onClick={() => onToggle("category", item)}
+            onClick={() => onToggle("category", item.slug)}
             key={idx}
-            title={item}
+            title={item.slug}
             variant="transparent"
             size="sm"
             className={`${
-              getParams("category").includes(item)
+              getParams("category").includes(item.slug)
                 ? "ring-black font-bold"
                 : "font-extralight ring-gray-300"
-            } ring font-beatrice-deck w-full justify-center`}
+            } ring font-beatrice-deck w-full justify-center uppercase`}
           />
         ))}
       </div>

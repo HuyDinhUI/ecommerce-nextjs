@@ -39,8 +39,8 @@ export const ListCartItem = () => {
     <div>
       <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5">
         {cart.items.map((item) => {
-          const product = data?.payload.find(
-            (p: ProductClothes) => p.id === item.productId
+          const product = data?.payload.data.find(
+            (p: ProductClothes) => p.id === item.productId,
           );
           return <CartItem key={item.sku} item={item} product={product!} />;
         })}

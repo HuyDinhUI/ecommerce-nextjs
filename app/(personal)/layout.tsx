@@ -7,6 +7,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ReactNode } from "react"
+import { signOut } from "next-auth/react"
 
 const PERSONAL_LOCATION = [
     {
@@ -55,7 +56,7 @@ const PersonalLayout = ({children}:{children: ReactNode}) => {
                             ))}
                             <Separator classname="border-gray-300"/>
                             <li className="my-5">
-                                <div className="cursor-pointer hover:underline">Logout</div>
+                                <div onClick={() => signOut()} className="cursor-pointer hover:underline">Logout</div>
                             </li>
                         </ol>
                     </nav>

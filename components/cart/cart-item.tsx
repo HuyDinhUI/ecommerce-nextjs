@@ -27,25 +27,25 @@ export const CartItem = ({
   const { isMobile } = useIsMobile();
 
   const currentVariant = product?.variants.find(
-    (v) => v.color.code === item.attribute.color.code
+    (v) => v.colorCode === item.attribute.color.colorCode
   );
 
   const prepareDataUpdateColor = (variant: ProductVariant, cartItem: CartItemType) => {
-     const sizeAvailable = variant.size.find((s) => s.stock > 0);
+     const sizeAvailable = variant.sizes.find((s) => s.stock > 0);
     if (!sizeAvailable) return;
-    const thumbnail = variant.image.find((i) => i.isThumbnail);
+    const thumbnail = variant.images.find((i) => i.is_thumbnail);
     const payload: UpdateVariantType = {
       productId: cartItem.productId,
       oldSku: cartItem.sku,
       newSku: sizeAvailable.sku,
-      newPrice: sizeAvailable.price!,
-      newImage: thumbnail?.url ?? "",
+      newPrice: sizeAvailable.price ?? product.price,
+      newImage: thumbnail?.image_url ?? "",
       newVariant: {
         color: {
-          name: variant.color.name,
-          code: variant.color.code,
+          colorName: variant.colorName,
+          colorCode: variant.colorCode,
         },
-        size: variant.size[0].size,
+        size: variant.sizes[0].name,
       },
     };
 
@@ -54,21 +54,21 @@ export const CartItem = ({
 
   const prepareDataUpdateSize = (sizeItem: VariantSize, cartItem: CartItemType) => {
     const currentVariant = product?.variants.find(
-      (v) => v.color.code === cartItem.attribute.color.code
+      (v) => v.colorCode === cartItem.attribute.color.colorCode
     );
-    const thumbnail = currentVariant?.image.find((i) => i.isThumbnail);
+    const thumbnail = currentVariant?.images.find((i) => i.is_thumbnail);
     const payload: UpdateVariantType = {
       productId: cartItem.productId,
       oldSku: cartItem.sku,
       newSku: sizeItem.sku,
-      newPrice: sizeItem.price!,
-      newImage: thumbnail?.url ?? "",
+      newPrice: sizeItem.price ?? product.price,
+      newImage: thumbnail?.image_url ?? "",
       newVariant: {
         color: {
-          name: currentVariant!.color.name,
-          code: currentVariant!.color.code,
+          colorName: currentVariant!.colorName,
+          colorCode: currentVariant!.colorCode,
         },
-        size: sizeItem.size,
+        size: sizeItem.name,
       },
     };
 
@@ -102,7 +102,7 @@ export const CartItem = ({
           <span>{item.attribute.size}</span>
           <Button
             className={`w-8 h-8`}
-            style={{ backgroundColor: `${item.attribute.color.code}` }}
+            style={{ backgroundColor: `${item.attribute.color.colorCode}` }}
           />
           <div className="flex flex-col items-center ring ring-gray-500 ">
             <Button
@@ -134,13 +134,13 @@ export const CartItem = ({
               <div className="flex gap-1 mt-1">
                 {product?.variants.map((variant) => (
                   <Button
-                    key={variant.color.code}
+                    key={variant.colorCode}
                     className={`w-10 h-10 ${
-                      currentVariant?.color.code === variant.color.code
+                      currentVariant?.colorCode === variant.colorCode
                         ? "opacity-100"
                         : "opacity-50 hover:opacity-100"
                     }`}
-                    style={{ backgroundColor: variant.color.code }}
+                    style={{ backgroundColor: variant.colorCode }}
                     onClick={() => {
                       handleUpdateColor(prepareDataUpdateColor(variant, item)!);
                     }}
@@ -151,9 +151,9 @@ export const CartItem = ({
             <div className="mt-5">
               <span className="text-sm text-gray-400">Size</span>
               <div className="flex gap-1 mt-1">
-                {currentVariant?.size.map((size) => (
+                {currentVariant?.sizes.map((size) => (
                   <Button
-                    title={size.size}
+                    title={size.name}
                     key={size.sku}
                     className="w-10 h-10 flex items-center justify-center font-extralight"
                     variant={item.sku === size.sku ? "dark" : "outline"}

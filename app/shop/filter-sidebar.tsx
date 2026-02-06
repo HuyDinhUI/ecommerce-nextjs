@@ -6,25 +6,15 @@ import { Collapsible } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
 import { useFilter } from "@/hooks/useFilter";
 import useIsMobile from "@/hooks/useIsMobile";
+import { CategoryDTO } from "@/types/category.type";
 
-const DATA_SIZES = ["xs", "s", "m", "l", "xl", "2x"];
+const DATA_SIZES = ["s", "m", "l", "xl", "xxl", "3xl"];
 
 const AVAILABILITY = ["Availability", "Out Of Stack"];
 
 const COLORS = ["Black", "White", "Blue", "Green"];
 
-const CATEGORY = [
-  "T-SHIRTS",
-  "SHIRTS",
-  "POLO",
-  "JEANS",
-  "JACKETS",
-  "SHORTS",
-  "COATS",
-  "SUITS",
-];
-
-const FilterSidebar = () => {
+const FilterSidebar = ({categories}:{categories: CategoryDTO[]}) => {
   const { isMobile } = useIsMobile();
 
   const { onToggle, getParams } = useFilter();
@@ -60,13 +50,13 @@ const FilterSidebar = () => {
       </Collapsible>
       <Separator classname="border-gray-400" stroke="dashed" />
       <Collapsible label="Category">
-        {CATEGORY.map((item, idx) => (
+        {categories.map((item, idx) => (
           <div key={idx} className="flex items-center gap-2 my-3">
             <Checkbox
-              checked={getParams("category").includes(item)}
-              onCheckedChange={() => onToggle("category", item)}
+              checked={getParams("category").includes(item.slug)}
+              onCheckedChange={() => onToggle("category", item.slug)}
             />
-            <span className="text-sm">{item}</span>
+            <span className="text-sm uppercase">{item.name}</span>
           </div>
         ))}
       </Collapsible>

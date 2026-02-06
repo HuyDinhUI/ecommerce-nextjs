@@ -72,7 +72,7 @@ const useCart = () => {
       {
         productId: payload.productId,
         sku: payload.newSku,
-        color: payload.newVariant.color.code,
+        color: payload.newVariant.color.colorCode,
       },
       {
         onError: () => {

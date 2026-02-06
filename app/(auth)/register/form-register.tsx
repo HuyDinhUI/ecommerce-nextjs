@@ -7,8 +7,11 @@ import { Input } from "@/components/ui/input";
 import FieldError from "@/components/ui/form-field/field-error";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
+import { Spinner } from "@/components/ui/loading";
 
 const FormRegister = () => {
+  const { Register, loading } = useAuth();
   const form = useForm<RegisterFormValue>({
     resolver: zodResolver(RegisterSchema),
     mode: "onBlur",
@@ -19,17 +22,14 @@ const FormRegister = () => {
       firstName: "",
       lastName: "",
       confirmEmail: "",
-      confirmPassword: ""
+      confirmPassword: "",
     },
   });
 
-  const submitLogin = (data: RegisterFormValue) => {
-    console.log(data);
-  };
   return (
     <div className="p-7">
       <h1 className="my-5 text-center">Register your account</h1>
-      <form onSubmit={form.handleSubmit(submitLogin)}>
+      <form onSubmit={form.handleSubmit(Register)}>
         <Controller
           name="firstName"
           control={form.control}
@@ -131,7 +131,9 @@ const FormRegister = () => {
           )}
         />
         <Button
-          title="Submit"
+          title={loading ? "" : "Submit"}
+          icon={loading ? <Spinner /> : null}
+          disabled={loading}
           className="w-full justify-center"
           variant="dark"
         />

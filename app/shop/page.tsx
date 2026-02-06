@@ -7,6 +7,7 @@ import Products from "./list-products";
 import { InputSearch } from "@/components/form-action/search-form";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Metadata } from "next";
+import { CategoryService } from "@/services/category-service";
 
 export const metadata: Metadata = {
   title: "Shop | Lumina",
@@ -22,12 +23,13 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
   const query = CreateParams(params);
 
   const data = await ProductService.getAll(query);
+  const categories = await CategoryService.getAll();
 
   return (
     <div className="font-beatrice-deck">
       {/* Mobile */}
       <div className="mb-5 lg:hidden max-sm:px-5 px-10">
-        <Breadcrumb classname="justify-center flex"/>
+        <Breadcrumb classname="justify-center flex" />
         <h1 className="uppercase text-center text-xl">Products</h1>
         <div className="mt-5">
           <InputSearch />
@@ -35,12 +37,12 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
       </div>
       {/* End Mobile */}
 
-      <div className="flex overflow-hidden">
-        <div className="max-lg:hidden px-10 sticky top-0 h-200 overflow-y-auto">
+      <div className="flex">
+        <div className="max-lg:hidden px-10 h-200 overflow-y-scroll sticky top-0">
           <h1 className="max-lg:hidden">Filters</h1>
-          <FilterSidebar />
+          <FilterSidebar categories={categories.payload.data} />
         </div>
-        <div className="py-1 flex-1 overflow-hidden md:px-10 max-sm:px-5">
+        <div className="py-1 flex-1 overflow-hidden md:px-10 max-sm:px-5 relative min-100vh">
           <Breadcrumb classname="max-lg:hidden" />
           <h1 className="uppercase max-lg:hidden text-xl">Products</h1>
           <div className="flex gap-5 mt-2">
@@ -48,7 +50,7 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
               <InputSearch classname="" />
             </div>
             <div className="max-sm:max-w-100 max-lg:overflow-x-scroll max-lg:p-1 flex-1">
-              <FilterBar />
+              <FilterBar categories={categories.payload.data} />
             </div>
           </div>
           <Products data={data.payload.data} />

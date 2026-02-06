@@ -2,12 +2,12 @@
 
 import { ProductList } from "@/components/product/product-list";
 import { useState } from "react";
-import { DATA_CLOTHES_MOCK } from "./mock/products.mock";
 import { IoChevronDown } from "react-icons/io5";
+import { ProductClothes } from "@/types/product.type";
 
 const GENDERS = ["All", "Men", "Women", "Unisex"];
 
-const CollectionsList = () => {
+const CollectionsList = ({data}: {data:ProductClothes[]}) => {
   const [gender, setGender] = useState<string>("All");
   return (
     <>
@@ -25,7 +25,7 @@ const CollectionsList = () => {
         </div>
         <hr className="border-gray-300 mt-3"/>
         <div className="mt-5">
-            <ProductList items={DATA_CLOTHES_MOCK}/>
+            <ProductList items={data}/>
             <div className="flex justify-center cursor-pointer mt-5">
                 <div className="flex flex-col items-center">
                     <span className="text-[10px]/3">More</span>

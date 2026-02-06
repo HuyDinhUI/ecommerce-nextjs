@@ -7,8 +7,12 @@ import { Input } from "@/components/ui/input";
 import FieldError from "@/components/ui/form-field/field-error";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
+import { Spinner } from "@/components/ui/loading";
+import clsx from "clsx";
 
 const FormLogin = () => {
+  const { Login, loading } = useAuth();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     mode: "onBlur",
@@ -19,13 +23,13 @@ const FormLogin = () => {
     },
   });
 
-  const submitLogin = (data: LoginFormValues) => {
-    console.log(data);
-  };
   return (
     <div className="p-7">
       <h1 className="my-5 text-center">Login your account</h1>
-      <form onSubmit={form.handleSubmit(submitLogin)}>
+      <form
+        onSubmit={form.handleSubmit(Login)}
+        className={clsx(loading && "cursor-not-allowed")}
+      >
         <Controller
           name="email"
           control={form.control}
@@ -60,9 +64,11 @@ const FormLogin = () => {
           )}
         />
         <Button
-          title="Login"
+          title={loading ? "" : "Login"}
           className="w-full justify-center"
           variant="dark"
+          icon={loading ? <Spinner /> : null}
+          disabled={loading}
         />
         <p className="text-center my-3 text-sm">
           Forgot password?

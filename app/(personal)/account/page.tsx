@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator"
 import { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import Link from "next/link"
 import { BiPlus } from "react-icons/bi"
 
@@ -8,10 +9,11 @@ export const metadata: Metadata = {
   description: "Store fashion",
 };
 
-const AccountPage = () => {
+const AccountPage = async () => {
+    const session = await getServerSession()
     return (
         <div className="font-beatrice-deck pt-15">
-            <h4 className="text-5xl">Hello, Huy</h4>
+            <h4 className="text-5xl">Hello, {session?.user?.name}</h4>
             <Separator classname="my-5 border-gray-300"/>
             <div className="flex max-xl:flex-col gap-5">
                 <div className="w-[30%]">
@@ -19,8 +21,8 @@ const AccountPage = () => {
                 </div>
                 <div className="flex-1 relative">
                     <div className="flex flex-col gap-2">
-                        <h5>Huy Dinh</h5>
-                        <p>huydinh28032004@gmail.com</p>
+                        <h5>{session?.user?.name}</h5>
+                        <p>{session?.user?.email}</p>
                         <p>0354382607</p>
                     </div>
                     <Link href={'/edit-profile'} className="absolute top-0 right-0 underline">Edit</Link>

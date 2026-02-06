@@ -5,8 +5,10 @@ import NewCarousel from "./new-carousel";
 import CollectionsList from "./collections";
 import Image from "next/image";
 import { PHOTOS_FASHION_APPROACH } from "./mock/photo-fashion-approach";
+import { ProductService } from "@/services/product-service";
 
-export default function Home() {
+export default async function Home() {
+  const data = await ProductService.getAll("");
   return (
     <div className="px-10 max-sm:px-5">
       {/* HERO */}
@@ -47,7 +49,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="pt-5">
-          <NewCarousel />
+          <NewCarousel data={data.payload.data} />
         </div>
       </section>
 
@@ -62,7 +64,7 @@ export default function Home() {
           25-26
         </h1>
         <div className="mt-10">
-          <CollectionsList />
+          <CollectionsList data={data.payload.data} />
         </div>
       </section>
 
