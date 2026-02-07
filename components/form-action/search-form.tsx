@@ -6,24 +6,21 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-// import { useClickOutside } from "@/hooks/useClickOutSide";
 
 export const InputSearch = ({ classname }: { classname?: string }) => {
-  const param = useSearchParams()
-  // const [onSearch, setOnSearch] = useState<boolean>(false);
+  const param = useSearchParams();
   const ref = useRef<HTMLDivElement>(null);
   const [keyword, setKeyword] = useState<string>(param.get("search") ?? "");
   const debounce = useDebounce(keyword, 500);
   const router = useRouter();
   const pathname = usePathname();
 
-  // useClickOutside<HTMLDivElement>(ref, () => setOnSearch(false));
-
   useEffect(() => {
     if (pathname === "/") return;
-
-    router.push(`/shop?search=${debounce}`);
-  }, [debounce, router, pathname]);
+    if (debounce) {
+      router.push(`/shop?search=${debounce}`);
+    }
+  }, [debounce, pathname, router]);
   return (
     <div ref={ref} className={`relative h-full ${classname}`}>
       <div className="bg-black/10 p-3 flex justify-between items-center h-full">
@@ -54,15 +51,6 @@ export const InputSearch = ({ classname }: { classname?: string }) => {
           Search
         </span>
       </div>
-
-      {/* {onSearch && (
-        <div className="absolute w-full max-h-100 overflow-auto py-2 bg-white dark:bg-card z-999">
-          <label className="uppercase text-[13px] text-gray-500 font-bold dark:text-gray-200 px-5">
-            {!keyword ? "Recent product" : "Product"}
-          </label>
-          <div className="mt-3"></div>
-        </div>
-      )} */}
     </div>
   );
 };

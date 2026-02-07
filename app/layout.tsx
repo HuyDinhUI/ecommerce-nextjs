@@ -7,6 +7,7 @@ import Footer from "@/components/layout/footer";
 import Sidebar from "@/components/ui/sidebar";
 import ClientProvider from "@/providers/client.provider";
 import { ToastContainer } from "@/components/ui/toast/toast-container";
+import { CartHydration } from "@/providers/cart.provider";
 
 const BeatriceDeck = localFont({
   src: [
@@ -70,7 +71,10 @@ export default function RootLayout({
       >
         <Header />
         <main>
-          <ClientProvider>{children}</ClientProvider>
+          <ClientProvider>
+            {children}
+            <CartHydration/>
+          </ClientProvider>
         </main>
         <Footer />
         <Sidebar />

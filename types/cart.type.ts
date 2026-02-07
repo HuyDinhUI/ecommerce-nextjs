@@ -1,6 +1,7 @@
 import { Size } from "./product.type";
 
 export interface CartItem {
+  id: string
   productId: string;
   sku: string;
 

@@ -137,9 +137,9 @@ const FormRegister = () => {
           className="w-full justify-center"
           variant="dark"
         />
-        <p className="text-center my-3 text-sm">
-          Already have an account?
-          <Link href={"/login"} className="underline">
+        <p className="text-center my-3 text-sm text-gray-400">
+          Already have an account?{" "}
+          <Link href={"/login"} className="underline text-black">
             login
           </Link>
         </p>

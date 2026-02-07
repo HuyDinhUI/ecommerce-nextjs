@@ -1,4 +1,3 @@
-
 type CustomOptions = RequestInit & {
   baseUrl?: string;
 };
@@ -13,12 +12,12 @@ class HttpError extends Error {
   }
 }
 
-type Method = "GET" | "POST" | "PUT" | "DELETE";
+type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 const request = async <Response>(
   method: Method,
   url: string,
-  options?: CustomOptions | undefined
+  options?: CustomOptions | undefined,
 ) => {
   const body = options?.body ? JSON.stringify(options.body) : undefined;
   const baseHeaders = {
@@ -61,7 +60,7 @@ const request = async <Response>(
 const http = {
   get<Response>(
     url: string,
-    options?: Omit<CustomOptions, "body"> | undefined
+    options?: Omit<CustomOptions, "body"> | undefined,
   ) {
     return request<Response>("GET", url, options);
   },
@@ -69,7 +68,7 @@ const http = {
   post<Response>(
     url: string,
     body: any,
-    options?: Omit<CustomOptions, "body"> | undefined
+    options?: Omit<CustomOptions, "body"> | undefined,
   ) {
     return request<Response>("POST", url, { ...options, body });
   },
@@ -77,15 +76,23 @@ const http = {
   put<Response>(
     url: string,
     body: any,
-    options?: Omit<CustomOptions, "body"> | undefined
+    options?: Omit<CustomOptions, "body"> | undefined,
   ) {
     return request<Response>("PUT", url, { ...options, body });
+  },
+
+  patch<Response>(
+    url: string,
+    body: any,
+    options?: Omit<CustomOptions, "body"> | undefined,
+  ) {
+    return request<Response>("PATCH", url, { ...options, body });
   },
 
   delete<Response>(
     url: string,
     body?: any,
-    options?: Omit<CustomOptions, "body"> | undefined
+    options?: Omit<CustomOptions, "body"> | undefined,
   ) {
     return request<Response>("DELETE", url, { ...options, body });
   },

@@ -13,6 +13,7 @@ import { ProductClothes } from "@/types/product.type";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useCart from "@/hooks/useCart";
 
 export const ListCartItem = () => {
   const [checked, setChecked] = useState<boolean>(false);
@@ -20,12 +21,13 @@ export const ListCartItem = () => {
     items: useCartStore((state) => state.CartItem),
     subtotal: useCartStore((state) => state.subtotal),
   };
+  const { getProductIdsByCart } = useCart();
   const { shippingFee } = useCheckoutStore();
   const total = useTotalPrice();
-  const productIds = [...new Set(cart.items.map((i) => i.productId))];
+  const productIds = getProductIdsByCart(cart.items);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["cart-products", productIds],
+    queryKey: ["cart-products"],
     queryFn: () => ProductService.getByIds(productIds),
     enabled: productIds.length > 0,
     staleTime: 1000 * 60 * 5,
@@ -36,7 +38,7 @@ export const ListCartItem = () => {
   if (isLoading) return <SkeletonCartPage />;
 
   return (
-    <div>
+    <>
       <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5">
         {cart.items.map((item) => {
           const product = data?.payload.data.find(
@@ -94,6 +96,6 @@ export const ListCartItem = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };

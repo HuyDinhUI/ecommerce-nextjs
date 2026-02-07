@@ -5,7 +5,6 @@ import { CartItem, UpdateVariantType } from "@/types/cart.type";
 import { useMutation } from "@tanstack/react-query";
 
 const useCart = () => {
-
   const {
     addItem,
     removeItem,
@@ -13,7 +12,8 @@ const useCart = () => {
     updateVariant,
     snapshot,
     restore,
-    clearCart
+    clearCart,
+    syncCartItemId,
   } = useCartStore();
 
   const addCartMutation = useMutation({
@@ -25,16 +25,24 @@ const useCart = () => {
   });
 
   const updateColorMutation = useMutation({
-    mutationFn: CartService.updateColor,
+    mutationFn: CartService.updateVariant,
   });
 
   const updateSizeMutation = useMutation({
-    mutationFn: CartService.updateSize,
+    mutationFn: CartService.updateVariant,
   });
 
   const updateQuantityMutation = useMutation({
     mutationFn: CartService.updateQuantity,
   });
+
+  const mergeCartMutation = useMutation({
+    mutationFn: CartService.mergeCart,
+  });
+
+  const getProductIdsByCart = (cartItems: CartItem[]) => {
+    return [...new Set(cartItems.map((i) => i.productId))];
+  }
 
   const handleAddToCart = (cartItem: CartItem) => {
     const prev = snapshot();
@@ -42,8 +50,9 @@ const useCart = () => {
     addItem(cartItem);
 
     addCartMutation.mutate(cartItem, {
-      onSuccess: () => {
-        toast.success("Item has been added to cart.")
+      onSuccess: (v) => {
+        syncCartItemId(cartItem.id, v.payload.data.id);
+        toast.success("Item has been added to cart.");
       },
       onError: () => {
         restore(prev);
@@ -51,54 +60,51 @@ const useCart = () => {
     });
   };
 
-  const handleRemoveCart = (sku: string) => {
+  const handleRemoveCart = (id: string) => {
     const prev = snapshot();
 
-    removeItem(sku);
+    removeItem(id);
 
-    removeCartMutation.mutate(sku, {
+    removeCartMutation.mutate(id, {
       onError: () => {
         restore(prev);
       },
     });
   };
 
-  const handleUpdateColor = (payload: UpdateVariantType) => {
+  const handleUpdateColor = (payload: UpdateVariantType, id: string) => {
     const prev = snapshot();
 
     updateVariant(payload);
 
     updateColorMutation.mutate(
       {
-        productId: payload.productId,
+        id,
         sku: payload.newSku,
-        color: payload.newVariant.color.colorCode,
       },
       {
         onError: () => {
           restore(prev);
-
         },
-      }
+      },
     );
   };
 
-  const handleUpdateSize = (payload: UpdateVariantType) => {
+  const handleUpdateSize = (payload: UpdateVariantType, id: string) => {
     const prev = snapshot();
 
     updateVariant(payload);
 
     updateSizeMutation.mutate(
       {
-        productId: payload.productId,
+        id,
         sku: payload.newSku,
       },
       {
         onError: () => {
           restore(prev);
-
         },
-      }
+      },
     );
   };
 
@@ -106,37 +112,39 @@ const useCart = () => {
     const prev = snapshot();
     updateQuantity(cartItem.sku, quantity);
     updateQuantityMutation.mutate(
-      {
-        productId: cartItem.productId,
-        sku: cartItem.sku,
-        quantity: quantity,
-      },
+      { quantity, id: cartItem.id },
       {
         onError: () => {
           restore(prev);
-
         },
-      }
+      },
     );
   };
 
   const handleClearCart = () => {
-    clearCart()
-  }
+    clearCart();
+  };
+
+  const handleMergeCart = () => {
+    mergeCartMutation.mutateAsync();
+  };
 
   return {
+    getProductIdsByCart,
     handleAddToCart,
     handleRemoveCart,
     handleUpdateColor,
     handleUpdateSize,
     handleUpdateQuantity,
     handleClearCart,
+    handleMergeCart,
     loading:
       addCartMutation.isPending ||
       removeCartMutation.isPending ||
       updateColorMutation.isPending ||
       updateSizeMutation.isPending ||
-      updateQuantityMutation.isPending,
+      updateQuantityMutation.isPending ||
+      mergeCartMutation.isPending,
   };
 };
 

@@ -30,6 +30,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
     useFavourite();
   const prepareData = () => {
     const cartItem: CartItem = {
+      id: crypto.randomUUID(),
       productId: data.id,
       sku: selectedSize.sku,
       attribute: {

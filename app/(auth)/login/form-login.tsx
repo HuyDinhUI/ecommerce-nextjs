@@ -70,15 +70,15 @@ const FormLogin = () => {
           icon={loading ? <Spinner /> : null}
           disabled={loading}
         />
-        <p className="text-center my-3 text-sm">
-          Forgot password?
-          <Link href={"/reset-password"} className="underline">
+        <p className="text-center my-3 text-sm text-gray-400">
+          Forgot password?{" "}
+          <Link href={"/reset-password"} className="underline text-black">
             reset
           </Link>
         </p>
-        <p className="text-center my-3 text-sm">
-          You {`don't`} have account?
-          <Link href={"/register"} className="underline">
+        <p className="text-center my-3 text-sm text-gray-400">
+          You {`don't`} have account?{" "}
+          <Link href={"/register"} className="underline text-black">
             register
           </Link>
         </p>

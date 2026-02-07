@@ -2,54 +2,62 @@ import { CartItem } from "@/types/cart.type";
 import http from "@/utils/http";
 
 interface ICartService {
-  add(item: CartItem): Promise<{ status: number; payload: CartItem }>;
-  remove(sku: string): Promise<{ status: number; payload: string }>;
-  updateColor(payload: {
-    productId: string;
+  fetchCard(): Promise<{ status: number; payload: { data: CartItem[] } }>;
+
+  add(item: CartItem): Promise<{ status: number; payload: { data: any } }>;
+
+  remove(id: string): Promise<{ status: number }>;
+
+  updateVariant(payload: {
+    id: string;
     sku: string;
-    color: string;
-  }): Promise<{ status: number; payload: any }>;
-  updateSize(payload: {
-    productId: string;
-    sku: string;
-  }): Promise<{ status: number; payload: any }>;
+  }): Promise<{ status: number }>;
+
   updateQuantity(payload: {
-    productId: string;
-    sku: string;
     quantity: number;
-  }): Promise<{ status: number; payload: any }>;
+    id: string;
+  }): Promise<{ status: number }>;
+
+  mergeCart(): Promise<{ status: number }>;
 }
 
 class Cart implements ICartService {
-  add(item: CartItem): Promise<{ status: number; payload: CartItem }> {
-    return http.post<CartItem>("/cart/add", item);
+  fetchCard(): Promise<{ status: number; payload: { data: CartItem[] } }> {
+    return http.post<{ data: CartItem[] }>("/cart", null, {
+      credentials: "include",
+    });
   }
 
-  remove(sku: string): Promise<{ status: number; payload: string }> {
-    return http.delete<string>(`/cart/remove/${sku}`);
+  add(item: CartItem): Promise<{ status: number; payload: { data: any } }> {
+    return http.post<{ data: any }>("/cart/add", item);
   }
 
-  updateColor(payload: {
-    productId: string;
+  remove(id: string): Promise<{ status: number }> {
+    return http.delete<string>(`/cart/remove/${id}`);
+  }
+
+  updateVariant(payload: {
+    id: string;
     sku: string;
-    color: string;
-  }): Promise<{ status: number; payload: any }> {
-    return http.put(`/cart/updateColor`, payload);
-  }
-
-  updateSize(payload: {
-    productId: string;
-    sku: string;
-  }): Promise<{ status: number; payload: any }> {
-    return http.put(`/cart/updateSize`, payload);
+  }): Promise<{ status: number }> {
+    return http.patch(`/cart/updateVariant/${payload.id}`, {
+      sku: payload.sku,
+    });
   }
 
   updateQuantity(payload: {
-    productId: string;
-    sku: string;
     quantity: number;
-  }): Promise<{ status: number; payload: any }> {
-    return http.put(`/cart/updateQuantity`, payload);
+    id: string;
+  }): Promise<{ status: number }> {
+    return http.patch(`/cart/updateQuantity/${payload.id}`, {
+      quantity: payload.quantity,
+    });
+  }
+
+  mergeCart(): Promise<{ status: number }> {
+    return http.post("/cart/merge", null, {
+      credentials: "include",
+    });
   }
 }
 
