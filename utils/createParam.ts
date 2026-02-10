@@ -1,6 +1,5 @@
-import { Params } from "@/types/params.type";
 
-export const CreateParams = (params: Params) => {
-    const query = new URLSearchParams(params as any);
+export const CreateParams = (params: any) => {
+    const query = new URLSearchParams(params);
     return query.toString()
 } 

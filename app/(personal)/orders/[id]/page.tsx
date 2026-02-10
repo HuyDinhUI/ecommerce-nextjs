@@ -1,4 +1,3 @@
-import { OrderService } from "@/services/order-service";
 import OrderDetail from "./order-detail";
 
 const OrderDetailPage = async ({
@@ -7,8 +6,7 @@ const OrderDetailPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const res = await OrderService.getOne(id);
-  return <OrderDetail data={res.payload} />;
+  return <OrderDetail id={id} />;
 };
 
 export default OrderDetailPage;

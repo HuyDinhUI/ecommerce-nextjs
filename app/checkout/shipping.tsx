@@ -1,33 +1,37 @@
 import { RadioGroup } from "@/components/ui/radio-card/radio-card-group";
 import { RadioCard } from "@/components/ui/radio-card/radio-card-item";
 import { CheckoutFormValues } from "@/schemas/checkout.schema";
+import { ShippingMethodService } from "@/services/shippingMethod-service";
 import { useCheckoutStore } from "@/store/checkout.store";
+import { descriptionShippingMethod } from "@/utils/formatter";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-
-const ShipCost = {
-  standard: {
-    province: 15,
-    city: 10,
-  },
-  express: {
-    province: 20,
-    city: 15,
-  },
-};
 
 const ShippingForm = () => {
   const form =
     useFormContext<Pick<CheckoutFormValues, "shippingMethod" | "city">>();
-  const selectedMethod = form.watch("shippingMethod") as keyof typeof ShipCost;
+  const selectedMethod = form.watch("shippingMethod");
   const address = form.watch("city");
-  const typeAddress: keyof (typeof ShipCost)["standard"] =
-    parseInt(address) > 16 ? "province" : "city";
-  const shippingFee = ShipCost[selectedMethod]?.[typeAddress] ?? 0;
+
+  const { data } = useQuery({
+    queryKey: ["shipping-method"],
+    queryFn: ShippingMethodService.fetchShippingMethod,
+    staleTime: 1000 * 60 * 5,
+  });
+
   const { setShippingFee } = useCheckoutStore();
+  const { mutateAsync } = useMutation({
+    mutationFn: ShippingMethodService.calculateFee,
+    onSuccess: (v) => setShippingFee(v.payload.fee),
+  });
+
   useEffect(() => {
-    setShippingFee(shippingFee);
-  }, [shippingFee, setShippingFee]);
+    if (!selectedMethod || !address) return;
+
+    mutateAsync({ code: selectedMethod, codeAddress: Number(address) });
+  }, [selectedMethod, address, mutateAsync]);
+
   return (
     <div className="pb-5">
       <h2 className="uppercase text-sm my-5">shipping method</h2>
@@ -37,21 +41,19 @@ const ShippingForm = () => {
         render={({ field, fieldState }) => (
           <div className="space-y-3">
             <RadioGroup>
-              <RadioCard
-                value="standard"
-                title="Standard Shipping"
-                description="3–5 business days"
-                checked={field.value === "standard"}
-                onChange={field.onChange}
-              />
-
-              <RadioCard
-                value="express"
-                title="Express Shipping"
-                description="1–2 business days"
-                checked={field.value === "express"}
-                onChange={field.onChange}
-              />
+              {data?.payload.data.map((item) => (
+                <RadioCard
+                  key={item.code}
+                  value={item.code}
+                  title={item.name}
+                  description={descriptionShippingMethod(
+                    item.estimateDaysMin,
+                    item.estimateDaysMax,
+                  )}
+                  checked={field.value === item.code}
+                  onChange={field.onChange}
+                />
+              ))}
             </RadioGroup>
 
             {fieldState.error && (

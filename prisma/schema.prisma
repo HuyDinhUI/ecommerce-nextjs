@@ -42,7 +42,8 @@ model Product {
   isActive         Boolean        @default(true)
   createdAt        DateTime       @default(now())
 
-  cartItems CartItem[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
 }
 
 model ProductColor {
@@ -65,14 +66,15 @@ model ProductImage {
 }
 
 model ProductSize {
-  id        String       @id @default(cuid())
-  colorId   String
-  color     ProductColor @relation(fields: [colorId], references: [id])
-  name      String
-  stock     Int
-  sku       String       @unique
-  price     Float?
-  cartItems CartItem[]
+  id         String       @id @default(cuid())
+  colorId    String
+  color      ProductColor @relation(fields: [colorId], references: [id])
+  name       String
+  stock      Int
+  sku        String       @unique
+  price      Float?
+  cartItems  CartItem[]
+  orderItems OrderItem[]
 }
 
 model Cart {
@@ -101,22 +103,85 @@ model CartItem {
 
 model Order {
   id        String      @id @default(cuid())
+  orderCode String      @unique
   userId    String
   user      User        @relation(fields: [userId], references: [id])
-  total     Int
-  status    OrderStatus @default(PENDING)
+  status    OrderStatus @default(pending)
   createdAt DateTime    @default(now())
 
-  items OrderItem[]
+  items    OrderItem[]
+  address  OrderAddress?
+  shipping OrderShipping?
+  payment  OrderPayment?
+  total    OrderTotal?
 }
 
 model OrderItem {
-  id        String @id @default(cuid())
-  orderId   String
-  order     Order  @relation(fields: [orderId], references: [id])
-  productId String
-  quantity  Int
-  price     Int
+  id            String      @id @default(cuid())
+  orderId       String
+  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product     @relation(fields: [productId], references: [id])
+  productSizeId String
+  productSize   ProductSize @relation(fields: [productSizeId], references: [id])
+  quantity      Int
+  price         Int
+}
+
+model OrderAddress {
+  id          String  @id @default(cuid())
+  orderId     String? @unique
+  order       Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  email       String
+  phone       String
+  fullname    String
+  country     String?
+  city        String
+  district    String
+  addressLine String
+}
+
+model OrderShipping {
+  id              String  @id @default(cuid())
+  orderId         String? @unique
+  order           Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  methodId        String
+  methodName      String
+  fee             Float
+  estimateDaysMin Int
+  estimateDaysMax Int
+}
+
+model OrderPayment {
+  id            String        @id @default(cuid())
+  orderId       String?       @unique
+  order         Order?        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  method        PaymentMethod
+  status        PaymentStatus
+  transactionId String?
+  paidAt        String?
+}
+
+model OrderTotal {
+  id          String  @id @default(cuid())
+  orderId     String? @unique
+  order       Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  subtotal    Float
+  shippingFee Float
+  tax         Float
+  quantity    Int
+  discount    Float
+  total       Float
+}
+
+model ShippingMethod {
+  id              String @id @default(cuid())
+  code            String
+  name            String
+  provinceFee     Float
+  cityFee         Float
+  estimateDaysMin Int
+  estimateDaysMax Int
 }
 
 enum Role {
@@ -125,7 +190,22 @@ enum Role {
 }
 
 enum OrderStatus {
-  PENDING
-  PAID
-  CANCELLED
+  pending
+  confirmed
+  processing
+  shipped
+  delivered
+  cancelled
+}
+
+enum PaymentMethod {
+  cod
+  paypal
+}
+
+enum PaymentStatus {
+  unpaid
+  paid
+  failed
+  refunded
 }

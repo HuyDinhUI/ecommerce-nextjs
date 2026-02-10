@@ -16,14 +16,14 @@ const OrderDetail = () => {
         <h4 className="uppercase font-beatrice-deck font-light">your order</h4>
         <div className="flex flex-col gap-5 mt-5">
           {CartItem.map((item) => (
-            <div key={item.sku} className="flex gap-3">
+            <div key={item.sku} className="flex gap-3 h-40">
               <div className="aspect-3/4 xl:w-30 max-xl:w-35 relative ring ring-gray-300">
                 <Image src={item.image} fill alt={item.name} />
               </div>
               <div className="flex-1 text-sm font-beatrice-deck font-light py-5">
-                <h5 className="mb-2">{item.name}</h5>
+                <h5 className="mb-2 w-70 text-nowrap text-ellipsis overflow-hidden">{item.name}</h5>
                 <span className="text-gray-500">
-                  {item.attribute.color.name}/{item.attribute.size}
+                  {item.attribute.color.colorName}/{item.attribute.size}
                 </span>
                 <div className="flex justify-between mt-15 items-center">
                   <span className="font-beatrice-deck text-brand-dark-blue">{`(${item.quantity})`}</span>

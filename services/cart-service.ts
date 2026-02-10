@@ -10,7 +10,7 @@ interface ICartService {
 
   updateVariant(payload: {
     id: string;
-    sku: string;
+    productSizeId: string;
   }): Promise<{ status: number }>;
 
   updateQuantity(payload: {
@@ -19,6 +19,8 @@ interface ICartService {
   }): Promise<{ status: number }>;
 
   mergeCart(): Promise<{ status: number }>;
+
+  clearCart(): Promise<{ status: number }>;
 }
 
 class Cart implements ICartService {
@@ -38,10 +40,10 @@ class Cart implements ICartService {
 
   updateVariant(payload: {
     id: string;
-    sku: string;
+    productSizeId: string;
   }): Promise<{ status: number }> {
     return http.patch(`/cart/updateVariant/${payload.id}`, {
-      sku: payload.sku,
+      productSizeId: payload.productSizeId,
     });
   }
 
@@ -58,6 +60,10 @@ class Cart implements ICartService {
     return http.post("/cart/merge", null, {
       credentials: "include",
     });
+  }
+
+  clearCart(): Promise<{ status: number }> {
+    return http.delete(`/cart/clear`);
   }
 }
 

@@ -1,10 +1,21 @@
 "use client";
 
+import { Spinner } from "@/components/ui/loading";
 import { Separator } from "@/components/ui/separator";
-import { Order } from "@/types/order.type";
+import { OrderService } from "@/services/order-service";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
-const OrderDetail = ({ data }: { data: Order }) => {
+const OrderDetail = ({ id }: { id: string }) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["order-detail", id],
+    queryFn: () => OrderService.getOne(id),
+  });
+
+  const orderData = data?.payload.data;
+
+  if (isLoading) return <Spinner />;
+  
   return (
     <div className="flex max-xl:flex-col xl:justify-between">
       <div>
@@ -12,19 +23,21 @@ const OrderDetail = ({ data }: { data: Order }) => {
           <div className="flex xl:gap-50 max-xl:gap-20">
             <strong className="uppercase">Shipping</strong>
             <div className="flex flex-col gap-2">
-              <p>{data.address.fullname}</p>
-              <p>{data.address.phone}</p>
-              <p>{data.address.addressLine}</p>
-              <p>{data.shipping.methodName}</p>
-              <p className="text-blue-600 uppercase">{data.status}</p>
+              <p>{orderData?.address.fullname}</p>
+              <p>{orderData?.address.phone}</p>
+              <p>{orderData?.address.addressLine}</p>
+              <p>{orderData?.shipping.methodName}</p>
+              <p className="text-blue-600 uppercase">{orderData?.status}</p>
             </div>
           </div>
           <Separator classname="my-5 border-gray-300" />
           <div className="flex xl:gap-50 max-xl:gap-20">
             <strong className="uppercase">payment</strong>
             <div className="flex flex-col gap-2">
-              <p className="uppercase">{data.payment.method}</p>
-              <p className="text-green-600 uppercase">{data.payment.status}</p>
+              <p className="uppercase">{orderData?.payment.method}</p>
+              <p className="text-green-600 uppercase">
+                {orderData?.payment.status}
+              </p>
             </div>
           </div>
         </div>
@@ -32,11 +45,9 @@ const OrderDetail = ({ data }: { data: Order }) => {
       <Separator classname="my-5 border-gray-300 xl:hidden" />
       <div className="font-medium">
         <div className="relative">
-          <strong className="uppercase">
-            items
-          </strong>
+          <strong className="uppercase">items</strong>
           <div className="flex flex-col gap-5 mt-5">
-            {data.items.map((item) => (
+            {orderData?.items.map((item) => (
               <div key={item.sku} className="flex gap-3">
                 <div className="aspect-3/4 xl:w-30 max-xl:w-35 relative ring ring-gray-300">
                   <Image src={item.image} fill alt={item.name} />
@@ -58,18 +69,18 @@ const OrderDetail = ({ data }: { data: Order }) => {
             <Separator classname="my-2 border-gray-300" />
             <div className="flex justify-between">
               <h5>Subtotal</h5>
-              <span>$ {data.totals.subtotal.toFixed(2)}</span>
+              <span>$ {orderData?.totals.subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mt-2">
               <h5>Shipping</h5>
               <span className="text-gray-500">
-                $ {data.totals.shippingFee.toFixed(2)}
+                $ {orderData?.totals.shippingFee.toFixed(2)}
               </span>
             </div>
             <Separator classname="my-2 border-gray-300" />
             <div className="flex justify-between">
               <h5>Total</h5>
-              <span>$ {data.totals.total.toFixed(2)}</span>
+              <span>$ {orderData?.totals.total.toFixed(2)}</span>
             </div>
           </div>
         </div>

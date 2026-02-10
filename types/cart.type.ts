@@ -3,6 +3,7 @@ import { Size } from "./product.type";
 export interface CartItem {
   id: string
   productId: string;
+  productSizeId: string;
   sku: string;
 
   attribute: {
@@ -29,6 +30,7 @@ export interface Cart {
 
 export interface UpdateVariantType {
   productId: string;
+  productSizeId?: string;
   oldSku: string;
   newSku: string;
   newPrice: number;

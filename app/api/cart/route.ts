@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
-
   const userId = session?.user?.id ?? null;
   const cartId = req.cookies.get("cart_id")?.value ?? null;
 
@@ -16,6 +15,8 @@ export async function POST(req: NextRequest) {
   const cart: CartItem[] = res?.items.map((item) => {
     return {
       id: item.id,
+      cartId: item.cartId,
+      productSizeId: item.productSizeId,
       productId: item.productId,
       sku: item.productSize.sku,
 

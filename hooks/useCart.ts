@@ -40,9 +40,13 @@ const useCart = () => {
     mutationFn: CartService.mergeCart,
   });
 
+  const clearCartMutation = useMutation({
+    mutationFn: CartService.clearCart,
+  });
+
   const getProductIdsByCart = (cartItems: CartItem[]) => {
     return [...new Set(cartItems.map((i) => i.productId))];
-  }
+  };
 
   const handleAddToCart = (cartItem: CartItem) => {
     const prev = snapshot();
@@ -80,7 +84,7 @@ const useCart = () => {
     updateColorMutation.mutate(
       {
         id,
-        sku: payload.newSku,
+        productSizeId: payload.productSizeId!,
       },
       {
         onError: () => {
@@ -98,7 +102,7 @@ const useCart = () => {
     updateSizeMutation.mutate(
       {
         id,
-        sku: payload.newSku,
+        productSizeId: payload.productSizeId!,
       },
       {
         onError: () => {
@@ -122,7 +126,11 @@ const useCart = () => {
   };
 
   const handleClearCart = () => {
+    const prev = snapshot();
     clearCart();
+    clearCartMutation.mutateAsync().catch(() => {
+      restore(prev);
+    });
   };
 
   const handleMergeCart = () => {
@@ -144,7 +152,7 @@ const useCart = () => {
       updateColorMutation.isPending ||
       updateSizeMutation.isPending ||
       updateQuantityMutation.isPending ||
-      mergeCartMutation.isPending,
+      mergeCartMutation.isPending || clearCartMutation.isPending,
   };
 };
 

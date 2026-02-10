@@ -20,6 +20,7 @@ export enum Size {
 }
 
 export interface VariantSize {
+  id: string;
   name: Size;
   stock: number
   sku: string

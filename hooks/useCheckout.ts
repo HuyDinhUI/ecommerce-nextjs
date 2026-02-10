@@ -11,14 +11,22 @@ import { CreateOrderPayload } from "@/types/order.type";
 
 export function useCheckout() {
   const queryClient = useQueryClient();
-  const {handleClearCart} = useCart()
+  const { handleClearCart } = useCart();
   const [state, setState] = useState<CheckoutState>("IDLE");
   const [orderId, setOrderId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const createOrderMutation = useMutation({
     mutationFn: OrderService.createOrder,
-    onMutate: () => setState("CREATING_ORDER"),
+    onMutate: () => {
+      setState("CREATING_ORDER");
+      setError(null);
+    },
+    onError: (err) => {
+      setState("FAILED");
+      setError(err.message);
+      toast.error(err.message);
+    },
   });
 
   const createPaypalOrderMutation = useMutation({
@@ -29,27 +37,23 @@ export function useCheckout() {
   const capturePaypalMutation = useMutation({
     mutationFn: PayPalService.capturePaypalOrder,
     onMutate: () => setState("CAPTURING_PAYMENT"),
-    onSuccess: () => {
-      setState("SUCCESS");
-      handleClearCart()
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
+    onError: (err) => {
+      setState("FAILED");
+      setError(err.message);
     },
   });
 
-  const startCheckoutWithCod = async (payload: CreateOrderPayload) => {
-    try {
-      setError(null);
-
-      const order = await createOrderMutation.mutateAsync(payload);
-      setOrderId(order.payload.orderId);
-      handleClearCart()
-      window.location.href = `/orders/${order.payload.orderId}`
-
-    } catch (err: any) {
-      setState("FAILED");
-      setError(err.message);
-      toast.error(err.message);
-    }
+  const startCheckoutWithCod = async (
+    payload: CreateOrderPayload,
+  ) => {
+    await createOrderMutation.mutateAsync(payload, {
+      onSuccess: (order) => {
+        setOrderId(order.payload.orderId);
+        handleClearCart();
+        toast.success("Create order is success!");
+        window.location.href = `/orders/${order.payload.orderId}`
+      },
+    });
   };
 
   const startCheckoutWithPayPal = async (payload: CreateOrderPayload) => {
@@ -60,7 +64,7 @@ export function useCheckout() {
       setOrderId(order.payload.orderId);
 
       const paypal = await createPaypalOrderMutation.mutateAsync(
-        order.payload.orderId
+        order.payload.orderId,
       );
       return paypal.payload.id;
     } catch (err: any) {
@@ -72,13 +76,13 @@ export function useCheckout() {
   };
 
   const capturePayment = async (paypalOrderId: string) => {
-    try {
-      await capturePaypalMutation.mutateAsync(paypalOrderId);
-    } catch (err: any) {
-      setState("FAILED");
-      setError(err.message);
-      throw err;
-    }
+    await capturePaypalMutation.mutateAsync(paypalOrderId, {
+      onSuccess: () => {
+        setState("SUCCESS");
+        handleClearCart();
+        queryClient.invalidateQueries({ queryKey: ["orders"] });
+      },
+    });
   };
 
   const reset = () => {

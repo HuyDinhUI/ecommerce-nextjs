@@ -6,9 +6,10 @@ import { productColorSeed } from "./productColor.seed";
 import { productImageSeed } from "./productImage.seed";
 import { seedProductSize } from "./productSize.seed";
 import { seedUser } from "./user.seed";
+import { seedShippingMethod } from "./shippingMethod.seed";
 
 async function main() {
-  await seedUser();
+  await seedShippingMethod();
 }
 
 main()

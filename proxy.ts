@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-const PRIVATE_PATHS = ["/dashboard", "/admin", "/account"];
+const PRIVATE_PATHS = ["/dashboard", "/admin", "/account", "/checkout"];
 
 const AUTH_PATHS = ["/login", "/register"];
 
@@ -32,5 +32,6 @@ export const config = {
     "/account/:path*",
     "/login",
     "/register",
+    "/checkout"
   ],
 };

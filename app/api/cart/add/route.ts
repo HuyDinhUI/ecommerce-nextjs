@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
-  const { productId, sku } = await req.json();
+  const { productId, productSizeId } = await req.json();
   const session = await getServerSession(authOptions);
   const cookie = await cookies();
 
@@ -26,23 +26,11 @@ export const POST = async (req: NextRequest) => {
     });
   }
 
-  const productSizeId = await prisma.productSize.findUnique({
-    where: {
-      sku,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!productSizeId?.id)
-    return NextResponse.json({ message: "Sku is not exist" }, { status: 400 });
-
   const res = await prisma.cartItem.upsert({
     where: {
       cartId_productSizeId: {
         cartId: cart.id,
-        productSizeId: productSizeId?.id,
+        productSizeId: productSizeId,
       },
     },
     update: {
@@ -51,7 +39,7 @@ export const POST = async (req: NextRequest) => {
     create: {
       cartId: cart.id,
       productId,
-      productSizeId: productSizeId?.id,
+      productSizeId: productSizeId,
       quantity: 1,
     },
   });

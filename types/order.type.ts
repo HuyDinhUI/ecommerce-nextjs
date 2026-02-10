@@ -50,7 +50,7 @@ export interface OrderShipping {
 }
 
 export interface OrderPayment {
-  method: PaymentMethod;
+  method: string;
   status: PaymentStatus;
 
   transactionId?: string;
@@ -61,7 +61,7 @@ export interface OrderTotal {
   subtotal: number;
   shippingFee: number;
   tax: number;
-  quantity: number
+  quantity: number;
   discount: number;
   total: number;
 }
@@ -84,14 +84,20 @@ export interface Order {
   note?: string;
 
   createdAt: string;
-  updatedAt: string;
 }
 
+type CreateOrderItemPayload = Pick<
+  OrderItem,
+  "productId" | "quantity" | "price"
+> & {
+  productSizeId: string;
+};
+
 export interface CreateOrderPayload {
-  items: OrderItem[];
+  items: CreateOrderItemPayload[];
   address: OrderAddress;
   shippingMethodId: string;
-  paymentMethod: PaymentMethod;
+  paymentMethod: string;
   couponCode?: string;
   note?: string;
 }

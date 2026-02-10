@@ -32,6 +32,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
     const cartItem: CartItem = {
       id: crypto.randomUUID(),
       productId: data.id,
+      productSizeId: selectedSize.id,
       sku: selectedSize.sku,
       attribute: {
         color: currentVariant,

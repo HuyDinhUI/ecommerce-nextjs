@@ -22,7 +22,7 @@ const FormCheckout = () => {
   const { startCheckoutWithCod } = useCheckout();
   const { CartItem } = useCartStore();
   const [step, setStep] = useState<"information" | "shipping" | "payment">(
-    "information"
+    "information",
   );
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(CheckoutSchema),
@@ -37,7 +37,7 @@ const FormCheckout = () => {
       postcode: "",
       ward: "",
       address: "",
-      shippingMethod: "standard",
+      shippingMethod: "#standard",
       paymentMethod: "cod",
     },
     shouldUnregister: false,
@@ -72,7 +72,12 @@ const FormCheckout = () => {
     const payload: CreateOrderPayload = {
       shippingMethodId: data.shippingMethod,
       couponCode: "",
-      items: CartItem,
+      items: CartItem.map((item) => ({
+        productId: item.productId,
+        productSizeId: item.productSizeId,
+        quantity: item.quantity,
+        price: item.price,
+      })),
       paymentMethod: data.paymentMethod,
       address: {
         email: form.getValues("email"),
@@ -84,9 +89,6 @@ const FormCheckout = () => {
         addressLine: form.getValues("address"),
       },
     };
-
-    console.log(payload);
-
     startCheckoutWithCod(payload);
   };
 
@@ -164,8 +166,12 @@ const FormCheckout = () => {
         </FormProvider>
       ) : (
         <div className="flex flex-col justify-center items-center h-100">
-          <p className="text-gray-600 italic">There are currently no products in the shopping cart.</p>
-          <Link href={'/shop'} className="underline mt-5">Shopping now</Link>
+          <p className="text-gray-600 italic">
+            There are currently no products in the shopping cart.
+          </p>
+          <Link href={"/shop"} className="underline mt-5">
+            Shopping now
+          </Link>
         </div>
       )}
     </div>

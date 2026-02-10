@@ -38,8 +38,8 @@ export const CheckoutSchema = z
       .max(50, "Address must be at most 50 characters."),
     city: z.string().min(1, "City is required"),
     postcode: z.string().optional(),
-    shippingMethod: z.enum(["standard","express"]),
-    paymentMethod: z.enum(["cod","paypal"])
+    shippingMethod: z.string(),
+    paymentMethod: z.string()
   })
   .strict()
   .superRefine((data, ctx) => {

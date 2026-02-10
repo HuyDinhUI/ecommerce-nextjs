@@ -43,6 +43,7 @@ export const CartItem = ({
     const thumbnail = variant.images.find((i) => i.is_thumbnail);
     const payload: UpdateVariantType = {
       productId: cartItem.productId,
+      productSizeId: sizeAvailable.id,
       oldSku: cartItem.sku,
       newSku: sizeAvailable.sku,
       newPrice: sizeAvailable.price ?? product.price,
@@ -69,6 +70,7 @@ export const CartItem = ({
     const thumbnail = currentVariant?.images.find((i) => i.is_thumbnail);
     const payload: UpdateVariantType = {
       productId: cartItem.productId,
+      productSizeId: sizeItem.id,
       oldSku: cartItem.sku,
       newSku: sizeItem.sku,
       newPrice: sizeItem.price ?? product.price,
