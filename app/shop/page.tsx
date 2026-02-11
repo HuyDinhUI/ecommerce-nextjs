@@ -1,5 +1,3 @@
-import { CreateParams } from "@/utils/createParam";
-import { ProductService } from "../../services/product-service";
 import { ParamsProduct } from "@/types/params.type";
 import FilterSidebar from "./filter-sidebar";
 import FilterBar from "./filter-bar";
@@ -7,7 +5,11 @@ import Products from "./list-products";
 import { InputSearch } from "@/components/form-action/search-form";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Metadata } from "next";
-import { CategoryService } from "@/services/category-service";
+import { ProductService } from "@/lib/product/product-service";
+import { parseArray } from "@/utils/parse";
+import { CategoryService } from "@/lib/category/category-service";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Shop | Lumina",
@@ -20,10 +22,33 @@ interface PageProps {
 
 const ProductListPage = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
-  const query = CreateParams(params);
 
-  const data = await ProductService.getAll(query);
-  const categories = await CategoryService.getAll();
+  const keyword = params.keyword;
+
+  const page = Number(params.page ?? 1);
+  const limit = Number(params.limit ?? 12);
+  const category = parseArray(params.category ?? "");
+  const colors = parseArray(params.color ?? "");
+  const sizes = parseArray(params.size ?? "");
+  const gender = params.gender;
+  const minPrice = params.minPrice;
+  const maxPrice = params.maxPrice;
+
+  const [products, categories] = await Promise.all([
+    ProductService.getAll(
+      page,
+      limit,
+      category,
+      colors,
+      sizes,
+      gender,
+      minPrice,
+      maxPrice,
+      keyword,
+    ),
+
+    CategoryService.getAll(),
+  ]);
 
   return (
     <div className="font-beatrice-deck">
@@ -40,7 +65,7 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
       <div className="flex">
         <div className="max-lg:hidden px-10 h-200 overflow-y-scroll sticky top-0">
           <h1 className="max-lg:hidden">Filters</h1>
-          <FilterSidebar categories={categories.payload.data} />
+          <FilterSidebar categories={categories.payload} />
         </div>
         <div className="py-1 flex-1 overflow-hidden md:px-10 max-sm:px-5 relative min-100vh">
           <Breadcrumb classname="max-lg:hidden" />
@@ -50,10 +75,10 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
               <InputSearch classname="" />
             </div>
             <div className="max-sm:max-w-100 max-lg:overflow-x-scroll max-lg:p-1 flex-1">
-              <FilterBar categories={categories.payload.data} />
+              <FilterBar categories={categories.payload} />
             </div>
           </div>
-          <Products data={data.payload.data} />
+          <Products data={products.payload.data} />
         </div>
       </div>
     </div>

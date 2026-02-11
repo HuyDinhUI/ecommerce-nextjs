@@ -4,7 +4,7 @@ import { Order as OrderDTO } from "@/types/order.type";
 
 interface IOrderService {
   getAll(
-    params: string,
+    userId: string,
   ): Promise<{ status: number; payload: { data: OrderDTO[] } }>;
   getOne(
     orderId: string,
@@ -15,7 +15,7 @@ interface IOrderService {
 }
 
 class Order implements IOrderService {
-  getAll(
+  async getAll(
     params: string,
   ): Promise<{ status: number; payload: { data: OrderDTO[] } }> {
     return http.get<{ data: OrderDTO[] }>(`/orders?${params}`);

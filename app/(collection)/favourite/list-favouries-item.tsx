@@ -1,27 +1,20 @@
 "use client";
 
-import { DATA_CLOTHES_MOCK } from "@/app/mock/products.mock";
 import { Button } from "@/components/ui/button";
-import { Carousel } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import useFavourite from "@/hooks/useFavourite";
-import useIsMobile from "@/hooks/useIsMobile";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
 import {
-  IoChevronBackOutline,
-  IoChevronForwardOutline,
   IoClose,
 } from "react-icons/io5";
-import { SwiperSlide } from "swiper/react";
 
 export const ListFavouriesItem = () => {
-  const swiperRef = useRef<any>(null);
+  // const swiperRef = useRef<any>(null);
   const { items, handleRemoveFavourite } = useFavourite();
-  const [isBeginning, setIsBeginning] = useState<boolean>(true);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
-  const { isMobile } = useIsMobile();
+  // const [isBeginning, setIsBeginning] = useState<boolean>(true);
+  // const [isEnd, setIsEnd] = useState<boolean>(false);
+  // const { isMobile } = useIsMobile();
 
   return (
     <div>
@@ -53,7 +46,7 @@ export const ListFavouriesItem = () => {
         </div>
       )}
       <Separator classname="my-4 border-gray-300" />
-      <div className="xl:absolute xl:top-30 xl:right-20 xl:w-80 xl:p-5 xl:ring xl:ring-gray-300 max-xl:mt-10">
+      {/* <div className="xl:absolute xl:top-30 xl:right-20 xl:w-80 xl:p-5 xl:ring xl:ring-gray-300 max-xl:mt-10">
         <h5 className="my-3 text-center">You might like</h5>
         <div className="xl:h-70">
           <Carousel
@@ -67,8 +60,8 @@ export const ListFavouriesItem = () => {
                 <div className="ring ring-gray-300 w-full h-full max-xl:aspect-3/4">
                   <div className="w-full h-full relative">
                     <Image
-                      src={item.variants[0].image[0].url}
-                      alt={item.variants[0].image[0].alt!}
+                      src={item.variants[0].images[0].image_url}
+                      alt={item.variants[0].images[0].alt!}
                       fill
                       className="object-cover"
                     />
@@ -92,7 +85,7 @@ export const ListFavouriesItem = () => {
             onClick={() => swiperRef.current.slideNext()}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -62,12 +62,12 @@ export interface ProductClothes {
 
   variants: ProductVariant[];
 
-  status: ProductStatus;
+  status?: ProductStatus;
   rating?: number;
   totalSold?: number;
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ProductDTO {

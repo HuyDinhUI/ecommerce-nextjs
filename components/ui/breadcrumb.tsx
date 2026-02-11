@@ -9,7 +9,7 @@ export const Breadcrumb = ({ classname }: { classname?: string }) => {
   const items = generateBreadcrumb(header);
 
   return (
-    <nav aria-label="Breadcrumb" className={`mb-4 text-sm ${classname}`}>
+    <nav aria-label="Breadcrumb" className={`mb-4 text-sm max-sm:hidden ${classname}`}>
       <ol className="flex flex-wrap gap-2 text-gray-600">
         <li>
           <Link href="/" className="hover:underline">

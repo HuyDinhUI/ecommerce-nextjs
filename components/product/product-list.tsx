@@ -38,6 +38,7 @@ export const ProductItem = ({ item }: { item: ProductClothes }) => {
                 alt={thumbnail.alt ?? ""}
                 fill
                 className="object-cover"
+                sizes="(max-width: 366px) 100vw, 366px"
               />
             </Link>
             <Dialog

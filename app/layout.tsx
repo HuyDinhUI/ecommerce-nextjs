@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import { Inter as InterFont } from "next/font/google";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import Sidebar from "@/components/ui/sidebar";
@@ -48,12 +47,6 @@ const Beatrice = localFont({
   display: "swap",
 });
 
-const Inter = InterFont({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["200", "400", "600", "900"],
-});
-
 export const metadata: Metadata = {
   title: "Lumina",
   description: "Store fashion",
@@ -67,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="mdl-js">
       <body
-        className={`${BeatriceDeck.variable} ${Beatrice.variable} ${Inter.variable} antialiased tracking-widest`}
+        className={`${BeatriceDeck.variable} ${Beatrice.variable} antialiased tracking-widest bg-gray-50`}
       >
         <Header />
         <main>

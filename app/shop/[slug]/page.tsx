@@ -12,7 +12,7 @@ const ProductPage = async ({
   const data = await ProductService.getOne(product_id);
 
   return (
-    <div>
+    <div className="lg:px-30">
       <div className="flex justify-center">
         <Breadcrumb />
       </div>

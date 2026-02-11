@@ -6,11 +6,11 @@ import { ArrowLongIcon } from "@/icon";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
-import { DATA_CLOTHES_MOCK } from "./mock/products.mock";
-import { SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import { ProductClothes } from "@/types/product.type";
+import { SwiperSlide } from "swiper/react";
 
-const HeroCarousel = () => {
+const HeroCarousel = ({ data }: { data: ProductClothes[] }) => {
   const swiperRef = useRef<any>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -63,15 +63,18 @@ const HeroCarousel = () => {
           setIsEnd={setIsEnd}
           swiperRef={swiperRef}
         >
-          {DATA_CLOTHES_MOCK.map((item) => (
+          {data.map((item) => (
             <SwiperSlide key={item.id} className="p-1">
               <div className="ring ring-gray-300 w-full h-full max-xl:aspect-3/4">
                 <div className="w-full h-full relative">
                   <Image
-                    src={item.variants[0].image[0].url}
-                    alt={item.variants[0].image[0].alt!}
+                    src={item.variants[0].images[0].image_url}
+                    alt={item.name}
                     fill
                     className="object-cover"
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               </div>

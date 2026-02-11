@@ -26,8 +26,7 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
     selectedSize,
   } = useProductVariants(data);
   const { handleAddToCart, loading } = useCart();
-  const { handleToggleFavourite, isFavourite } =
-    useFavourite();
+  const { handleToggleFavourite, isFavourite } = useFavourite();
   const prepareData = () => {
     const cartItem: CartItem = {
       id: crypto.randomUUID(),
@@ -41,7 +40,8 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
       quantity: 1,
       name: data.name,
       slug: data.slug,
-      image: currentVariant.images.find((img) => img.is_thumbnail)?.image_url ?? "",
+      image:
+        currentVariant.images.find((img) => img.is_thumbnail)?.image_url ?? "",
       material: data.material!,
       price: selectedSize.price ?? data.price,
     };
@@ -54,35 +54,52 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
       productId: data.id,
       name: data.name,
       slug: data.slug,
-      thumnail: data.variants[0].images.find((i) => i.is_thumbnail)?.image_url ?? '',
+      thumnail:
+        data.variants[0].images.find((i) => i.is_thumbnail)?.image_url ?? "",
     };
 
     return favouriteItem;
   };
 
   return (
-    <div className="w-full flex xl:justify-center max-lg:flex-col p-7 font-beatrice-deck">
-      <div className="flex max-lg:flex-col xl:w-150">
-        <div className="aspect-3/4 relative ring ring-gray-300">
-          <Image src={currentImage?.image_url ?? ""} fill alt={data.name} />
+    <div className="w-full flex max-lg:flex-col font-beatrice-deck p-7">
+      <div className="flex flex-row-reverse xl:gap-2 flex-1 max-lg:flex-col xl:w-150">
+        <div className="aspect-3/4 flex-1 relative">
+          <Image
+            src={currentImage?.image_url ?? ""}
+            fill
+            alt={data.name}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            fetchPriority="high"
+          />
         </div>
-        <div className="xl:ml-5 max-lg:mt-5 flex xl:flex-col gap-3 xl:w-15 max-lg:h-20 max-lg:overflow-x-scroll">
-          {currentVariant.images.map((img) => (
-            <div
-              key={img.image_url}
-              className={`aspect-3/4 relative overflow-hidden ring ring-gray-300 cursor-pointer ${
-                currentImage.image_url === img.image_url
-                  ? ""
-                  : "opacity-50 hover:opacity-100"
-              }`}
-              onClick={() => setCurrentImage(img)}
-            >
-              <Image src={img.image_url} fill alt={img.alt ?? ""} />
-            </div>
-          ))}
+        <div className="max-lg:overflow-x-scroll max-sm:w-90">
+          <div className="max-sm:min-w-100 max-lg:mt-5 flex xl:flex-col gap-3 xl:w-15 max-lg:h-20">
+            {currentVariant.images.map((img) => (
+              <div
+                key={img.image_url}
+                className={`aspect-3/4 relative overflow-hidden cursor-pointer ${
+                  currentImage.image_url === img.image_url
+                    ? ""
+                    : "opacity-50 hover:opacity-100"
+                }`}
+                onClick={() => setCurrentImage(img)}
+              >
+                <Image
+                  src={img.image_url}
+                  fill
+                  alt={img.alt ?? ""}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
+                  fetchPriority="high"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="lg:ring ring-gray-300 xl:w-90 max-lg:mt-10 lg:p-10 relative">
+      <div className="xl:w-100 max-lg:mt-10 lg:px-10 lg:sticky relative top-0 z-1">
         <h1>{data.name}</h1>
         <span className="block mt-2 font-beatrice">
           ${selectedSize.price ?? data.price}
@@ -145,7 +162,9 @@ export const ProductDetail = ({ data }: ProductDetailProps) => {
         <Favourite
           classname="absolute top-0 right-0"
           checked={isFavourite(data.id)}
-          onCheckedChange={(checked) => handleToggleFavourite(prepareDataFavourite(), checked)}
+          onCheckedChange={(checked) =>
+            handleToggleFavourite(prepareDataFavourite(), checked)
+          }
         />
       </div>
     </div>

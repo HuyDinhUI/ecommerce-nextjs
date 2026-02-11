@@ -7,16 +7,20 @@ export interface ParamsProduct {
     category?: string
     priceRange?: string
     collections?: string
+    gender?: string
+    minPrice?: string
+    maxPrice?: string
     tag?: string
     rating?: string
     page?: string;
+    limit?: string;
 }
 
 export interface ParamsOrder {
-    keyword?: string
     status?: string
     paymentMethod?: string
     shippingMethod?: string
-    discount?: boolean
-    tax?: boolean
+    sort?: string
+    page?: string;
+    limit?: string;
 }

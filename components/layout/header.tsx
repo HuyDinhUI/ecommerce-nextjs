@@ -31,16 +31,16 @@ const Header = () => {
   const { totalQuantity } = useCartStore();
   return (
     <header
-      className={`flex justify-between items-center px-10 max-sm:px-5 py-10 sticky top-0 z-999 bg-white ${
+      className={`flex justify-between items-center px-10 max-sm:px-5 py-10 sticky top-0 z-999 bg-gray-50 ${
         scrollUp ? "translate-y-0" : "-translate-y-full"
       } transition-transform duration-300`}
-      style={{ backgroundImage: "url('/noisy_background.png')" }}
     >
       <div className="flex gap-5">
         <Button
           onClick={() => setOpen(true, "sidebar")}
           size="ic"
           className="lg:hidden z-999"
+          variant="transparent"
           icon={<MenuIcon />}
         />
         <nav className="font-beatrice-deck font-light max-lg:hidden relative z-99">

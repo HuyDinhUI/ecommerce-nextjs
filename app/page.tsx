@@ -5,28 +5,36 @@ import NewCarousel from "./new-carousel";
 import CollectionsList from "./collections";
 import Image from "next/image";
 import { PHOTOS_FASHION_APPROACH } from "./mock/photo-fashion-approach";
-import { ProductService } from "@/services/product-service";
+import { ProductService } from "@/lib/product/product-service";
 
 export default async function Home() {
-  const data = await ProductService.getAll("");
+  const data = await ProductService.getAll(1, 12);
   return (
     <div className="px-10 max-sm:px-5">
       {/* HERO */}
 
       <section id="hero">
         <div className="w-[30%] max-md:w-full">
-          <div className="mb-5">
-            <span className="uppercase font-beatrice-deck font-extralight">
-              Men
-              <br />
-              Women
-              <br />
-              Unisex
-            </span>
-          </div>
-          <InputSearch />
+          <ol className="mb-5 uppercase font-beatrice-deck font-extralight">
+            <li>
+              <Link className="hover:underline" href={"/shop?gender=men"}>
+                Men
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:underline" href={"/shop?gender=women"}>
+                Women
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:underline" href={"/shop?gender=unisex"}>
+                Unisex
+              </Link>
+            </li>
+          </ol>
+          {/* <InputSearch /> */}
         </div>
-        <HeroCarousel />
+        <HeroCarousel data={data.payload.data} />
       </section>
 
       {/* NEW THIS WEEK */}
@@ -85,12 +93,17 @@ export default async function Home() {
         <div className="pt-20">
           <div className="grid grid-cols-4 gap-5">
             {PHOTOS_FASHION_APPROACH.map((item, idx) => (
-              <div key={idx} className={`aspect-3/4 relative ring ring-gray-300 ${(idx+1)%2 === 0 ? 'mt-10' : ''}`}>
+              <div
+                key={idx}
+                className={`aspect-3/4 relative ring ring-gray-300 ${(idx + 1) % 2 === 0 ? "mt-10" : ""}`}
+              >
                 <Image
                   src={item.url}
                   alt={item.alt}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  priority
                 />
               </div>
             ))}
