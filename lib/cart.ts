@@ -36,7 +36,7 @@ const cartInclude = {
       },
     },
   },
-};
+} as const
 
 export type CartWithItems = Prisma.CartGetPayload<{
   include: typeof cartInclude;
