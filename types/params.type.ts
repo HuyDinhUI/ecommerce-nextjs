@@ -1,5 +1,5 @@
 export interface ParamsProduct {
-    keyword?: string
+    q?: string
     color?: string;
     size?: string;
     sort?: string;

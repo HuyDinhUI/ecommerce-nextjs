@@ -1,4 +1,4 @@
-import { prisma } from "@/utils/prisma";
+import { ProductService } from "@/lib/product/product-service";
 
 export const GET = async (
   req: Request,
@@ -13,28 +13,13 @@ export const GET = async (
     );
   }
 
-  const data = await prisma.product.findUnique({
-    where: { id },
-    include: {
-      variants: {
-        include: {
-          images: true,
-          sizes: {
-            select: {
-              id: true,
-              name: true,
-              stock: true,
-              sku: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  if (!data) {
-    return Response.json({ message: "Product not found" }, { status: 404 });
+  try {
+    const data = await ProductService.getOne(id);
+    return Response.json(data, { status: 200 });
+  } catch (error) {
+    return Response.json(
+      { message: (error as Error).message || "Internal Server Error" },
+      { status: 500 },
+    );
   }
-
-  return Response.json(data, { status: 200 });
 };

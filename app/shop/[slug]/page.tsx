@@ -1,6 +1,6 @@
-import { ProductService } from "@/services/product-service";
 import { ProductDetail } from "@/components/product/product-detail";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { ProductService } from "@/lib/product/product-service";
 
 const ProductPage = async ({
   searchParams,
@@ -8,6 +8,10 @@ const ProductPage = async ({
   searchParams: { product_id: string };
 }) => {
   const { product_id } = await searchParams;
+
+  if (!product_id) {
+    return <div>Product ID is required</div>;
+  }
 
   const data = await ProductService.getOne(product_id);
 

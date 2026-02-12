@@ -1,19 +1,26 @@
+import { authOptions } from "@/lib/auth";
 import { Order } from "@/types/order.type";
 import { Size } from "@/types/product.type";
 import { prisma } from "@/utils/prisma";
+import { getServerSession } from "next-auth";
 
 export const GET = async (
   req: Request,
   ctx: RouteContext<"/api/orders/[id]">,
 ) => {
+  const session = await getServerSession(authOptions);
   const { id } = await ctx.params;
+
+  if (!session) {
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
+  }
 
   if (!id) {
     return Response.json({ message: "OrderCode is required" }, { status: 400 });
   }
 
   const order = await prisma.order.findUnique({
-    where: { id },
+    where: { id, userId: session.user.id },
     include: {
       items: {
         include: {

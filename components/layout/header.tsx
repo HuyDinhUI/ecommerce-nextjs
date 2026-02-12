@@ -8,6 +8,7 @@ import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { Button } from "../ui/button";
 import { useCartStore } from "@/store/cart.store";
 import { useUIStore } from "@/store/ui.store";
+import { formatPath } from "@/utils/formatter";
 
 const ITEMS_NAVBAR = [
   {
@@ -16,7 +17,7 @@ const ITEMS_NAVBAR = [
   },
   {
     name: "Shop",
-    href: "/shop",
+    href: "/shop?page=1&limit=24",
   },
   {
     name: "New",
@@ -27,7 +28,7 @@ const ITEMS_NAVBAR = [
 const Header = () => {
   const location = usePathname();
   const scrollUp = useScrollDirection();
-  const { setOpen } = useUIStore()
+  const { setOpen } = useUIStore();
   const { totalQuantity } = useCartStore();
   return (
     <header
@@ -49,7 +50,9 @@ const Header = () => {
               <li
                 key={idx}
                 className={`${
-                  location === item.href ? "text-black" : "text-gray-400"
+                  location === formatPath(item.href)
+                    ? "text-black"
+                    : "text-gray-400"
                 }`}
               >
                 <Link href={item.href}>{item.name}</Link>
@@ -72,7 +75,8 @@ const Header = () => {
             <Link href={"/cart"}>
               <CartIcon width="15" height="15" />
               <span className="absolute text-white bg-red-500 w-6 h-6 rounded-full p-1 text-center text-[10px] text-nowrap -top-3 -right-2">
-                {Math.min(totalQuantity, 9)}{totalQuantity > 9 && "+"}
+                {Math.min(totalQuantity, 9)}
+                {totalQuantity > 9 && "+"}
               </span>
             </Link>
           </li>

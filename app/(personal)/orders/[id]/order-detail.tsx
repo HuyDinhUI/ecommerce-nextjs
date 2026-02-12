@@ -15,10 +15,11 @@ const OrderDetail = ({ id }: { id: string }) => {
   const orderData = data?.payload.data;
 
   if (isLoading) return <Spinner />;
+
+  if (!orderData) return <div className="text-center">No order data found.</div>;
   
   return (
     <div className="flex max-xl:flex-col xl:justify-between">
-      <div>
         <div className="flex flex-col gap-5">
           <div className="flex xl:gap-50 max-xl:gap-20">
             <strong className="uppercase">Shipping</strong>
@@ -41,7 +42,6 @@ const OrderDetail = ({ id }: { id: string }) => {
             </div>
           </div>
         </div>
-      </div>
       <Separator classname="my-5 border-gray-300 xl:hidden" />
       <div className="font-medium">
         <div className="relative">

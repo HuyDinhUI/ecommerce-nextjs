@@ -93,4 +93,19 @@ export class ProductService {
       throw error;
     }
   }
+
+  static async getOne(id: string) {
+    try {
+
+      const data = await ProductRepository.findById(id);
+
+      return {
+        status: 200,
+        message: "Get product successfully",
+        payload: data,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -16,3 +16,9 @@ export const descriptionShippingMethod = (
 ) => {
   return estimateDaysMin + " - " + estimateDaysMax + " business days";
 };
+
+export const formatPath = (url: string) => {
+  const findIndex = url.indexOf("?");
+  if (findIndex === -1) return url;
+  return url.slice(0, findIndex);
+}

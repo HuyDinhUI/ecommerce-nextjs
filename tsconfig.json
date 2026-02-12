@@ -30,6 +30,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "types"
-  ],
+, "jest.config.ts"  ],
   "exclude": ["node_modules"]
 }

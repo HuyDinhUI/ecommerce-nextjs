@@ -1,4 +1,3 @@
-import { InputSearch } from "@/components/form-action/search-form";
 import HeroCarousel from "./hero-carousel";
 import Link from "next/link";
 import NewCarousel from "./new-carousel";
@@ -6,6 +5,8 @@ import CollectionsList from "./collections";
 import Image from "next/image";
 import { PHOTOS_FASHION_APPROACH } from "./mock/photo-fashion-approach";
 import { ProductService } from "@/lib/product/product-service";
+import { Input } from "@/components/ui/input";
+import { SearchIcon } from "@/icon";
 
 export default async function Home() {
   const data = await ProductService.getAll(1, 12);
@@ -32,7 +33,19 @@ export default async function Home() {
               </Link>
             </li>
           </ol>
-          {/* <InputSearch /> */}
+          <form
+            action="/shop"
+            className="bg-black/10 p-3 gap-5 flex justify-between items-center"
+          >
+            <SearchIcon />
+            <Input
+              variant="borderNone"
+              placeholder="Search products..."
+              className="outline-none focus:ring-0"
+              sizeOpt="sm"
+              name="q"
+            />
+          </form>
         </div>
         <HeroCarousel data={data.payload.data} />
       </section>
@@ -47,7 +60,7 @@ export default async function Home() {
               <br />
               This week
             </h1>
-            <span className="absolute -right-8 top-1/3 font-beatrice-deck font-extrabold text-brand-dark-blue">{`(${50})`}</span>
+            <span className="absolute xl:-right-8 right-10 top-1/3 font-beatrice-deck font-extrabold text-brand-dark-blue">{`(${data.payload.data.length})`}</span>
           </div>
           <Link
             href={""}

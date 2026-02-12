@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { ProductService } from "@/lib/product/product-service";
 import { parseArray } from "@/utils/parse";
 import { CategoryService } from "@/lib/category/category-service";
+import Pagination from "@/components/ui/pagination";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +24,7 @@ interface PageProps {
 const ProductListPage = async ({ searchParams }: PageProps) => {
   const params = await searchParams;
 
-  const keyword = params.keyword;
-
+  const keyword = params.q;
   const page = Number(params.page ?? 1);
   const limit = Number(params.limit ?? 12);
   const category = parseArray(params.category ?? "");
@@ -78,7 +78,20 @@ const ProductListPage = async ({ searchParams }: PageProps) => {
               <FilterBar categories={categories.payload} />
             </div>
           </div>
-          <Products data={products.payload.data} />
+          {products.payload.data.length ? (
+            <Products data={products.payload.data} />
+          ) : (
+            <div className="h-50 flex justify-center items-center">
+              <p className="text-center">No products found</p>
+            </div>
+          )}
+          {products.payload.data.length ? (
+            <Pagination
+              page={String(page)}
+              totalPages={products.payload.pagination.totalPages}
+              classname="my-5 justify-center"
+            />
+          ) : null}
         </div>
       </div>
     </div>

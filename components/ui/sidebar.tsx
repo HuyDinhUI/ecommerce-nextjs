@@ -14,7 +14,7 @@ const ITEMS_NAVBAR = [
   },
   {
     name: "Shop",
-    href: "/shop",
+    href: "/shop?page=1&limit=24",
   },
   {
     name: "New",

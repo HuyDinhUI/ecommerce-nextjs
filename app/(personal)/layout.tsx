@@ -35,7 +35,7 @@ const PersonalLayout = ({children}:{children: ReactNode}) => {
                         <nav>
                             <ol>
                                 {PERSONAL_LOCATION.map((item, index) => (
-                                    <li key={index} className={clsx("my-5 transition-all", pathname === item.href ? "underline-offset-5 underline font-bold" : "")}>
+                                    <li key={index} className={clsx("my-5 transition-all", pathname.includes(item.href) ? "underline-offset-5 underline font-bold" : "")}>
                                         <Link href={item.href}>{item.name}</Link>
                                     </li>
                                 ))}
@@ -50,7 +50,7 @@ const PersonalLayout = ({children}:{children: ReactNode}) => {
                     <nav>
                         <ol>
                             {PERSONAL_LOCATION.map((item, index) => (
-                                <li key={index} className={clsx("my-5 transition-all", pathname === item.href ? "underline-offset-5 underline font-bold" : "")}>
+                                <li key={index} className={clsx("my-5 transition-all", pathname.includes(item.href) ? "underline-offset-5 underline font-bold" : "")}>
                                     <Link href={item.href}>{item.name}</Link>
                                 </li>
                             ))}

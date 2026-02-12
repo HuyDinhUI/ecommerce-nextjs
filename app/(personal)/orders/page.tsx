@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { OrderService } from "@/lib/order/order-service";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -35,11 +36,22 @@ const OrdersPage = async ({ searchParams }: PageProps) => {
     Number(params.limit) || 12,
   );
 
+  if (res.data.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center mt-10 h-50">
+        <span className="italic text-gray-500">There are no orders yet.</span>
+        <Link href={"/shop"} className="underline">
+          Shopping now
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+    <>
       <FilterBarOrder />
       <ListOrdersPage data={res.data} />
-    </Suspense>
+    </>
   );
 };
 

@@ -10,11 +10,18 @@ import { CategoryDTO } from "@/types/category.type";
 
 const DATA_SIZES = ["s", "m", "l", "xl", "xxl", "3xl"];
 
-const AVAILABILITY = ["Availability", "Out Of Stack"];
-
 const COLORS = ["Black", "White", "Blue", "Green"];
 
-const FilterSidebar = ({categories}:{categories: CategoryDTO[]}) => {
+const GENDER = ["Men", "Women", "Unisex"];
+
+const PRICE_RANGES = [
+  { label: "Under $50", min: "0", max: "50" },
+  { label: "$50 to $100", min: "50", max: "100" },
+  { label: "$100 to $200", min: "100", max: "200" },
+  { label: "Over $200", min: "200", max: "" },
+];
+
+const FilterSidebar = ({ categories }: { categories: CategoryDTO[] }) => {
   const { isMobile } = useIsMobile();
 
   const { onToggle, getParams } = useFilter();
@@ -37,12 +44,12 @@ const FilterSidebar = ({categories}:{categories: CategoryDTO[]}) => {
         </div>
       </div>
       <Separator classname="border-gray-400" stroke="dashed" />
-      <Collapsible label="Availability">
-        {AVAILABILITY.map((item, idx) => (
+      <Collapsible label="Gender">
+        {GENDER.map((item, idx) => (
           <div key={idx} className="flex items-center gap-2 mt-3">
             <Checkbox
-              checked={getParams("availability").includes(item)}
-              onCheckedChange={() => onToggle("availability", item)}
+              checked={getParams("color").includes(item)}
+              onCheckedChange={() => onToggle("color", item)}
             />
             <span className="text-sm">{item}</span>
           </div>
@@ -69,6 +76,24 @@ const FilterSidebar = ({categories}:{categories: CategoryDTO[]}) => {
               onCheckedChange={() => onToggle("color", item)}
             />
             <span className="text-sm">{item}</span>
+          </div>
+        ))}
+      </Collapsible>
+      <Separator classname="border-gray-400" stroke="dashed" />
+      <Collapsible label="Price">
+        {PRICE_RANGES.map((item, idx) => (
+          <div key={idx} className="flex items-center gap-2 my-3">
+            <Checkbox
+              checked={
+                getParams("minPrice")[0] === `${item.min}` &&
+                getParams("maxPrice")[0] === `${item.max}`
+              }
+              onCheckedChange={() => {
+                onToggle("minPrice", `${item.min}`);
+                onToggle("maxPrice", `${item.max}`);
+              }}
+            />
+            <span className="text-sm">{item.label}</span>
           </div>
         ))}
       </Collapsible>
