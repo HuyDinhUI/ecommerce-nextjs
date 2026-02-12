@@ -1,13 +1,8 @@
 import { prisma } from "@/utils/prisma";
+import { Prisma } from "@prisma/client";
 
-export async function getOrCreateCart({
-  cartId,
-  userId,
-}: {
-  cartId: string | null;
-  userId: string | null;
-}) {
-  const items = {
+const cartInclude = {
+  items: {
     include: {
       product: {
         select: {
@@ -40,12 +35,24 @@ export async function getOrCreateCart({
         },
       },
     },
-  };
+  },
+};
 
+export type CartWithItems = Prisma.CartGetPayload<{
+  include: typeof cartInclude;
+}>;
+
+export async function getOrCreateCart({
+  cartId,
+  userId,
+}: {
+  cartId: string | null;
+  userId: string | null;
+}): Promise<CartWithItems> {
   if (userId) {
     const userCart = await prisma.cart.findUnique({
       where: { userId },
-      include: { items },
+      include: cartInclude,
     });
     if (userCart) return userCart;
   }
@@ -53,15 +60,13 @@ export async function getOrCreateCart({
   if (cartId) {
     const guestCart = await prisma.cart.findUnique({
       where: { id: cartId },
-      include: { items },
+      include: cartInclude,
     });
     if (guestCart) return guestCart;
   }
 
   return await prisma.cart.create({
     data: { userId },
-    include: {
-      items,
-    },
+    include: cartInclude,
   });
 }

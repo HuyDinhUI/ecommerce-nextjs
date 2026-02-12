@@ -1,5 +1,4 @@
 import { CategoryService } from "@/lib/category/category-service";
-import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
