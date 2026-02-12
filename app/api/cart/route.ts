@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   const res = await getOrCreateCart({ userId, cartId });
 
-  const cart: CartItem[] = res?.items.map((item) => {
+  const cart: CartItem[] = res.items.map((item) => {
     return {
       id: item.id,
       cartId: item.cartId,
