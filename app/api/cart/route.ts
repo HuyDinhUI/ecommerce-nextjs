@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { getOrCreateCart } from "@/lib/cart";
+import { CartWithItems, getOrCreateCart } from "@/lib/cart";
 import { CartItem } from "@/types/cart.type";
 import { Size } from "@/types/product.type";
 import { getServerSession } from "next-auth";
@@ -12,28 +12,30 @@ export async function POST(req: NextRequest) {
 
   const res = await getOrCreateCart({ userId, cartId });
 
-  const cart = res.items.map((item): CartItem => {
-    return {
-      id: item.id,
-      productSizeId: item.productSizeId,
-      productId: item.productId,
-      sku: item.productSize.sku,
+  const cart = res.items.map(
+    (item: CartWithItems["items"][number]): CartItem => {
+      return {
+        id: item.id,
+        productSizeId: item.productSizeId,
+        productId: item.productId,
+        sku: item.productSize.sku,
 
-      attribute: {
-        color: {
-          colorName: item.productSize.color.colorName,
-          colorCode: item.productSize.color.colorCode,
+        attribute: {
+          color: {
+            colorName: item.productSize.color.colorName,
+            colorCode: item.productSize.color.colorCode,
+          },
+          size: item.productSize.name as Size,
         },
-        size: item.productSize.name as Size,
-      },
-      name: item.product.name,
-      slug: item.product.slug,
-      image: item.productSize.color.images[0].image_url,
-      material: item.product.material,
-      price: item.product.price,
-      quantity: item.quantity,
-    };
-  });
+        name: item.product.name,
+        slug: item.product.slug,
+        image: item.productSize.color.images[0].image_url,
+        material: item.product.material,
+        price: item.product.price,
+        quantity: item.quantity,
+      };
+    },
+  );
 
   return NextResponse.json({ data: cart }, { status: 200 });
 }
