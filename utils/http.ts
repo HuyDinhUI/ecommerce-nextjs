@@ -29,7 +29,10 @@ const request = async <Response>(
   //     ? process.env.NEXT_PUBLIC_API_URI
   //     : options.baseUrl;
 
-  const fullUrl = url
+    const fullUrl = url.startsWith("/")
+    ? `${'/api'}${url}`
+    : `${'/api'}/${url}`;
+
 
   const res = await fetch(fullUrl, {
     ...options,
