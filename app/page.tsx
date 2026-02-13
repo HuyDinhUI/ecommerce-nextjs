@@ -7,6 +7,7 @@ import { PHOTOS_FASHION_APPROACH } from "./mock/photo-fashion-approach";
 import { ProductService } from "@/lib/product/product-service";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "@/icon";
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const data = await ProductService.getAll(1, 12);
