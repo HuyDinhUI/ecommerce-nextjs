@@ -1,4 +1,5 @@
 import { authOptions } from "@/lib/auth";
+import { OrderWithItems } from "@/lib/order/order-repository";
 import { Order } from "@/types/order.type";
 import { Size } from "@/types/product.type";
 import { prisma } from "@/utils/prisma";
@@ -59,7 +60,7 @@ export const GET = async (
     id: order.id,
     orderCode: order.orderCode,
     userId: order.userId,
-    items: order.items.map((item) => ({
+    items: order.items.map((item: OrderWithItems["items"][number]) => ({
       productId: item.productId,
       sku: item.productSize.sku,
       attribute: {
@@ -113,5 +114,5 @@ export const GET = async (
     createdAt: order.createdAt.toISOString(),
   };
 
-  return Response.json({data: dataMapped}, { status: 200 });
+  return Response.json({ data: dataMapped }, { status: 200 });
 };
