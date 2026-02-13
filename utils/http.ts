@@ -24,14 +24,12 @@ const request = async <Response>(
     "Content-Type": "application/json",
   };
 
-  const baseUrl =
-    options?.baseUrl === undefined
-      ? process.env.NEXT_PUBLIC_API_URI
-      : options.baseUrl;
+  // const baseUrl =
+  //   options?.baseUrl === undefined
+  //     ? process.env.NEXT_PUBLIC_API_URI
+  //     : options.baseUrl;
 
-  const fullUrl = url.startsWith("/")
-    ? `${baseUrl}${url}`
-    : `${baseUrl}/${url}`;
+  const fullUrl = url
 
   const res = await fetch(fullUrl, {
     ...options,
